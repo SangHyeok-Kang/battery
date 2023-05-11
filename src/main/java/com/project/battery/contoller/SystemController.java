@@ -19,7 +19,16 @@ public class SystemController {
     @GetMapping("/")
     public String projectMain(){
         log.debug("main access!");
-        return "main";
+        return "/index";
     }
     
+    @GetMapping("/sign-in")
+    public String signIn(){
+        return "/sign-in";
+    }
+    
+    @GetMapping("/sign-up")
+    public String signUp(){
+        return "/sign-up";
+    }
 }
