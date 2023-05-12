@@ -29,7 +29,7 @@ public class HikariConfiguration {
     }
     
     @Bean
-    public DataSource dataSouce(){
+    public DataSource dataSource(){
         DataSource dataSource = (DataSource) new HikariDataSource(hikariConfig());
         log.debug("hikari dataSource = {}", dataSource.toString());
         return dataSource;
