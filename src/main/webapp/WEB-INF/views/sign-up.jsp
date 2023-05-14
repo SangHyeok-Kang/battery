@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko" itemscope itemtype="http://schema.org/WebPage">
 
-    <head>
-        <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<head>
+    <%@page contentType="text/html" pageEncoding="UTF-8" %>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         <!--bootstrap-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+            integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
         <!-- favicon ?????? -->
@@ -28,282 +28,342 @@
         <link id="pagestyle" href="${pageContext.request.contextPath}/assets/css/material-kit.css" rel="stylesheet" />
         <!-- Link Swiper's CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-    </head>
+</head>
 
-    <body class="about-us bg-gray-100">
-        <!-- Navbar-->
-        <nav class="navbar navbar-light py-3">
-            <div class="container">
-                <a class="navbar-brand" href="${pageContext.request.contextPath}" rel="tooltip" title="WeUs" data-placement="bottom">
-                    <h4>보조배터리</h4>
-                </a>
-            </div>
-            <div class="w-100 d-none d-md-block"></div>
-            <div class="container">
-                카테고리 뭐 들어가야 했더랑 까묵쓰
-            </div>
-        </nav>
-        <!--end navbar-->
-        <!--start 본문-->
-        <!--현재 모바일 버전으로 하면 중앙 정렬 안됨... 수정 필요-->
-        <div class="card card-body shadow-xl mx-2 mx-md-6 mt-8">
-            <section class="py-7">
-                <div class="container">
-                    <div class="row align-items-center justify-content-start">
-                        <p class="font-weight-bold text-2xl text-gradient-dark">회원가입</p>
-                        <form id="contact-form" method="post" autocomplete="off">
-                            <table class="table">
-                                <colgroup>
-                                    <col style="width: 20%;">
-                                    <col style="width: 80%;">
-                                </colgroup>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">
-                                            <label for="id" class="text-black">아이디</label>
-                                            <span class="text-warning">*</span>
-                                        </th>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="input-group input-group-outline">
-                                                        <input type="text" id="userid" name="userid" class="form-control" required>
-                                                    </div>
-                                                    <small>아이디 관련 설명 여기에 적어야 함</small>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <button type="button" class="btn btn-outline-info">중복 확인</button>
-                                                    <!--중복 확인 관련 나중에 할거임-->
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <label for="password" class="text-black">비밀번호</label>
-                                            <span class="text-warning">*</span>
-                                        </th>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="input-group input-group-outline">
-                                                        <input type="password" id="password" name="password"
-                                                               class="form-control" required>
-                                                    </div>
-                                                    <small>비밀번호 규칙 여기에 적어야 함</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <label for="name" class="text-black">이름</label>
-                                            <span class="text-warning">*</span>
-                                        </th>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="input-group input-group-outline">
-                                                        <input type="text" id="name" name="name" class="form-control"
-                                                               required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <label for="name" class="text-black">성별</label>
-                                            <span class="text-warning">*</span>
-                                        </th>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <input type="radio" id="gender-male" name="gender" value="남자" required>
-                                                    <label for="gender-male">남성</label>
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <input type="radio" id="gender-female" name="gender" value="여자" required>
-                                                    <label for="gender-female">여성</label>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <label for="birthdate" class="text-black">생년월일</label>
-                                            <span class="text-warning">*</span>
-                                        </th>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="input-group input-group-outline">
-                                                        <input type="date" id="birthdate" name="birthdate"
-                                                               class="form-control" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <label for="phone" class="text-black">전화번호</label>
-                                            <span class="text-warning">*</span>
-                                        </th>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-4 col-md-2">
-                                                    <!--전화번호 앞 3자리-->
-                                                    <select id="phone1" name="phone1" class="form-select ps-md-2" required>
-                                                        <option value="">식별번호</option>
-                                                        <option value="010">010</option>
-                                                        <option value="011">011</option>
-                                                        <!-- 옵션 추가 더 할거 있나?-->
-                                                    </select>
-                                                </div>
-                                                <div class="col-4 col-md-2">
-                                                    <!--전화번호 중간 4자리-->
-                                                    <div class="input-group input-group-outline">
-                                                        <input type="text" id="phone2" name="phone2" class="form-control"
-                                                               required>
-                                                    </div>
-                                                </div>
-                                                <div class="col-4 col-md-2">
-                                                    <!--전화번호 끝 4자리-->
-                                                    <div class="input-group input-group-outline">
-                                                        <input type="text" id="phone3" name="phone3" class="form-control"
-                                                               required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <label for="phone" class="text-black">주소</label>
-                                            <span class="text-warning">*</span>
-                                        </th>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-6 ">
-                                                    <div class="input-group input-group-outline">
-                                                        <input type="text" id="postcode" name="postcode" placeholder="우편번호" class="form-control ">
-                                                    </div>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <button type="button" class="btn btn-outline-info" onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="input-group input-group-outline">
-                                                        <input type="text" id="address" name="address" placeholder="주소" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="input-group input-group-outline">
-                                                        <input type="text" id="detail" name="detail" placeholder="상세주소" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-7">
-                                                    <div class="input-group input-group-outline">
-                                                        <input type="text" id="extra" name="extra" placeholder="참고항목" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            <label for="schooltype">학력</label>
-                                        </th>
-                                        <td>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <select id="schooltype" name="schooltype" onchange="showSchoolInfo()">
-                                                        <option value="">--학교 유형--</option>
-                                                        <option value="elementary">초등학교</option>
-                                                        <option value="middle">중학교</option>
-                                                        <option value="high">고등학교</option>
-                                                        <option value="university">대학교</option>
-                                                    </select>
-                                                </div>
-                                                <div id="schoolinfo"></div>
-                                            </div>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        관심사
-                                    </tr>
-                                <td>
-                                    <label for="category">관심사:</label>
-                                    <select id="category" name="category" class="form-control">
-                                        <option value="">대분류 선택</option>
-                                        <option value="sports">스포츠</option>
-                                        <option value="music">음악</option>
-                                        <option value="art">미술</option>
-                                    </select>
-
-                                    <label for="subcategory">세부 관심사:</label>
-                                    <select id="subcategory" name="subcategory" class="form-control" multiple disabled>
-                                        <option value="">소분류 선택</option>
-                                    </select>
-
-                                    <div id="badgeContainer"></div>
-
-                                </td>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                </div>
+<body class="about-us bg-gray-100">
+    <!-- Navbar-->
+    <nav class="navbar navbar-light py-3">
+        <div class="container">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}" rel="tooltip" title="WeUs"
+                data-placement="bottom">
+                <h4>보조배터리</h4>
+            </a>
         </div>
+        <div class="w-100 d-none d-md-block"></div>
+        <div class="container">
+            카테고리 뭐 들어가야 했더랑 까묵쓰
+        </div>
+    </nav>
+    <!--end navbar-->
+    <!--start 본문-->
+    <!--현재 모바일 버전으로 하면 중앙 정렬 안됨... 수정 필요-->
+    <div class="card card-body shadow-xl mx-2 mx-md-6 mt-8">
+        <section class="py-7">
+            <div class="container">
+                <div class="row align-items-center justify-content-start">
+                    <p class="font-weight-bold text-2xl text-gradient-dark">회원가입</p>
+                    <form id="contact-form" method="post" autocomplete="off">
+                        <table class="table">
+                            <colgroup>
+                                <col style="width: 20%;">
+                                <col style="width: 80%;">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="id" class="text-black">아이디</label>
+                                        <span class="text-warning">*</span>
+                                    </th>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-outline">
+                                                    <input type="text" id="userid" name="userid" class="form-control"
+                                                        required>
+                                                </div>
+                                                <small>아이디 관련 설명 여기에 적어야 함</small>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="button" class="btn btn-outline-info">중복 확인</button>
+                                                <!--중복 확인 관련 나중에 할거임-->
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="password" class="text-black">비밀번호</label>
+                                        <span class="text-warning">*</span>
+                                    </th>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-outline">
+                                                    <input type="password" id="password" name="password"
+                                                        class="form-control" required>
+                                                </div>
+                                                <small>비밀번호 규칙 여기에 적어야 함</small>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="name" class="text-black">이름</label>
+                                        <span class="text-warning">*</span>
+                                    </th>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-outline">
+                                                    <input type="text" id="name" name="name" class="form-control"
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="name" class="text-black">성별</label>
+                                        <span class="text-warning">*</span>
+                                    </th>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <input type="radio" id="gender-male" name="gender" value="남자" required>
+                                                <label for="gender-male">남성</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="radio" id="gender-female" name="gender" value="여자"
+                                                    required>
+                                                <label for="gender-female">여성</label>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="birthdate" class="text-black">생년월일</label>
+                                        <span class="text-warning">*</span>
+                                    </th>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-outline">
+                                                    <input type="date" id="birthdate" name="birthdate"
+                                                        class="form-control" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="phone" class="text-black">전화번호</label>
+                                        <span class="text-warning">*</span>
+                                    </th>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-4 col-md-2">
+                                                <!--전화번호 앞 3자리-->
+                                                <select id="phone1" name="phone1" class="form-select ps-md-2" required>
+                                                    <option value="">식별번호</option>
+                                                    <option value="010">010</option>
+                                                    <option value="011">011</option>
+                                                    <!-- 옵션 추가 더 할거 있나?-->
+                                                </select>
+                                            </div>
+                                            <div class="col-4 col-md-2">
+                                                <!--전화번호 중간 4자리-->
+                                                <div class="input-group input-group-outline">
+                                                    <input type="text" id="phone2" name="phone2" class="form-control"
+                                                        required>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 col-md-2">
+                                                <!--전화번호 끝 4자리-->
+                                                <div class="input-group input-group-outline">
+                                                    <input type="text" id="phone3" name="phone3" class="form-control"
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="phone" class="text-black">주소</label>
+                                        <span class="text-warning">*</span>
+                                    </th>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-6 pb-2">
+                                                <div class="input-group input-group-outline">
+                                                    <input type="text" id="postcode" name="postcode" placeholder="우편번호"
+                                                        class="form-control ">
+                                                </div>
+                                            </div>
+                                            <div class="col-auto pb-2">
+                                                <button type="button" class="btn btn-outline-info"
+                                                    onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
+                                            </div>
+                                            <div class="col-md-7 pb-2">
+                                                <div class="input-group input-group-outline">
+                                                    <input type="text" id="address" name="address" placeholder="주소"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7 pb-2">
+                                                <div class="input-group input-group-outline">
+                                                    <input type="text" id="detail" name="detail" placeholder="상세주소"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="input-group input-group-outline">
+                                                    <input type="text" id="extra" name="extra" placeholder="참고항목"
+                                                        class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="schooltype">학력</label>
+                                    </th>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <select id="schooltype" name="schooltype" onchange="showSchoolInfo()">
+                                                    <option value="">--학교 유형--</option>
+                                                    <option value="elementary">초등학교</option>
+                                                    <option value="middle">중학교</option>
+                                                    <option value="high">고등학교</option>
+                                                    <option value="university">대학교</option>
+                                                </select>
+                                            </div>
+                                            <div id="schoolinfo"></div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label for="interest" class="text-black">관심사</label>
+                                    </th>
+                                    <td>
+                                        <div class="col-md-6">
+                                            <select id="category" class="form-select ps-md-2">
+                                                <option value="">대분류 선택</option>
+                                                <option value="sports">스포츠</option>
+                                                <option value="music">음악</option>
+                                                <option value="art">미술</option>
+                                            </select>
+
+                                            <div id="subcategoryContainer" style="display: none">
+                                                <div id="sportsGroup" class="subcategory-group">
+                                                    <label><input type="checkbox" name="subcategory" value="football">
+                                                        축구</label>
+                                                    <label><input type="checkbox" name="subcategory" value="basketball">
+                                                        농구</label>
+                                                    <label><input type="checkbox" name="subcategory" value="baseball">
+                                                        야구</label>
+                                                </div>
+                                                <div id="musicGroup" class="subcategory-group">
+                                                    <label><input type="checkbox" name="subcategory" value="rock">
+                                                        락</label>
+                                                    <label><input type="checkbox" name="subcategory" value="pop">
+                                                        팝</label>
+                                                    <label><input type="checkbox" name="subcategory" value="hiphop">
+                                                        힙합</label>
+                                                </div>
+                                                <div id="artGroup" class="subcategory-group">
+                                                    <label><input type="checkbox" name="subcategory" value="painting">
+                                                        회화</label>
+                                                    <label><input type="checkbox" name="subcategory" value="sculpture">
+                                                        조각</label>
+                                                    <label><input type="checkbox" name="subcategory"
+                                                            value="photography">
+                                                        사진</label>
+                                                </div>
+                                            </div>
+
+                                            <div id="selectedSubcategories"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="col-auto text-center pt-4">
+                            <button type="button" class="btn btn-info ">회원 가입</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
     </section>
 
 
-    <script>
-        document.getElementById('category').addEventListener('change', function () {
-            var category = this.value;
-            var subcategorySelect = document.getElementById('subcategory');
-            var badgeContainer = document.getElementById('badgeContainer');
-
-            // 기존의 소분류 항목들을 모두 제거
-            subcategorySelect.innerHTML = '';
-
-            // 선택된 대분류에 따라 소분류 항목들을 동적으로 추가
-            if (category === 'sports') {
-                subcategorySelect.innerHTML += '<option value="football">축구</option>';
-                subcategorySelect.innerHTML += '<option value="basketball">농구</option>';
-            } else if (category === 'music') {
-                subcategorySelect.innerHTML += '<option value="rock">락</option>';
-                subcategorySelect.innerHTML += '<option value="pop">팝</option>';
-            } else if (category === 'art') {
-                subcategorySelect.innerHTML += '<option value="painting">회화</option>';
-                subcategorySelect.innerHTML += '<option value="sculpture">조각</option>';
-            }
-
-            // 다중 선택을 가능하게 설정하고 드롭다운 메뉴를 활성화
-            subcategorySelect.multiple = true;
-            subcategorySelect.disabled = false;
-
-            // 배지 컨테이너 초기화
-            badgeContainer.innerHTML = '';
+<script>
+   var categorySelect = document.getElementById('category');
+        var subcategoryContainer = document.getElementById('subcategoryContainer');
+        var subcategoryGroups = Array.from(subcategoryContainer.getElementsByClassName('subcategory-group'));
+        var selectedSubcategoriesContainer = document.getElementById('selectedSubcategories');
+      
+        var selectedSubcategories = []; // 선택한 소분류를 저장할 배열
+      
+        categorySelect.addEventListener('change', function() {
+          var selectedCategory = this.value;
+      
+          // 대분류 선택 여부에 따라 소분류 그룹 표시/숨김
+          subcategoryContainer.style.display = selectedCategory ? 'block' : 'none';
+      
+          // 선택한 대분류에 해당하는 소분류 그룹을 보여줌
+          subcategoryGroups.forEach(function(group) {
+            group.style.display = (group.id === selectedCategory + 'Group') ? 'block' : 'none';
+          });
+      
+          // 선택된 소분류 유지
+          showSelectedSubcategories();
         });
-
-        document.getElementById('subcategory').addEventListener('change', function () {
-            var selectedSubcategories = Array.from(this.selectedOptions).map(option => option.value);
-            var badgeContainer = document.getElementById('badgeContainer');
-
-            // 배지 컨테이너 초기화
-            badgeContainer.innerHTML = '';
-
-            // 선택된 소분류에 따라 배지 추가
-            selectedSubcategories.forEach(function (subcategory) {
-                var badge = document.createElement('span');
-                badge.className = 'badge bg-primary me-2';
-                badge.textContent = subcategory;
-                badgeContainer.appendChild(badge);
+      
+        subcategoryContainer.addEventListener('change', function() {
+          var checkedCheckboxes = Array.from(this.querySelectorAll('input[type="checkbox"]:checked'));
+          var checkedSubcategories = checkedCheckboxes.map(function(checkbox) {
+            return checkbox.value;
+          });
+      
+          // 최대 3개의 소분류만 선택 가능
+          if (checkedSubcategories.length > 3) {
+            // 초과된 항목의 체크 해제
+            checkedCheckboxes[3].checked = false;
+      
+            // 부트스트랩의 알림 메시지 표시
+            alert('최대 3개의 소분류만 선택할 수 있습니다.');
+          }
+      
+          // 선택한 항목들을 배열에 저장
+          selectedSubcategories = checkedSubcategories.slice(0, 3);
+      
+          // 선택된 소분류들을 동적으로 출력
+          showSelectedSubcategories();
+        });
+      
+        function showSelectedSubcategories() {
+          selectedSubcategoriesContainer.innerHTML = '';
+      
+          if (selectedSubcategories.length > 0) {
+            selectedSubcategories.forEach(function(subcategory, index) {
+              var subcategoryText = document.createElement('span');
+              subcategoryText.textContent = subcategory;
+              subcategoryText.style.color = '#1A73E8'; // 파란색으로 설정
+      
+              if (index !== selectedSubcategories.length - 1) {
+                subcategoryText.textContent += ', '; // 마지막 항목이 아니면 , 추가
+              }
+      
+              selectedSubcategoriesContainer.appendChild(subcategoryText);
             });
-        });
+          }
+        }
+      
+        // 페이지 로드 시 초기 설정
+        subcategoryContainer.style.display = 'none'; // 소분류 컨테이너 숨김
+        showSelectedSubcategories(); // 선택한 소분류 출력
 
         //주소 입력 스크립트
         function sample6_execDaumPostcode() {
