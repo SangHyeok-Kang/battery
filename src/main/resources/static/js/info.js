@@ -53,46 +53,70 @@ function sample6_execDaumPostcode() {
     }).open();
 }
 
-document.getElementById('category').addEventListener('change', function () {
-    var category = this.value;
-    var subcategorySelect = document.getElementById('subcategory');
-    var badgeContainer = document.getElementById('badgeContainer');
+//키워드 시작
+var categorySelect = document.getElementById('category');
+var subcategoryContainer = document.getElementById('subcategoryContainer');
+var subcategoryGroups = Array.from(subcategoryContainer.getElementsByClassName('subcategory-group'));
+var selectedSubcategoriesContainer = document.getElementById('selectedSubcategories');
 
-    // 기존의 소분류 항목들을 모두 제거
-    subcategorySelect.innerHTML = '';
+var selectedSubcategories = []; // 선택한 소분류를 저장할 배열
 
-    // 선택된 대분류에 따라 소분류 항목들을 동적으로 추가
-    if (category === 'sports') {
-        subcategorySelect.innerHTML += '<option value="football">축구</option>';
-        subcategorySelect.innerHTML += '<option value="basketball">농구</option>';
-    } else if (category === 'music') {
-        subcategorySelect.innerHTML += '<option value="rock">락</option>';
-        subcategorySelect.innerHTML += '<option value="pop">팝</option>';
-    } else if (category === 'art') {
-        subcategorySelect.innerHTML += '<option value="painting">회화</option>';
-        subcategorySelect.innerHTML += '<option value="sculpture">조각</option>';
+categorySelect.addEventListener('change', function () {
+    var selectedCategory = this.value;
+
+    // 대분류 선택 여부에 따라 소분류 그룹 표시/숨김
+    subcategoryContainer.style.display = selectedCategory ? 'block' : 'none';
+
+    // 선택한 대분류에 해당하는 소분류 그룹을 보여줌
+    subcategoryGroups.forEach(function (group) {
+        group.style.display = (group.id === selectedCategory + 'Group') ? 'block' : 'none';
+    });
+
+    // 선택된 소분류 유지
+    showSelectedSubcategories();
+});
+
+subcategoryContainer.addEventListener('change', function () {
+    var checkedCheckboxes = Array.from(this.querySelectorAll('input[type="checkbox"]:checked'));
+    var checkedSubcategories = checkedCheckboxes.map(function (checkbox) {
+        return checkbox.value;
+    });
+
+    // 최대 3개의 소분류만 선택 가능
+    if (checkedSubcategories.length > 3) {
+        // 초과된 항목의 체크 해제
+        checkedCheckboxes[3].checked = false;
+
+        // 부트스트랩의 알림 메시지 표시
+        alert('최대 3개의 소분류만 선택할 수 있습니다.');
     }
 
-    // 다중 선택을 가능하게 설정하고 드롭다운 메뉴를 활성화
-    subcategorySelect.multiple = true;
-    subcategorySelect.disabled = false;
+    // 선택한 항목들을 배열에 저장
+    selectedSubcategories = checkedSubcategories.slice(0, 3);
 
-    // 배지 컨테이너 초기화
-    badgeContainer.innerHTML = '';
+    // 선택된 소분류들을 동적으로 출력
+    showSelectedSubcategories();
 });
 
-document.getElementById('subcategory').addEventListener('change', function () {
-    var selectedSubcategories = Array.from(this.selectedOptions).map(option => option.value);
-    var badgeContainer = document.getElementById('badgeContainer');
+function showSelectedSubcategories() {
+    selectedSubcategoriesContainer.innerHTML = '';
 
-    // 배지 컨테이너 초기화
-    badgeContainer.innerHTML = '';
+    if (selectedSubcategories.length > 0) {
+        selectedSubcategories.forEach(function (subcategory, index) {
+            var subcategoryText = document.createElement('span');
+            subcategoryText.textContent = subcategory;
+            subcategoryText.style.color = '#1A73E8'; // 파란색으로 설정
 
-    // 선택된 소분류에 따라 배지 추가
-    selectedSubcategories.forEach(function (subcategory) {
-        var badge = document.createElement('span');
-        badge.className = 'badge bg-primary me-2';
-        badge.textContent = subcategory;
-        badgeContainer.appendChild(badge);
-    });
-});
+            if (index !== selectedSubcategories.length - 1) {
+                subcategoryText.textContent += ', '; // 마지막 항목이 아니면 , 추가
+            }
+
+            selectedSubcategoriesContainer.appendChild(subcategoryText);
+        });
+    }
+}
+
+// 페이지 로드 시 초기 설정
+subcategoryContainer.style.display = 'none'; // 소분류 컨테이너 숨김
+showSelectedSubcategories(); // 선택한 소분류 출력
+//키워드 끝

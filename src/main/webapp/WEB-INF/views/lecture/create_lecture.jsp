@@ -26,9 +26,9 @@
         <!-- Custom styles for this template-->
         <link href="../assets/css/sb-admin-2.css" rel="stylesheet">
         <script type="text/javascript" src="../js/lecture.js" ></script>
-        <script type="text/javascript" src="../js/info.js" ></script>
+        
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
+        
     </head>
 
     <body id="page-top">
@@ -65,7 +65,7 @@
                     Interface
                 </div>
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="lecture/create_lecture" >
+                    <a class="nav-link collapsed" href="${pageContext.request.contextPath}/lecture/create_lecture" >
                         <i class="fas fa-fw fa-cog"></i>
                         <span>강의 개설</span>
                     </a>
@@ -348,7 +348,7 @@
                                 <div class="container">
                                     <div class="row align-items-center justify-content-start">
                                         <p class="font-weight-bold text-2xl text-gradient-dark">강의 등록하기</p>
-                                        <form id="contact-form" method="post" autocomplete="off" action="insert_lecture.do">
+                                        <form enctype="multipart/form-data" id="contact-form" method="post" action="insert_lecture.do" autocomplete="off"  onsubmit="insertLecture()">
                                             <table class="table">
                                                 <colgroup>
                                                     <col style="width: 20%;">
@@ -361,7 +361,7 @@
                                                         </th>
                                                         <td>
                                                             <div class="row">
-                                                                <div class="col-md-10 ">
+                                                                <div class="col-md-6">
                                                                     <input type="file" id="thumbnail" name="thumbnail" accept=".jpg,.png,.jpeg"/>
                                                                 </div>
                                                             </div>
@@ -393,7 +393,7 @@
                                                                         <textarea id="text" name="text" cols="50" rows="10" placeholder="강의 내용을 입력하세요" wrap="hard" class="form-control" style="resize: none;"></textarea>
 
                                                                     </div>
-                                                                    <input type="file" id="content_image" accept=".jpg,.png,.jpeg"/>
+                                                                    <input type="file" id="text_image" name="text_image" accept=".jpg,.png,.jpeg"/>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -420,7 +420,7 @@
                                                                 </div>
                                                                 <div class="col-md-12">
                                                                     <div class="input-group input-group-outline">
-                                                                        <input type="text" id="detail" name="detail" placeholder="상세주소" class="form-control" required>
+                                                                        <input type="text" id="detail" name="detail" placeholder="상세주소" class="form-control" >
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-7">
@@ -441,10 +441,10 @@
                                                                 <div class="col-md-8 ">
                                                                     <label class="text-black">모집 기간</label>
                                                                     <div class="input-group input-group-outline">
-                                                                        <input type="date" name="sRecruitment_date" class="form-control" required/>&nbsp;
-                                                                        <input type="time" name="sRecruitment_time" class="form-control" required/>&nbsp;~&nbsp; 
-                                                                        <input type="date" name="eRecruitment_date" class="form-control" required/>&nbsp;
-                                                                        <input type="time" name="eRecruitment_time" class="form-control" required/><br>
+                                                                        <input type="date" id="sRecruitment_date" name="sRecruitment_date" class="form-control" required/>&nbsp;
+                                                                        <input type="time" id="eRecruitment_date" name="sRecruitment_time" class="form-control" required/>&nbsp;~&nbsp; 
+                                                                        <input type="date" id="sRecruitment_time" name="eRecruitment_date" class="form-control" required/>&nbsp;
+                                                                        <input type="time" id="eRecruitment_time" name="eRecruitment_time" class="form-control" required/><br>
                                                                     </div>
                                                                     <br><label class="text-black">모집 대상</label>
                                                                     <div class="input-group input-group-outline">
@@ -452,8 +452,9 @@
                                                                     </div>
                                                                     <br><label class="text-black">모집 인원</label>
                                                                     <div class="input-group input-group-outline">
-                                                                        <input name="people" type="text" onKeyup="this.value = this.value.replace(/[^-0-9]/g, '');"  class="form-control" placeholder="숫자만 입력해주세요" required><br>
+                                                                        <input name="people" type="number" onKeypress="this.value = this.value.replace(/[^0-9]/g, '');"  class="form-control" placeholder="숫자만 입력해주세요" required><br>
                                                                     </div>
+                                                                    <input type="hidden" id="rec_dt" name="rec_dt">
                                                                 </div>
 
                                                             </div>
@@ -467,24 +468,23 @@
                                                         <td>
                                                             <div class="row">
                                                                 <div class="col-md-8 ">
-                                                                    <label class="text-black">모집 기간</label>
-
                                                                     <div id="lecture-list">
                                                                         <div id="lecture1">
                                                                             <label>강의 날짜</label>
                                                                             <div class="input-group input-group-outline">
-                                                                                <input type="date" name="sdate1" class="form-control"/>&nbsp;~&nbsp;
-                                                                                <input type="date" name="edate1" class="form-control"/>
+                                                                                <input type="date" id="sdate1" name="sdate1" class="form-control"/>&nbsp;~&nbsp;
+                                                                                <input type="date"  id="edate1" name="edate1" class="form-control"/>
                                                                             </div>
                                                                             <label>강의 시간</label>
                                                                             <div class="input-group input-group-outline">
-                                                                                <input type="time" name="stime1" class="form-control"/>&nbsp;~&nbsp;
-                                                                                <input type="time" name="etime1" class="form-control"/>
+                                                                                <input type="time" id="stime1" name="stime1" class="form-control"/>&nbsp;~&nbsp;
+                                                                                <input type="time" id="etime1" name="etime1" class="form-control"/>
                                                                             </div>
                                                                             <br>
                                                                         </div>
                                                                         <%--자바 스크립트를 이용해서 강의 일정을 추가--%>
                                                                     </div>
+                                                                    <input type="hidden" id="datelist" name="datelist">
                                                                     <div class="col-auto">
                                                                         <button type="button" class="btn btn-outline-info" onclick="addLectureDate()">일정 추가하기</button>
                                                                         <button type="button" class="btn btn-outline-info" onclick="delLectureDate()">일정 삭제하기</button>
@@ -500,21 +500,56 @@
                                                             <span class="text-warning">*</span>
                                                         </th>
                                                         <td>
-                                                            <label for="category">관심사:</label>
-                                                            <select id="category" name="category" class="form-control">
-                                                                <option value="">대분류 선택</option>
-                                                                <option value="sports">스포츠</option>
-                                                                <option value="music">음악</option>
-                                                                <option value="art">미술</option>
-                                                            </select>
+                                                            <div class="col-md-6">
+                                                                <select id="category" class="form-select ps-md-2">
+                                                                    <option value="">대분류 선택</option>
+                                                                    <option value="sports">스포츠</option>
+                                                                    <option value="music">음악</option>
+                                                                    <option value="art">미술</option>
+                                                                </select>
 
-                                                            <label for="subcategory">세부 관심사:</label>
-                                                            <select id="subcategory" name="subcategory" class="form-control" multiple disabled>
-                                                                <option value="">소분류 선택</option>
-                                                            </select>
+                                                                <div id="subcategoryContainer" style="display: none">
+                                                                    <div id="sportsGroup" class="subcategory-group">
+                                                                        <label><input type="checkbox" name="subcategory" value="football">
+                                                                            축구</label>
+                                                                        <label><input type="checkbox" name="subcategory" value="basketball">
+                                                                            농구</label>
+                                                                        <label><input type="checkbox" name="subcategory" value="baseball">
+                                                                            야구</label>
+                                                                    </div>
+                                                                    <div id="musicGroup" class="subcategory-group">
+                                                                        <label><input type="checkbox" name="subcategory" value="rock">
+                                                                            락</label>
+                                                                        <label><input type="checkbox" name="subcategory" value="pop">
+                                                                            팝</label>
+                                                                        <label><input type="checkbox" name="subcategory" value="hiphop">
+                                                                            힙합</label>
+                                                                    </div>
+                                                                    <div id="artGroup" class="subcategory-group">
+                                                                        <label><input type="checkbox" name="subcategory" value="painting">
+                                                                            회화</label>
+                                                                        <label><input type="checkbox" name="subcategory" value="sculpture">
+                                                                            조각</label>
+                                                                        <label><input type="checkbox" name="subcategory"
+                                                                                      value="photography">
+                                                                            사진</label>
+                                                                    </div>
+                                                                </div>
 
-                                                            <div id="badgeContainer"></div>
+                                                                <div id="selectedSubcategories"></div>
+                                                                <input type="hidden" id="keyword" name="keyword">
+                                                            </div>
 
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row">
+                                                            <label for="text" class="text-black">가격</label>
+                                                        </th>
+                                                        <td>
+                                                            <div class="input-group input-group-outline">
+                                                                <input id="price" name="price" type="number"  class="form-control" onKeypress="this.value = this.value.replace(/[^0-9]/g, '');" placeholder="숫자만 입력해주세요" min="0" ><br>
+                                                            </div>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -550,18 +585,20 @@
                                                                 </div>
                                                             </div>
                                                             <div id="container">
-                                                                <!-- 스태프 모집 사용 시 추가  -->
+                                                                <%-- 스태프 모집 사용 시 추가  --%>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
-                                            <button type="button" class="btn btn-outline-info" >강의 등록 하기</button>                            
-                                        </form>
+                                            <button type="submit"  class="btn btn-outline-info" >강의 등록 하기</button>                            
+                                        </form>                
                                     </div>
                                 </div>
                             </section>
                         </div>
+
+
                     </div>
                     <!-- /.container-fluid -->
 
@@ -625,6 +662,8 @@
         <!-- Page level custom scripts -->
         <script src="../js/demo/chart-area-demo.js"></script>
         <script src="../js/demo/chart-pie-demo.js"></script>
+        <script type="text/javascript" src="../js/info.js" ></script>
+
 
     </body>
 
