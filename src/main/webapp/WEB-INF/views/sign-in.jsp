@@ -51,8 +51,8 @@
                         <div class="text-center">
                             <input type="submit" value="Sign in"class="btn bg-gradient-info my-4 mb-3" style="width: 300px;">
                             <!--❗이게 카카오 로그인 버튼❗-->
-                            
-                            <button type="button" id="kakao" class="mb-2"><img src="assets/img/kakao_login_medium_wide.png"></button>
+                            <a href="#service" id="kakao" class="mb-2" onclick="kakao_login();" style="text-decoration: none;"><img src="assets/img/kakao_login_medium_wide.png"></a>
+                            <!--<button type="button" id="kakao" class="mb-2"><img src="assets/img/kakao_login_medium_wide.png"></button>-->
                         </div>
                         <!--카카오 로그인 변경해야해서 나중에 추가할게-->
                        <%-- <a class="p-2" id="kakao" href="https://kauth.kakao.com/oauth/authorize?client_id=438e26bbed1a7e616852d3e70b183c6b&redirect_uri=http://localhost:9999/battery/member/kakao&response_type=code">
