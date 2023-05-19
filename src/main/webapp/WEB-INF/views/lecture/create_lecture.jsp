@@ -478,7 +478,7 @@
                                                                             <label>강의 시간</label>
                                                                             <div class="input-group input-group-outline">
                                                                                 <input type="time" id="stime1" name="stime1" class="form-control" required/>&nbsp;~&nbsp;
-                                                                                <input type="time" id="etime1" name="etime1" class="form-control" required/>
+                                                                                <input type="time" id="etime1" name="etime1" class="form-control" />
                                                                             </div>
                                                                             <br>
                                                                         </div>
