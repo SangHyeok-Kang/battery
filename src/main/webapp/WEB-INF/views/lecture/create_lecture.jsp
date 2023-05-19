@@ -503,37 +503,18 @@
                                                             <div class="col-md-6">
                                                                 <select id="category" class="form-select ps-md-2">
                                                                     <option value="">대분류 선택</option>
-                                                                    <option value="sports">스포츠</option>
+                                                                    <option value="it">IT</option>
+                                                                    <option value="selfImpro">자기계발</option>
                                                                     <option value="music">음악</option>
+                                                                    <option value="economy">경제</option>
                                                                     <option value="art">미술</option>
+                                                                    <option value="engin">공학</option>
+                                                                    <option value="media">미디어</option>
+                                                                    <option value="language">언어</option>
                                                                 </select>
 
                                                                 <div id="subcategoryContainer" style="display: none">
-                                                                    <div id="sportsGroup" class="subcategory-group">
-                                                                        <label><input type="checkbox" name="subcategory" value="football">
-                                                                            축구</label>
-                                                                        <label><input type="checkbox" name="subcategory" value="basketball">
-                                                                            농구</label>
-                                                                        <label><input type="checkbox" name="subcategory" value="baseball">
-                                                                            야구</label>
-                                                                    </div>
-                                                                    <div id="musicGroup" class="subcategory-group">
-                                                                        <label><input type="checkbox" name="subcategory" value="rock">
-                                                                            락</label>
-                                                                        <label><input type="checkbox" name="subcategory" value="pop">
-                                                                            팝</label>
-                                                                        <label><input type="checkbox" name="subcategory" value="hiphop">
-                                                                            힙합</label>
-                                                                    </div>
-                                                                    <div id="artGroup" class="subcategory-group">
-                                                                        <label><input type="checkbox" name="subcategory" value="painting">
-                                                                            회화</label>
-                                                                        <label><input type="checkbox" name="subcategory" value="sculpture">
-                                                                            조각</label>
-                                                                        <label><input type="checkbox" name="subcategory"
-                                                                                      value="photography">
-                                                                            사진</label>
-                                                                    </div>
+                                                                    
                                                                 </div>
 
                                                                 <div id="selectedSubcategories"></div>

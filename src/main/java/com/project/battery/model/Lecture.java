@@ -86,7 +86,7 @@ public class Lecture {
         String addressSQL = "INSERT INTO address values (default,?,?,?,?,?,1)";
         
         try {
-            ds = dbConfig.dataSouce();
+            ds = dbConfig.dataSource();
             conn = ds.getConnection();
             conn.setAutoCommit(false);
             pstmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);

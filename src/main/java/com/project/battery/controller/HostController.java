@@ -47,7 +47,6 @@ public class HostController {
     @PostMapping("/lecture/insert_lecture.do")
     public String insertLecture(@RequestParam("thumbnail") MultipartFile thumbnail, HttpServletRequest request, @RequestParam("text_image") MultipartFile text_image,RedirectAttributes attrs){
         session = request.getSession();
-        session.setAttribute("host", "asd");
         Lecture lecture = new Lecture();
         
         //강의 객체로 정보 입력
