@@ -88,9 +88,10 @@ function optionCheck() {
                                 <div class="row">
                                     <label class="text-black">조건 사항</label>
                                     <div class="col-md-6">
-                                        <div class="input-group input-group-outline">
-                                            <textarea name="recruit_text" cols="50" rows="10" wrap="hard" style="resize: none;" class="form-control" placeholder="강사와 스태프 모집 조건을 입력해주세요!" ></textarea>
-                                        </div>
+                                        <textarea name="recruit_text" cols="50" rows="10" wrap="hard" style="resize: none;" class="form-control" placeholder="1. 강사와 스태프 모집 조건을 입력해주세요!\n2. 지원서의 양식이 있다면 첨부해주세요!" ></textarea>
+                                    </div>
+                                    <div class="input-group input-group-outline">
+                                        <input type="file" id="resume" name="resume" />
                                     </div>
                                 </div>
                             `;
