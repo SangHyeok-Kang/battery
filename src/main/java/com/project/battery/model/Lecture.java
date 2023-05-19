@@ -50,8 +50,9 @@ public class Lecture {
     @Getter@Setter private int staffe = 0; // 14. 스탭 모집
     @Getter@Setter private int staffe_num = 0;//15. 스탭 인원 수
     @Getter@Setter private String qualification= null; //16.모집 조건 작성
-    @Getter@Setter private String host= null; // 17. 강의 개설자
-    @Getter@Setter private Double grade = 0.0; // 18. 별점
+    @Getter@Setter private String resume= null; //18.모집 조건 작성
+    @Getter@Setter private String host= null; // 19. 지원서 양식
+    @Getter@Setter private Double grade = 0.0; // 20. 별점
     
     DataSource ds = null;
     Connection conn = null;
@@ -59,16 +60,20 @@ public class Lecture {
     ResultSet rs = null;
     
     public String insertFolder(String realpath, MultipartFile file, String folderName ,String id){
-        String basePath = realpath + File.separator + folderName + File.separator + id;
-        File baseDir = new File(basePath);
-
+        String basePath = realpath + File.separator + folderName + File.separator;
+        File baseDir = new File(basePath);// 각 파일 폴더
+        File baseIdDir = new File(basePath+ id);// 파일 폴더에 아이디 폴더
+        
         if("".equals(file.getOriginalFilename())){
             return "";
         }else{
-            if(!baseDir.exists()){
-                baseDir.mkdir();
+            if(!baseIdDir.exists()){
+                if(!baseDir.exists()){
+                    baseDir.mkdir();  
+                }
+                baseIdDir.mkdir();
             }
-            File f = new File(basePath + File.separator + file.getOriginalFilename());
+            File f = new File(basePath + File.separator+ id + File.separator + file.getOriginalFilename());
             try(BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(f))){
                 bos.write(file.getBytes());
                 return folderName + File.separator + id + File.separator + file.getOriginalFilename();
@@ -80,13 +85,12 @@ public class Lecture {
     }
     
     public Boolean insertLecture(HikariConfiguration dbConfig, Lecture lecture){
-        
         boolean success=false;
-        String sql = "INSERT INTO lecture values (default,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,default,0)";
+        String sql = "INSERT INTO lecture values (default,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,default,0)";
         String addressSQL = "INSERT INTO address values (default,?,?,?,?,?,1)";
         
         try {
-            ds = dbConfig.dataSouce();
+            ds = dbConfig.dataSource();
             conn = ds.getConnection();
             conn.setAutoCommit(false);
             pstmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
@@ -107,7 +111,8 @@ public class Lecture {
             pstmt.setInt(14,lecture.getStaffe());
             pstmt.setInt(15,lecture.getStaffe_num());
             pstmt.setString(16, lecture.getQualification());
-            pstmt.setString(17,lecture.getHost());
+            pstmt.setString(17, lecture.getResume());
+            pstmt.setString(18,lecture.getHost());
             
             if( pstmt.executeUpdate() == 1){
                 rs = pstmt.getGeneratedKeys();
@@ -123,8 +128,7 @@ public class Lecture {
                         log.debug("강의 입력 성공 host={}, titlt={}",lecture.getHost(),lecture.getTitle());
                         success=true;
                     }else{
-                        log.debug("강의 정보 입력 실패 host={}, titlt={}",lecture.getHost(),lecture.getTitle());
-                   
+                        log.debug("강의 주소 정보 입력 실패 host={}, titlt={}",lecture.getHost(),lecture.getTitle());
                     }
                 }
             }else{
@@ -135,6 +139,7 @@ public class Lecture {
         }finally{
             try {
                 if(success){conn.commit();}else{conn.rollback();}
+                conn.setAutoCommit(true);
                 if(conn!=null){conn.close();}
                 if(pstmt!=null){pstmt.close();}
                 if(rs!=null){rs.close();}
