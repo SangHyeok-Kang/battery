@@ -45,9 +45,10 @@ public class HostController {
     //, @RequestParam("text_image") MultipartFile text_image
     //신규 강의 입력
     @PostMapping("/lecture/insert_lecture.do")
-    public String insertLecture(@RequestParam("thumbnail") MultipartFile thumbnail, HttpServletRequest request, @RequestParam("text_image") MultipartFile text_image,@RequestParam("resume") MultipartFile resume, RedirectAttributes attrs){
+    public String insertLecture(@RequestParam("thumbnail") MultipartFile thumbnail, HttpServletRequest request, @RequestParam("text_image") MultipartFile text_image,@RequestParam(name="resume",required=false) MultipartFile resume, RedirectAttributes attrs){
         Lecture lecture = new Lecture();
         //강의 객체로 정보 입력
+        
         lecture.setThumnail(lecture.insertFolder(ctx.getRealPath("/WEB-INF"),thumbnail, "thumbnail", (String) session.getAttribute("host")));
         lecture.setTitle(request.getParameter("title"));
         lecture.setText(request.getParameter("text"));

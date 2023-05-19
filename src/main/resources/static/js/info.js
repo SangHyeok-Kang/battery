@@ -57,7 +57,7 @@ var categorySelect = document.getElementById('category');
 var subcategoryContainer = document.getElementById('subcategoryContainer');
 var subcategoryGroups = Array.from(subcategoryContainer.getElementsByClassName('subcategory-group'));
 var selectedSubcategoriesContainer = document.getElementById('selectedSubcategories');
-var selectedSubcategories = []; // 선택한 소분류를 저장할 배열
+var selectedSubcategories = new Array(); // 선택한 소분류를 저장할 배열
 var itArr = [["Web","모바일","IoT","네트워크","프로그래밍 언어"],["web","mobile","iot","network","proraming"]];
 var selfImproArr= [["취업", "힐링", "운동","취미"],["employ","healing","sport","hobby"]];
 var musicArr= [["K-pop", "클래식", "국악", "힙합"],["kpop","classic","gukak","hiphop"]];
@@ -69,6 +69,7 @@ var languageArr = [["영어","일본어","중국어","아랍어"],["eng","japan"
 
 categorySelect.addEventListener('change', function () {
     var arr;
+    var checkOnOff = "";
     var selectedCategory = this.value + "Gruop";
     var keyword = "";
     if ( this.value === "" ){
@@ -84,27 +85,34 @@ categorySelect.addEventListener('change', function () {
         else if(this.value === "language") {arr = languageArr;}
         subcategoryContainer.style.display = 'block';
         for(i=0;i<arr[0].length;i++){
-            keyword += `<label><input type="checkbox" name="subcategory" value="${arr[1][i]}">${arr[0][i]}</label>`;
+            if(selectedSubcategories.includes(`${arr[1][i]}`)){
+                checkOnOff="checked";
+            }else{
+                checkOnOff="";
+            }
+            keyword += `<label><input type="checkbox" name="subcategory" value="${arr[1][i]}" ${checkOnOff}>${arr[0][i]}</label>`;
         }
         subcategoryContainer.innerHTML = `<div id="${selectedCategory}" class="subcategory-group">${keyword}</div>`; 
     }
 });
 
-subcategoryContainer.addEventListener('change', function () {
-    var checkedCheckboxes = Array.from(this.querySelectorAll('input[type="checkbox"]:checked'));
-    var checkedSubcategories = checkedCheckboxes.map(function (checkbox) {
-        return checkbox.value;
-    });
-    // 최대 3개의 소분류만 선택 가능
-    if (checkedSubcategories.length > 3) {
-        // 초과된 항목의 체크 해제
-        checkedCheckboxes[3].checked = false;
-        // 부트스트랩의 알림 메시지 표시
-        alert('최대 3개의 소분류만 선택할 수 있습니다.');
+subcategoryContainer.addEventListener('change', function (check) {
+    
+    if(check.target.checked===true){//체크 시 목록 추가
+        // 최대 3개의 소분류만 선택 가능
+        if (selectedSubcategories.length === 3) {
+            // 초과된 항목의 체크 해제
+            check.target.checked=false;
+            // 부트스트랩의 알림 메시지 표시
+            alert('최대 3개의 소분류만 선택할 수 있습니다.');
+        }else{
+            // 선택한 항목들을 배열에 저장
+            selectedSubcategories.push(check.target.value);
+        }
+    }else{//체크 해제시 목록에서 제거
+        selectedSubcategories.splice(selectedSubcategories.indexOf(check.target.value),1);
+        
     }
-
-    // 선택한 항목들을 배열에 저장
-    selectedSubcategories = checkedSubcategories.slice(0, 3);
     // 선택된 소분류들을 동적으로 출력
     showSelectedSubcategories();
 });

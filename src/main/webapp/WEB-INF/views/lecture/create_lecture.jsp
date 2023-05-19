@@ -420,7 +420,7 @@
                                                                 </div>
                                                                 <div class="col-md-12">
                                                                     <div class="input-group input-group-outline">
-                                                                        <input type="text" id="detail" name="detail" placeholder="상세주소" class="form-control" >
+                                                                        <input type="text" id="detail" name="detail" placeholder="상세주소" class="form-control" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-7">
@@ -472,13 +472,13 @@
                                                                         <div id="lecture1">
                                                                             <label>강의 날짜</label>
                                                                             <div class="input-group input-group-outline">
-                                                                                <input type="date" id="sdate1" name="sdate1" class="form-control"/>&nbsp;~&nbsp;
-                                                                                <input type="date"  id="edate1" name="edate1" class="form-control"/>
+                                                                                <input type="date" id="sdate1" name="sdate1" class="form-control" required/>&nbsp;~&nbsp;
+                                                                                <input type="date"  id="edate1" name="edate1" class="form-control" required/>
                                                                             </div>
                                                                             <label>강의 시간</label>
                                                                             <div class="input-group input-group-outline">
-                                                                                <input type="time" id="stime1" name="stime1" class="form-control"/>&nbsp;~&nbsp;
-                                                                                <input type="time" id="etime1" name="etime1" class="form-control"/>
+                                                                                <input type="time" id="stime1" name="stime1" class="form-control" required/>&nbsp;~&nbsp;
+                                                                                <input type="time" id="etime1" name="etime1" class="form-control" />
                                                                             </div>
                                                                             <br>
                                                                         </div>

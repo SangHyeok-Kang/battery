@@ -16,13 +16,13 @@ function addLectureDate() {
     newLecture.innerHTML = `
                             <label>강의 날짜</label>
                             <div class="input-group input-group-outline">
-                                <input type="date" id="sdate${lectureIndex}" name="sdate${lectureIndex}" class="form-control"/> ~
-                                <input type="date" id="edate${lectureIndex}" name="edate${lectureIndex}" class="form-control"/>
+                                <input type="date" id="sdate${lectureIndex}" name="sdate${lectureIndex}" class="form-control" required/> ~
+                                <input type="date" id="edate${lectureIndex}" name="edate${lectureIndex}" class="form-control" required/>
                             </div>
                             <label>강의 시간</label>
                             <div class="input-group input-group-outline">
-                                <input type="time" id="stime${lectureIndex}" name="stime${lectureIndex}" class="form-control"/> ~
-                                <input type="time" id="etime${lectureIndex}" name="etime${lectureIndex}" class="form-control"/>
+                                <input type="time" id="stime${lectureIndex}" name="stime${lectureIndex}" class="form-control" required/> ~
+                                <input type="time" id="etime${lectureIndex}" name="etime${lectureIndex}" class="form-control" required/>
                             </div>
                             <br>
                             `;
