@@ -59,30 +59,7 @@ public class Lecture {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     
-    public String insertFolder(String realpath, MultipartFile file, String folderName ,String id){
-        String basePath = realpath + File.separator + folderName + File.separator;
-        File baseDir = new File(basePath);// 각 파일 폴더
-        File baseIdDir = new File(basePath+ id);// 파일 폴더에 아이디 폴더
-        
-        if("".equals(file.getOriginalFilename())){
-            return "";
-        }else{
-            if(!baseIdDir.exists()){
-                if(!baseDir.exists()){
-                    baseDir.mkdir();  
-                }
-                baseIdDir.mkdir();
-            }
-            File f = new File(basePath + File.separator+ id + File.separator + file.getOriginalFilename());
-            try(BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(f))){
-                bos.write(file.getBytes());
-                return folderName + File.separator + id + File.separator + file.getOriginalFilename();
-            }catch(IOException e){
-                log.debug("[%s]insertFolder : 오류 발생 = {}",folderName, e.getMessage());
-                return e.getMessage();
-            }
-        }
-    }
+    
     
     public Boolean insertLecture(HikariConfiguration dbConfig, Lecture lecture){
         boolean success=false;
