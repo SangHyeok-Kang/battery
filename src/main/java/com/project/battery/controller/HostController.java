@@ -6,11 +6,14 @@ package com.project.battery.controller;
 
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
+import com.project.battery.service.InsertInfoService;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @author qntjd
  */
 @Controller
+@PropertySource("classpath:/system.properties")
 @Slf4j
 public class HostController {
     
@@ -32,6 +36,14 @@ public class HostController {
     HttpSession session;
     @Autowired
     HikariConfiguration dbConfig;
+    
+    @Value("${file.text_image_folder}")
+    private String text_image;
+    @Value("${file.thumbnail_folder}")
+    private String thumbnail;
+    @Value("${file.resume_folder}")
+    private String resume;
+    
     
     @GetMapping("/host-center")
     public String hostCentter(){
@@ -49,10 +61,10 @@ public class HostController {
         Lecture lecture = new Lecture();
         //강의 객체로 정보 입력
         
-        lecture.setThumnail(lecture.insertFolder(ctx.getRealPath("/WEB-INF"),thumbnail, "thumbnail", (String) session.getAttribute("host")));
+        lecture.setThumnail(InsertInfoService.insertFolder(ctx.getRealPath(this.thumbnail),thumbnail,  (String) session.getAttribute("host")));
         lecture.setTitle(request.getParameter("title"));
         lecture.setText(request.getParameter("text"));
-        lecture.setText_image(lecture.insertFolder(ctx.getRealPath("/WEB-INF"),text_image, "text_image", (String) session.getAttribute("host")));
+        lecture.setText_image(InsertInfoService.insertFolder(ctx.getRealPath(this.text_image),text_image, (String) session.getAttribute("host")));
         lecture.setPostcode(request.getParameter("postcode"));
         lecture.setAddress(request.getParameter("address"));
         lecture.setDetail(request.getParameter("detail"));
@@ -76,7 +88,7 @@ public class HostController {
                 lecture.setStaffe_num(Integer.parseInt(request.getParameter("staffe_num")));
             }
             lecture.setQualification(request.getParameter("recruit_text"));
-            lecture.setResume(lecture.insertFolder(ctx.getRealPath("/WEB-INF"),resume, "resume", (String) session.getAttribute("host")));
+            lecture.setResume(InsertInfoService.insertFolder(ctx.getRealPath(this.resume),resume, (String) session.getAttribute("host")));
         }
         lecture.setHost((String) session.getAttribute("host"));
         
