@@ -156,10 +156,10 @@
     <div class="swiper-wrapper">
       <div class="swiper-slide">
         <div class="card thumbnail">
-          <a href="#"><img src="assets/img/머신러닝.png"></a>
+          <a href="lecture/lecture_notice?lecture=15"><img src="assets/img/머신러닝.png"></a>
         </div>
         <div class="me-2 pt-2 row"> <!--margin 설정 요함..-->
-          <a href="#" class="thumnail-date">
+          <a href="lecture/lecture_notice?lecture=15" class="thumnail-date">
             2023-5-8
             <div class="thumnail-explain pt-2">
               머신러닝 관련 강의

@@ -1,8 +1,10 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
-        <%@page contentType="text/html" pageEncoding="UTF-8"%>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -26,7 +28,11 @@
         <!-- Custom styles for this template-->
         <link href="${pageContext.request.contextPath}/assets/css/sb-admin-2.css" rel="stylesheet">
         <script type="text/javascript" src="${pageContext.request.contextPath}/js/lecture.js" ></script>
-
+        <script>
+            <c:if test="${!empty msg}">
+                alert("${msg}");
+            </c:if>
+        </script>
     </head>
 
     <body id="page-top">
@@ -63,7 +69,7 @@
                     Interface
                 </div>
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="lecture/create_lecture" >
+                    <a class="nav-link collapsed" href="${pageContext.request.contextPath}/lecture/create_lecture" >
                         <i class="fas fa-fw fa-cog"></i>
                         <span>강의 개설</span>
                     </a>
