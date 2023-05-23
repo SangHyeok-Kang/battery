@@ -58,8 +58,10 @@ public class SystemController {
 
         loginModel lm_model = new loginModel(dbConfig);
         result = lm_model.loginResult(userid, password);
+        String user = lm_model.getUser();
         if (result == true) {
-            session.setAttribute("host", userid);
+            session.setAttribute("host", user);
+            session.setAttribute("state", 1); //일반회원 로그인 상태 세션 저장
             
             urls = "/index";
         } else {
