@@ -1,9 +1,9 @@
 
 //카카오로그인
 function kakao_login() {
+    Kakao.init('c5385b2bd1d614d808c86f0bb4257bc4');
+    Kakao.isInitialized();
     Kakao.Auth.loginForm({
-        // scope: 'account_email,gender',
-        // throughTalk: false,
 
         success:
                 function (response) {
@@ -56,10 +56,10 @@ function kakao_login() {
 }
 
 function login(kakao_user) {
-    const url = "/api/user/login";
+    const url = "/battery/sign-in";
 
     fetch(url, {
-        method: "POST",
+        method: "GET",
         body: JSON.stringify(kakao_user),
         headers: {
             "Content-Type": "application/json"
@@ -67,7 +67,7 @@ function login(kakao_user) {
     }).then(response => {
         if (response.ok) {
             // alert("로그인이 완료 되었습니다.");
-            window.location.reload();
+            window.location.href = "/battery";
         }
     });
 }

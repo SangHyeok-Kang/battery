@@ -41,7 +41,7 @@ public class KaKaoController {
        
     }
     
-    @PostMapping("/api/user/login")
+    @GetMapping("/battery/sign-in")
     @ApiOperation(value = "로그인")
     public ResponseEntity<UserDto> userlogin(@RequestBody UserLoginDto userLoginDto, HttpServletRequest request){
 
