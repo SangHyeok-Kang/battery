@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,7 +28,7 @@
                 </ul>
             </nav>
             <div>
-                <a href="create_notice">공지사항 작성하기</a>
+                <a href="create_notice">공지사항</a>
                 <table border="1">
                     <thead>
                         <tr>
@@ -38,22 +39,22 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%--
-                        <c:forEach items="${result}" var="rs">
+                        
+                        <c:forEach items="${notice_list}" var="list" >
                             <tr>
-                                <td style="text-align: center;">${rs.getCount()}</td>
-                                <td><a href="lecture_notice?noticeid=${rs.getCount()}">${rs.getTitle()}</a></td>
-                                <td>${rs.getDate_created()}</td>
+                                <td>${list.getCo()}</td>
+                                <td>${list.getTitle()}</td>
+                                <td>${list.getDate()}</td>
+                                <td>${list.getWriter()}</td>
                             </tr>
                         </c:forEach>
-                        --%>
                     </tbody>
                 </table>
-                                <%--
+                             
                 <c:forEach var="num" begin="${paging.getFirst()}" end="${paging.getLast()}">
-                    <a href="lecture_notice_list?lectureid=${param.lectureid}&page=${num}">${num}</a>
+                    <a href="lecture_notice?lecture=${param.lecture}&page=${num}">${num}</a>
                 </c:forEach>
-                                --%>
+                           
             </div>
     </body>
 </html>
