@@ -22,16 +22,18 @@ public class InsertInfoService {
     //파일을 저장할 폴더를 확인 후 생성하거나 바로 파일 저장 경로를 반환한다.
     public final static String insertFolder(String realpath, MultipartFile file,String id){
         File baseDir = new File(realpath);// 각 파일 폴더
-        File baseIdDir = new File(realpath+ id);// 파일 폴더에 아이디 폴더
+        File baseIdDir = new File(String.format("%s/%s", realpath, id));// 파일 폴더에 아이디 폴더
         
         if("".equals(file.getOriginalFilename())){
             return "";
         }else{
+            if(!baseDir.exists()){
+                baseDir.mkdir();
+                log.debug("create BaseFolder ={}",baseDir);
+            }
             if(!baseIdDir.exists()){
-                if(!baseDir.exists()){
-                    baseDir.mkdir();  
-                }
                 baseIdDir.mkdir();
+                log.debug("create BaseIDFolder ={}",baseIdDir);
             }
             File f = new File(realpath + File.separator+ id + File.separator + file.getOriginalFilename());
             try(BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(f))){
