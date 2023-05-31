@@ -21,11 +21,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class loginModel {
     private String user;
-    private String mysqlServerIp;
-    private String mysqlServerPort;
-    private String userName;
-    private String pass;
-    private String jdbcDriver;
     private HikariConfiguration dbConfig;
 
     public loginModel(HikariConfiguration dbConfig) {

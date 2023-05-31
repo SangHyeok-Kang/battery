@@ -4,8 +4,10 @@
  */
 package com.project.battery.controller;
 
+import com.project.battery.model.AddUserManager;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.loginModel;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SystemController {
 
     public boolean result = false;
+    private String userid = "";
+    
     @Autowired
     private HttpSession session;
     @Autowired
@@ -70,5 +74,36 @@ public class SystemController {
             urls = "/login_fail";
         }
         return urls;
+    }
+    
+    @PostMapping("/normal_signup.do")
+    public String insertNormalUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
+            @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String birthdate, @RequestParam String school,
+            @RequestParam String major, @RequestParam String grade, @RequestParam String status, @RequestParam List<String> subcategory,
+            @RequestParam String postcode, @RequestParam String detail, @RequestParam String extra, @RequestParam String address, @RequestParam String gender, Model model) {
+        String schoolinfo = "";
+        String phone = phone1 + "-" + phone2 + "-" + phone3;
+        String interest = subcategory.get(0)+"/"+subcategory.get(1)+"/"+subcategory.get(2)+"/";
+        
+        System.out.println(interest);
+
+        if (major.isEmpty() && status.isEmpty()) {
+            schoolinfo = school + " " + grade;
+        } else {
+            schoolinfo = school + " " + major + " " + grade + " " + status;
+        }
+
+        AddUserManager manager = new AddUserManager(dbConfig);
+        result = manager.checkId(userid);
+        if (result == true) {
+            manager.addRow(userid, password, name, phone, birthdate, schoolinfo, interest, postcode, detail, extra, address, gender);
+
+            model.addAttribute("msg", "회원가입 완료되었습니다.");
+            model.addAttribute("url", "/");
+        } else {
+            model.addAttribute("msg", "회원가입에 실패하였습니다 입력 정보확인 후 다시 시도해주세요.");
+            model.addAttribute("url", "/sign-up");
+        }
+        return "/signup_result";
     }
 }

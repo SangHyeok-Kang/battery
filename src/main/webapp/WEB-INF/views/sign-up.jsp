@@ -54,7 +54,7 @@
                 <div class="container">
                     <div class="row align-items-center justify-content-start">
                         <p class="font-weight-bold text-2xl text-gradient-dark">회원가입</p>
-                        <form id="contact-form" method="post" autocomplete="off">
+                        <form id="contact-form" method="post" autocomplete="off" action="${pageContext.request.contextPath}/normal_signup.do">
                             <table class="table">
                                 <colgroup>
                                     <col style="width: 20%;">
@@ -270,7 +270,7 @@
                                 </tbody>
                             </table>
                             <div class="col-auto text-center pt-4">
-                                <button type="button" class="btn btn-info ">회원 가입</button>
+                                <input type="submit" class="btn btn-info " value = "회원가입">
                             </div>
                         </form>
                     </div>
