@@ -65,10 +65,8 @@ public class Notice {
             
             if(pstmt.executeUpdate() == 1){
                 //공지사항 입력 성공
-                System.out.println("입력 성공");
                 success = true;
             }else{
-                System.out.println("입력 실패");
                 //공지사항 입력 실패
             }
         } catch (SQLException ex) {

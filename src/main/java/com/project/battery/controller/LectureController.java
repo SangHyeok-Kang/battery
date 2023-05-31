@@ -98,9 +98,9 @@ public class LectureController {
     public String delNoticeDo(@RequestParam("id") int id, RedirectAttributes attrs){
         boolean success = new Notice().delNotice(Integer.parseInt((String)session.getAttribute("lecture")), id, dbConfig);
         if(success){
-            attrs.addAttribute("msg", "공지사항을 삭제하였습니다.");
+            attrs.addFlashAttribute("msg", "공지사항을 삭제하였습니다.");
         }else{
-            attrs.addAttribute("msg", "공지사항 삭제에 실패하였습니다.");
+            attrs.addFlashAttribute("msg", "공지사항 삭제에 실패하였습니다.");
         }
         return String.format("redirect:/lecture/lecture_notice?lecture=%s&page=%d", (String)session.getAttribute("lecture"),1);
     }
