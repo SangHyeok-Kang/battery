@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
  * 폴더 확인 후 파일 경로를 반환과 같은 공통적인 정보 입력 서비스를 실행하는 클래스
  */
 @Slf4j
-public class InsertInfoService {
+public class FileService {
     
     //파일을 저장할 폴더를 확인 후 생성하거나 바로 파일 저장 경로를 반환한다.
     public final static String insertFolder(String realpath, MultipartFile file,String id){

@@ -43,7 +43,7 @@
                         <c:forEach items="${notice_list}" var="list" >
                             <tr>
                                 <td>${list.getCo()}</td>
-                                <td>${list.getTitle()}</td>
+                                <td><a href="show_notice?id=${list.getCo()}">${list.getTitle()}</a></td>
                                 <td>${list.getDate()}</td>
                                 <td>${list.getWriter()}</td>
                             </tr>

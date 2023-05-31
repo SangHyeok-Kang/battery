@@ -115,4 +115,31 @@ public class Notice {
 
         return list;
     }
+    
+    public Notice getNotice(int lectureid, int noticeid, HikariConfiguration dbConfig){
+        
+        String sql = "select n_title,n_text, n_date, writer, n_file from notice where lectureid=? order by n_date desc limit ?,1;";
+        Notice notice = null;
+        
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            ds = dbConfig.dataSource();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, lectureid);
+            pstmt.setInt(2, noticeid-1);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                notice = new Notice(String.valueOf(lectureid),rs.getString("n_title"),
+                        rs.getString("n_text"),rs.getString("n_date"),
+                        rs.getString("writer"),rs.getString("n_file"));
+            }
+            if(conn!=null){conn.close();}
+            if(pstmt!=null){pstmt.close();}
+            if(rs!=null){rs.close();}
+        } catch (SQLException ex) {
+            Logger.getLogger(Notice.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return notice;
+    }
 }

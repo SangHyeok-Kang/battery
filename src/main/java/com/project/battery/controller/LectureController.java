@@ -6,7 +6,7 @@ package com.project.battery.controller;
 
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Notice;
-import com.project.battery.service.InsertInfoService;
+import com.project.battery.service.FileService;
 import com.project.battery.service.PagingService;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +46,10 @@ public class LectureController {
 
     @GetMapping("lecture/lecture_notice")
     public String lecture(@RequestParam("lecture") String id,@RequestParam("page") int page, Model model) {
-        if(!id.equals((String)session.getAttribute("lecture"))){
+        if(!id.equals((String)session.getAttribute("lecture")) || session.getAttribute("lecture") == null ){
             session.setAttribute("lecture", id);
         }
+       
         //강의실에 해당하는 공지사항 목록가져온다
         List<Notice> list = new Notice().getNoticeList(id, dbConfig);
         List<Notice> sublist = new ArrayList<>();
@@ -75,7 +76,7 @@ public class LectureController {
     public String insertNotice(HttpServletRequest request, @RequestParam(name="file") MultipartFile notice_file, RedirectAttributes attrs) {
         String filePath = "";
         if(!"".equals(notice_file.getOriginalFilename()))
-            filePath = InsertInfoService.insertFolder(ctx.getRealPath(notice_folder), notice_file,(String) session.getAttribute("lecture"));
+            filePath = FileService.insertFolder(ctx.getRealPath(notice_folder), notice_file,(String) session.getAttribute("lecture"));
         Notice notice = new Notice((String)session.getAttribute("lecture"),(String) request.getParameter("title"), (String) request.getParameter("text"),
                 "default", (String)session.getAttribute("host"),filePath );
         if(notice.insertNotice(notice, dbConfig)){
@@ -85,5 +86,11 @@ public class LectureController {
         }
         return String.format("redirect:/lecture/lecture_notice?lecture=%s&page=%d", (String)session.getAttribute("lecture"),1);
     }
-
+    
+    @GetMapping("lecture/show_notice")
+    public String showNotice(@RequestParam("id") int id, Model model){
+        Notice notice = new Notice().getNotice(Integer.parseInt((String)session.getAttribute("lecture")), id, dbConfig);
+        model.addAttribute("notice",notice);
+        return "lecture/show_notice";
+    }
 }
