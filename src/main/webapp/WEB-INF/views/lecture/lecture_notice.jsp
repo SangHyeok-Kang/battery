@@ -28,7 +28,9 @@
                 </ul>
             </nav>
             <div>
-                <a href="create_notice">공지사항</a>
+                <c:if test="${sessionScope.hostState eq 'business'}">
+                    <a href="create_notice">공지사항</a>
+                </c:if>
                 <table border="1">
                     <thead>
                         <tr>

@@ -50,7 +50,6 @@ public class Notice {
     }
     
     public boolean insertNotice(Notice notice, HikariConfiguration dbConfig){
-
         boolean success = false;
         String sql = "INSERT INTO notice values (default,?,?,?,default,?,?)";
 
@@ -118,7 +117,7 @@ public class Notice {
     
     public Notice getNotice(int lectureid, int noticeid, HikariConfiguration dbConfig){
         
-        String sql = "select n_title,n_text, n_date, writer, n_file from notice where lectureid=? order by n_date desc limit ?,1;";
+        String sql = "select n_title,n_text, n_date, writer, n_file from notice where lectureid=? order by n_date asc limit ?,1";
         Notice notice = null;
         
         try {
@@ -141,5 +140,26 @@ public class Notice {
             Logger.getLogger(Notice.class.getName()).log(Level.SEVERE, null, ex);
         }
         return notice;
+    }
+    
+    public boolean delNotice(int lectureid, int noticeid, HikariConfiguration dbConfig){
+        boolean success = false;
+        String sql = "delete from notice where noticeid in (select id from(select noticeid as 'id' from notice where lectureid=? order by n_date asc limit ?,1)id)";
+        
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, lectureid);
+            pstmt.setInt(2, noticeid-1);
+
+            if(pstmt.executeUpdate()==1){
+                success=true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Notice.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return success;
     }
 }

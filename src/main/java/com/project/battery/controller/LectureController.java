@@ -60,7 +60,7 @@ public class LectureController {
                 sublist.add(list.get(i - 1));
             }
         }
-        
+
         model.addAttribute("notice_list",sublist);
         model.addAttribute("paging",paging);
         return "lecture/lecture_notice";
@@ -92,5 +92,16 @@ public class LectureController {
         Notice notice = new Notice().getNotice(Integer.parseInt((String)session.getAttribute("lecture")), id, dbConfig);
         model.addAttribute("notice",notice);
         return "lecture/show_notice";
+    }
+    
+    @GetMapping("/lecture/del_notice.do")
+    public String delNoticeDo(@RequestParam("id") int id, RedirectAttributes attrs){
+        boolean success = new Notice().delNotice(Integer.parseInt((String)session.getAttribute("lecture")), id, dbConfig);
+        if(success){
+            attrs.addAttribute("msg", "공지사항을 삭제하였습니다.");
+        }else{
+            attrs.addAttribute("msg", "공지사항 삭제에 실패하였습니다.");
+        }
+        return String.format("redirect:/lecture/lecture_notice?lecture=%s&page=%d", (String)session.getAttribute("lecture"),1);
     }
 }
