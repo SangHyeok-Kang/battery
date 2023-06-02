@@ -76,7 +76,7 @@ public class LectureController {
     public String insertNotice(HttpServletRequest request, @RequestParam(name="file") MultipartFile notice_file, RedirectAttributes attrs) {
         String filePath = "";
         if(!"".equals(notice_file.getOriginalFilename()))
-            filePath = FileService.insertFolder(ctx.getRealPath(notice_folder), notice_file,(String) session.getAttribute("lecture"));
+            filePath = FileService.insertFolder(ctx.getRealPath(notice_folder), notice_file,(String) session.getAttribute("lecture"),(String) session.getAttribute("host"));
         Notice notice = new Notice((String)session.getAttribute("lecture"),(String) request.getParameter("title"), (String) request.getParameter("text"),
                 "default", (String)session.getAttribute("host"),filePath );
         if(notice.insertNotice(notice, dbConfig)){
