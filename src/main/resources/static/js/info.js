@@ -2,6 +2,34 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
  */
+//학교 정보 입력 스크립트
+function showSchoolInfo() {
+    var schooltype = document.getElementById("schooltype").value;
+    var schoolinfo = document.getElementById("schoolinfo");
+    if (schooltype == "university") {
+        schoolinfo.innerHTML = `
+                        <label for="school">학교:</label>
+                        <input type="text" id="school" name="school" required style="width:auto"><br><br>
+                        <label for="major">학과:</label>
+                        <input type="text" id="major" name="major" required style="width:auto"><br><br>
+                        <label for="grade">학년:</label>
+                        <input type="text" id="grade" name="grade" required style="width:auto"><br><br>
+                        <label for="status">상태:</label>
+                        <input type="text" id="status" name="status" required style="width:auto"><br><br>
+                    `;
+    } else if (schooltype == "elementary" || schooltype == "middle" || schooltype == "high") {
+        schoolinfo.innerHTML = `
+                        <label for="school">학교:</label>
+                        <input type="text" id="school" name="school" required style="width:auto"><br><br>
+                        <label for="grade">학년:</label>
+                        <input type="text" id="grade" name="grade" required style="width:auto"><br><br>
+                        <input type="hidden" id="status" name="status" value ="">
+                        <input type="hidden" id="major" name="major" value="" >
+                    `;
+    } else {
+        schoolinfo.innerHTML = "";
+    }
+}
 
 
 //주소 입력 스크립트
