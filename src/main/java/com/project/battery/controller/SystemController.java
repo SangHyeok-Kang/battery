@@ -60,6 +60,7 @@ public class SystemController {
         result = lm_model.loginResult(userid, password);
         if (result == true) {
             session.setAttribute("host", userid);
+            session.setAttribute("hostState","business");
             
             urls = "/index";
         } else {

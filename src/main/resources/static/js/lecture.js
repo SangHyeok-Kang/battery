@@ -140,3 +140,10 @@ function insertLecture() {
     
     document.getElementById('keyword').value = document.getElementById('selectedSubcategories').innerText;
 }
+
+//공지사항 삭제
+function delNotice(id){
+                if(confirm("정말 삭제하시겠습니까?")=== true){
+                    location.replace("del_notice.do?id="+id);
+                }
+            }

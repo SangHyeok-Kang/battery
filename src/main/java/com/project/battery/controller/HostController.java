@@ -6,7 +6,7 @@ package com.project.battery.controller;
 
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
-import com.project.battery.service.InsertInfoService;
+import com.project.battery.service.FileService;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -41,7 +41,7 @@ public class HostController {
     private String text_image;
     @Value("${file.thumbnail_folder}")
     private String thumbnail;
-    @Value("${file.resume_folder}")
+    @Value("${file.resumeForm_folder}")
     private String resume;
     
     
@@ -61,10 +61,8 @@ public class HostController {
         Lecture lecture = new Lecture();
         //강의 객체로 정보 입력
         
-        lecture.setThumnail(InsertInfoService.insertFolder(ctx.getRealPath(this.thumbnail),thumbnail,  (String) session.getAttribute("host")));
         lecture.setTitle(request.getParameter("title"));
         lecture.setText(request.getParameter("text"));
-        lecture.setText_image(InsertInfoService.insertFolder(ctx.getRealPath(this.text_image),text_image, (String) session.getAttribute("host")));
         lecture.setPostcode(request.getParameter("postcode"));
         lecture.setAddress(request.getParameter("address"));
         lecture.setDetail(request.getParameter("detail"));
@@ -88,11 +86,11 @@ public class HostController {
                 lecture.setStaffe_num(Integer.parseInt(request.getParameter("staffe_num")));
             }
             lecture.setQualification(request.getParameter("recruit_text"));
-            lecture.setResume(InsertInfoService.insertFolder(ctx.getRealPath(this.resume),resume, (String) session.getAttribute("host")));
+            //lecture.setResume(FileService.insertFolder(ctx.getRealPath(this.resume),resume, (String) session.getAttribute("host")));
         }
         lecture.setHost((String) session.getAttribute("host"));
-        
-        if(lecture.insertLecture(dbConfig, lecture)){
+        String[] path = {ctx.getRealPath(this.thumbnail),ctx.getRealPath(this.text_image),ctx.getRealPath(this.resume)};
+        if(lecture.insertLecture(dbConfig, lecture,thumbnail,text_image,resume,path)){
            attrs.addFlashAttribute("msg", "강의 개설에 성공하였습니다");
         }else{
             attrs.addFlashAttribute("msg", "강의 개설에 실패하였습니다");
