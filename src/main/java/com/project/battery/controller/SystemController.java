@@ -4,9 +4,12 @@
  */
 package com.project.battery.controller;
 
+import com.project.battery.dto.LectureDto;
 import com.project.battery.model.AddUserManager;
 import com.project.battery.model.HikariConfiguration;
+import com.project.battery.model.Lecture;
 import com.project.battery.model.loginModel;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -19,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -31,18 +35,26 @@ public class SystemController {
 
     public boolean result = false;
     private String userid = "";
-    
+
     @Autowired
     private HttpSession session;
     @Autowired
     private HttpServletRequest request;
-    
+
     @Autowired
     private HikariConfiguration dbConfig;
+    
+    ArrayList<LectureDto> list = new ArrayList<LectureDto>();
 
     @GetMapping("/")
-    public String projectMain() {
-        log.debug("main access!");
+    public String projectMain(Model model) {   
+        Lecture lec = new Lecture(dbConfig);
+        list = lec.getLecture();
+        String result = lec.getLectureTable(list);
+
+        model.addAttribute("lecturelist", result);
+        System.out.println(result);
+        log.debug(result);
         return "/index";
     }
 
@@ -55,7 +67,7 @@ public class SystemController {
     public String signUp() {
         return "/sign-up";
     }
-    
+
     @PostMapping(value = "/login.do")
     public String loginDo(@RequestParam String userid, @RequestParam String password, Model model) {
         String urls = "";
@@ -66,7 +78,7 @@ public class SystemController {
         if (result == true) {
             session.setAttribute("host", user);
             session.setAttribute("state", 1); //일반회원 로그인 상태 세션 저장
-            
+
             urls = "/index";
         } else {
             model.addAttribute("msg", "로그인에 실패하였습니다 입력 정보확인 후 다시 시도해주세요.");
@@ -75,7 +87,7 @@ public class SystemController {
         }
         return urls;
     }
-    
+
     @PostMapping("/normal_signup.do")
     public String insertNormalUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
             @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String birthdate, @RequestParam String school,
@@ -83,8 +95,8 @@ public class SystemController {
             @RequestParam String postcode, @RequestParam String detail, @RequestParam String extra, @RequestParam String address, @RequestParam String gender, Model model) {
         String schoolinfo = "";
         String phone = phone1 + "-" + phone2 + "-" + phone3;
-        String interest = subcategory.get(0)+"/"+subcategory.get(1)+"/"+subcategory.get(2)+"/";
-        
+        String interest = subcategory.get(0) + "/" + subcategory.get(1) + "/" + subcategory.get(2) + "/";
+
         System.out.println(interest);
 
         if (major.isEmpty() && status.isEmpty()) {
