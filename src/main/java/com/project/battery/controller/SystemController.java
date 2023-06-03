@@ -84,7 +84,7 @@ public class SystemController {
         if (result == true) {
             session.setAttribute("host", user);
             session.setAttribute("state", state); //일반회원(0) 로그인 상태 세션 저장
-            if (state == 0) urls = "/index";
+            if (state == 0) urls = "redirect:/";
             else urls = "/host-center";
         } else {
             attrs.addFlashAttribute("msg","로그인에 실패하였습니다.");

@@ -85,7 +85,7 @@
                         <c:if test="${host ne null}">
                             <c:set var="logout" value="logout.do"/>
                         </c:if>
-                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="${logout}" id="logout">로그아웃</a>
+                        <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="${logout}" id="logout">로그아웃</a> <!-- 로그인 안했을 때도 로그아웃 버튼 나옴 수정필요! -->
                     </li>
                 </ul>
             </div>
