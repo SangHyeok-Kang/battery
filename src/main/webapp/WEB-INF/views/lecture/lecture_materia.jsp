@@ -42,6 +42,9 @@
 
                 </div>
             </c:if>
+                <c:forEach items="${filelist}" var="file">
+                    <a href="materiadownload.do?filename=${file}">${file}</a>
+                </c:forEach>
             <c:if test="${paging}!=null">
                 <c:forEach var="num" begin="${paging.getFirst()}" end="${paging.getLast()}">
                     <a href="lecture_notice?lecture=${param.lecture}&page=${num}">${num}</a>

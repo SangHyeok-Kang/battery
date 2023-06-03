@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <th>첨부파일</th>
-                    <td><a href="download.do?filename=${notice.getFile()}&writer=${notice.getWriter()}">${notice.getFile()}</a></td>
+                    <td><a href="noticedownload.do?filename=${notice.getFile()}&writer=${notice.getWriter()}">${notice.getFile()}</a></td>
                 </tr>
             </tbody>
         </table>

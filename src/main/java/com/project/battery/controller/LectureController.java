@@ -112,15 +112,31 @@ public class LectureController {
         return String.format("redirect:/lecture/lecture_notice?lecture=%s&page=1", (String)session.getAttribute("lecture"));
     }
     
-    @GetMapping("/lecture/download.do")
-    public ResponseEntity<Resource> downFile(@RequestParam("filename") String filename, @RequestParam("writer") String writer){
+    @GetMapping("/lecture/noticedownload.do")
+    public ResponseEntity<Resource> downNoticeFile(@RequestParam("filename") String filename, @RequestParam("writer") String writer){
         //경로를 만들어주고 넘김
         String url = String.format( ctx.getRealPath(this.notice_folder)+ File.separator +(String)session.getAttribute("lecture")+ File.separator +writer);
         return FileService.downloadFile(url, filename,new HttpHeaders());  
     }
     
     @GetMapping("/lecture/lecture_materia")
-    public String lecturemateria(){
+    public String lecturemateria(Model model, @RequestParam("page") int page){
+        List<String> filename = new ArrayList<>();
+        List<String> pagingfilename = new ArrayList<>();
+        for(File f : new File(ctx.getRealPath(this.materia_folder) + File.separator + (String)session.getAttribute("lecture")).listFiles()){
+            for(File file : new File(f.getAbsolutePath()).listFiles()){
+                filename.add(file.getName());
+            }
+        }
+        PagingService paging = new PagingService(page, filename.size());
+        if (!filename.isEmpty()) {
+            //출력할 메시지 목록만 슬라이싱
+            for (int i = paging.getStartlist(); i < paging.getEndlist() + 1; i++) {
+                pagingfilename.add(filename.get(i - 1));
+            }
+        }
+        model.addAttribute("filelist",pagingfilename);
+        model.addAttribute("paging",paging);
         return "lecture/lecture_materia";
     }
     
@@ -135,5 +151,15 @@ public class LectureController {
             attrs.addFlashAttribute("msg", "파일 업로드에 실패하였습니다.");
         }
         return String.format("redirect:/lecture/lecture_materia?lecture=%s&page=1", (String)session.getAttribute("lecture"));
+    }
+    
+    @GetMapping("/lecture/materiadownload.do")
+    public ResponseEntity<Resource> downMateria(@RequestParam("filename") String filename){
+        String url ="";
+        //경로를 만들어주고 넘김
+        for(File f : new File(ctx.getRealPath(this.materia_folder) + File.separator + (String)session.getAttribute("lecture")).listFiles()){
+            url = f.getAbsolutePath();
+        }
+        return FileService.downloadFile(url, filename,new HttpHeaders());  
     }
 }
