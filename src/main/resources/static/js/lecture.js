@@ -168,8 +168,8 @@ function delMateriaName() {
 }
 
 //강의 자료 삭제
-function delMateria(name){
-    if (confirm(name+"파일을 정말 삭제하시겠습니까?") === true) {
-        location.replace("del_materia.do?name=" + name);
+function delMateria(filename, lecid, id){
+    if (confirm(`${filename} 파일을 정말 삭제하시겠습니까?`) === true) {
+        location.replace(`del_materia.do?name=${filename}&lecid=${lecid}&id=${id}`);
     }
 }

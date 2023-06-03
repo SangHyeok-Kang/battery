@@ -97,4 +97,12 @@ public class FileService {
         return new ResponseEntity<>(resource, headers, HttpStatus.OK);
     }
     
+    public final static boolean delFile(String path){
+        boolean success = false;
+        File f = new File(path);
+        if(f.delete()){
+            success = true;
+        }
+        return success;
+    }
 }

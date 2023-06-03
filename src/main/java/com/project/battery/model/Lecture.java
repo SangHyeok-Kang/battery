@@ -193,6 +193,31 @@ public class Lecture {
         }
         return list;
     }
+    
+    public  boolean delMateriaFile(HikariConfiguration dbConfig, String filepath, String dbpath){
+        boolean success = false;
+        String sql = "delete from materia where materiaurl=?";
+        
+        try {
+            if(FileService.delFile(filepath)){
+                ds = dbConfig.dataSource();
+                conn = ds.getConnection();
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, dbpath);
+                if(pstmt.executeUpdate()==1){
+                    success = true;
+                }else{
+                    log.debug("디비 삭제 실패");
+                }
+            }else{
+                log.debug("파일 삭제 실패");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        return success;
+    }
 }
 
 

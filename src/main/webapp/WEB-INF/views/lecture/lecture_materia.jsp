@@ -48,7 +48,7 @@
                                 <td>${file.getFileuploader()}</td>
                                 <td>${file.getFiledate()}
                                 <c:if test="${sessionScope.hostState eq 'business'}">
-                                    <td><a onclick="delMateria(`${file}`)" id="del_materia">삭제</a></td>
+                                    <td><a onclick="delMateria(`${file.getFilename()}`,`${param.lecture}`,`${file.getFileuploader()}`)" id="del_materia">삭제</a></td>
                                 </c:if>
                             </tr>
                         </c:forEach>

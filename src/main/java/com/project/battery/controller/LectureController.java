@@ -157,11 +157,13 @@ public class LectureController {
     }
     
     @GetMapping("/lecture/del_materia.do")
-    public String delMateria(@RequestParam("name") String filename){
-        String url ="";
-        for(File f : new File(ctx.getRealPath(this.materia_folder) + File.separator + (String)session.getAttribute("lecture")).listFiles()){
-            url = f.getAbsolutePath();
-            System.out.println(url);
+    public String delMateria(@RequestParam("name") String filename, @RequestParam("lecid") String lecid, @RequestParam("id") String id, RedirectAttributes attrs){
+        String filepath = ctx.getRealPath(this.materia_folder) + File.separator + lecid + File.separator + id + File.separator + filename;
+        String dbpath = lecid+ File.separator +id+ File.separator +filename;
+        if(new Lecture().delMateriaFile(dbConfig, filepath, dbpath)){
+            attrs.addFlashAttribute("msg", "파일 삭제에 성공하였습니다.");
+        }else{
+            attrs.addFlashAttribute("msg", "파일 삭제에 실패하였습니다.");
         }
         return String.format("redirect:/lecture/lecture_materia?lecture=%s&page=1", (String)session.getAttribute("lecture"));
     }
