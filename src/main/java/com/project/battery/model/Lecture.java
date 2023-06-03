@@ -5,15 +5,14 @@
 package com.project.battery.model;
 
 import com.project.battery.service.FileService;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -54,6 +53,18 @@ public class Lecture {
     @Getter@Setter private String resume= null; //18. 지원서 양식
     @Getter@Setter private String host= null; // 19. 강의자
     @Getter@Setter private Double grade = 0.0; // 20. 별점
+    @Getter private int matCo;
+    @Getter private String filename;
+    @Getter private String fileuploader;
+    @Getter private String filedate;
+
+    //학습자료 정보 관리를 위한 생성자
+    public Lecture(int matCo, String filename, String fileuploader, String filedate) {
+        this.matCo = matCo;
+        this.filename = filename;
+        this.fileuploader = fileuploader;
+        this.filedate = filedate;
+    }
     
     DataSource ds = null;
     Connection conn = null;
@@ -133,6 +144,78 @@ public class Lecture {
                     Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        return success;
+    }
+    
+    public boolean uploadMateria(HikariConfiguration dbConfig,String path, MultipartFile materia, String lecid, String id){
+        boolean success=false;
+        String sql = "insert into materia values(default, default, ?,?,?)";
+        
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, FileService.insertFolder(path,
+                                        materia, lecid, id));
+            pstmt.setInt(2, Integer.parseInt(lecid));
+            pstmt.setString(3, id);
+            if(pstmt.executeUpdate() == 1){
+                success = true;
+            }else{
+                log.debug("학습자료 입력 실패 host={}, lecture={}",id,lecid);
+            }
+       
+        } catch (SQLException ex) {
+            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return success;
+    }
+    
+    public List<Lecture> getMateriaList(HikariConfiguration dbConfig, int lectureid){
+        List<Lecture> list = new ArrayList<>();
+        String sql = "select materiaurl, uploader, date from materia where lectureid=? order by date asc";
+        int co = 1;
+        
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, lectureid);
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+                list.add(new Lecture(co, rs.getString("materiaurl").substring(rs.getString("materiaurl").lastIndexOf("\\")+1),
+                        rs.getString("uploader"),rs.getString("date")));
+                co++;
+            }
+            Collections.reverse(list);
+        } catch (SQLException ex) {
+            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    public  boolean delMateriaFile(HikariConfiguration dbConfig, String filepath, String dbpath){
+        boolean success = false;
+        String sql = "delete from materia where materiaurl=?";
+        
+        try {
+            if(FileService.delFile(filepath)){
+                ds = dbConfig.dataSource();
+                conn = ds.getConnection();
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, dbpath);
+                if(pstmt.executeUpdate()==1){
+                    success = true;
+                }else{
+                    log.debug("디비 삭제 실패");
+                }
+            }else{
+                log.debug("파일 삭제 실패");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
         return success;
     }
 }
