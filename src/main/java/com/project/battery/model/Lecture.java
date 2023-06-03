@@ -237,7 +237,7 @@ public class Lecture {
         }
 
         return buffer.toString();
-
+    }
     public boolean uploadMateria(HikariConfiguration dbConfig,String path, MultipartFile materia, String lecid, String id){
         boolean success=false;
         String sql = "insert into materia values(default, default, ?,?,?)";
