@@ -8,6 +8,7 @@ import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Notice;
 import com.project.battery.service.FileService;
 import com.project.battery.service.PagingService;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletContext;
@@ -17,10 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -103,5 +108,12 @@ public class LectureController {
             attrs.addFlashAttribute("msg", "공지사항 삭제에 실패하였습니다.");
         }
         return String.format("redirect:/lecture/lecture_notice?lecture=%s&page=%d", (String)session.getAttribute("lecture"),1);
+    }
+    
+    @GetMapping("/lecture/download.do")
+    public ResponseEntity<Resource> downFile(@RequestParam("filename") String filename, @RequestParam("writer") String writer){
+        //경로를 만들어주고 넘김
+        String url = String.format( ctx.getRealPath(this.notice_folder)+ File.separator +(String)session.getAttribute("lecture")+ File.separator +writer);
+        return FileService.downloadFile(url, filename,new HttpHeaders());  
     }
 }
