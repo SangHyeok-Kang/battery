@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!--
 =========================================================
 * Material Kit 2 - v3.0.4
@@ -49,6 +50,11 @@
         <link id="pagestyle" href="${pageContext.request.contextPath}/assets/css/material-kit.css" rel="stylesheet" />
         <!-- Link Swiper's CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+        <script>
+            <c:if test="${!empty msg}">
+                alert("${msg}");
+            </c:if>
+        </script>
     </head>
 
     <!-- Navbar-->
@@ -61,10 +67,25 @@
             <div class="pt-3 pb-2" id="navigation">
                 <ul class="navbar-nav ms-auto d-flex flex-row">
                     <li class="nav-item mx-2 flex-grow-1">
-                        <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="sign-in" id="signIn">로그인</a>
+                        <c:set var="host" value="${sessionScope.host}"/>
+                        <c:set var="logout" value="redirect:/"/>
+                        <c:choose>
+                            <c:when test="${host eq null}">
+                                <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="sign-in" id="signIn">로그인</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="#" id="mypage">마이페이지</a>
+                            </c:otherwise>
+                        </c:choose>
                     </li>
                     <li class="nav-item mx-2 flex-grow-1">
                         <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="host-center" id="hostCenter">호스트센터</a>
+                    </li>
+                    <li class="nav-item mx-2 flex-grow-1">
+                        <c:if test="${host ne null}">
+                            <c:set var="logout" value="logout.do"/>
+                        </c:if>
+                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="${logout}" id="logout">로그아웃</a>
                     </li>
                 </ul>
             </div>
@@ -125,6 +146,7 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
+
         </div>
     </header>
     <!--end 캐러셀-->

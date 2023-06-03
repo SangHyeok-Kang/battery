@@ -1,12 +1,16 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko" itemscope itemtype="http://schema.org/WebPage">
 
     <head>
+
         <script src="./js/kakao_api/kakao_login.js" type="text/javascript"></script>
         <!-- 카카오 js -->
         <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
         
         <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         <!--bootstrap-->
@@ -32,6 +36,11 @@
         <link id="pagestyle" href="${pageContext.request.contextPath}/assets/css/material-kit.css" rel="stylesheet" />
         <!-- Link Swiper's CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+        <script>
+            <c:if test="${!empty msg}">
+                alert("${msg}");
+            </c:if>
+        </script>
     </head>
     <body>
         <div class="container mt-9 mx-auto">
@@ -44,6 +53,10 @@
                 <div class="d-flex flex-column align-items-center col-lg-4 col-md-6 col-sm-10 pe-5">
                     <form method="POST" role="form" class="text-start" style="width: 300px;" action="${pageContext.request.contextPath}/login.do">
                         <h6>로그인</h6>
+                        <div class="input-group input-group-outline my-3">
+                            <input type="radio" name="chk_state" value="user" checked>사용자&nbsp;&nbsp;
+                            <input type="radio" name="chk_state" value="business">비즈니스
+                        </div>
                         <div class="input-group input-group-outline my-3">
                             <label class="form-label">Id</label>
                             <input type="text" class="form-control" name="userid">
@@ -78,7 +91,7 @@
                         </div>
                         <div class="col text-center">
                             비즈니스 회원
-                            <button type="button" class="btn btn-outline-info w-100 my-4 mb-2">가입하기</button>
+                            <button type="button" onclick="location.href = 'business-sign-up'" class="btn btn-outline-info w-100 my-4 mb-2">가입하기</button>
                         </div>
                         <div class="mb-5"></div>
                     </div>
