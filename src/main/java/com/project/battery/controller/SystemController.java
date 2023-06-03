@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -52,23 +53,41 @@ public class SystemController {
         return "/sign-up";
     }
     
+    @GetMapping("/business-sign-up")
+    public String businessSignUp() {
+        return "/business-sign-up";
+    }
+    
     @PostMapping(value = "/login.do")
-    public String loginDo(@RequestParam String userid, @RequestParam String password, Model model) {
+    public String loginDo(@RequestParam String userid, @RequestParam String password, RedirectAttributes attrs) {
         String urls = "";
 
         loginModel lm_model = new loginModel(dbConfig);
         result = lm_model.loginResult(userid, password);
         String user = lm_model.getUser();
         if (result == true) {
+
             session.setAttribute("host", user);
             session.setAttribute("state", 1); //일반회원 로그인 상태 세션 저장
+
+            session.setAttribute("host", userid);
+            session.setAttribute("hostState","business");
+
             
             urls = "/index";
         } else {
-            model.addAttribute("msg", "로그인에 실패하였습니다 입력 정보확인 후 다시 시도해주세요.");
-            model.addAttribute("url", "/sign-in");
-            urls = "/login_fail";
+            attrs.addFlashAttribute("msg","로그인에 실패하였습니다.");
+            urls = "redirect:/sign-in";
         }
         return urls;
+    }
+    
+    @GetMapping("/logout.do")
+    public String logoutDo(RedirectAttributes attrs){
+        if(session.getAttribute("host") != null){
+            session.invalidate();
+            attrs.addFlashAttribute("msg","로그아웃하였습니다.");
+        }
+        return "redirect:/";
     }
 }
