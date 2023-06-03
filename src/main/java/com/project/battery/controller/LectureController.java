@@ -120,21 +120,17 @@ public class LectureController {
     }
     
     @GetMapping("/lecture/lecture_materia")
-    public String lecturemateria(Model model, @RequestParam("page") int page){
-        /*
-        List<String> filename = new ArrayList<>();
-        List<String> pagingfilename = new ArrayList<>();
-        
-        PagingService paging = new PagingService(page, filename.size());
-        if (!filename.isEmpty()) {
-            //출력할 메시지 목록만 슬라이싱
+    public String lecturemateria(Model model, @RequestParam("page") int page,@RequestParam("lecture") int lecid){
+        List<Lecture> materia = new Lecture().getMateriaList(dbConfig,lecid);
+        if(!materia.isEmpty()){
+             List<Lecture> pagingMateria = new ArrayList<>();
+            PagingService paging = new PagingService(page, materia.size());
             for (int i = paging.getStartlist(); i < paging.getEndlist() + 1; i++) {
-                pagingfilename.add(filename.get(i - 1));
+                pagingMateria.add(materia.get(i - 1));
             }
+            model.addAttribute("filelist",pagingMateria);
+            model.addAttribute("paging",paging);
         }
-        model.addAttribute("filelist",pagingfilename);
-        model.addAttribute("paging",paging);
-*/
         return "lecture/lecture_materia";
     }
     

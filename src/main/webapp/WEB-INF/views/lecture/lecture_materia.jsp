@@ -43,7 +43,10 @@
                     <tbody>
                         <c:forEach items="${filelist}" var="file">
                             <tr>
-                                <td><a href="materiadownload.do?filename=${file}">${file}</a></td>
+                                <td>${file.getMatCo()}</td>
+                                <td><a href="materiadownload.do?filename=${file.getFilename()}">${file.getFilename()}</a></td>
+                                <td>${file.getFileuploader()}</td>
+                                <td>${file.getFiledate()}
                                 <c:if test="${sessionScope.hostState eq 'business'}">
                                     <td><a onclick="delMateria(`${file}`)" id="del_materia">삭제</a></td>
                                 </c:if>
