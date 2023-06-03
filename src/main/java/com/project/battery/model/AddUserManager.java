@@ -48,8 +48,8 @@ public class AddUserManager {
         return true;
     }
 
-    public void addRow(String userid, String password, String name, String phone,
-                       String birthdate, String schoolinfo, String interest, 
+    public void addRow(String userid, String username, String password, String phone,
+                       String birth, String attendingInfo, String u_keyword, 
                        String postcode, String detail, String extra, String address, String gender) {
         
         javax.sql.DataSource ds = dbConfig.dataSource();
@@ -60,17 +60,17 @@ public class AddUserManager {
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, userid);
-            pstmt.setString(2, name);
+            pstmt.setString(2, username);
             pstmt.setString(3, password);
             pstmt.setString(4, phone);
-            pstmt.setString(5, birthdate);
-            pstmt.setString(6, schoolinfo);
-            pstmt.setString(7, interest);
+            pstmt.setString(5, birth);
+            pstmt.setString(6, attendingInfo);
+            pstmt.setString(7, u_keyword);
             pstmt.setString(8, gender);
 
             pstmt.executeUpdate();
 
-            sql = "INSERT INTO address VALUES(?,?,?,?,?,?)";
+            sql = "INSERT INTO address VALUES(defalut,?,?,?,?,?,0)";
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, userid);

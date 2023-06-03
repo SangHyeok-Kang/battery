@@ -98,7 +98,7 @@ public class SystemController {
         return urls;
     }
 
-    @PostMapping("/normal_signup.do")
+    @PostMapping("/sign-up.do")
     public String insertNormalUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
             @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String birthdate, @RequestParam String school,
             @RequestParam String major, @RequestParam String grade, @RequestParam String status, @RequestParam List<String> subcategory,
