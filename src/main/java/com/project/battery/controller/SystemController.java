@@ -79,12 +79,10 @@ public class SystemController {
 
         loginModel lm_model = new loginModel(dbConfig);
         result = lm_model.loginResult(chk_state, userid, password);
-        String user = lm_model.getUser();
-        int state = lm_model.getState();
         if (result == true) {
-            session.setAttribute("host", user);
-            session.setAttribute("state", state); //일반회원(0) 로그인 상태 세션 저장
-            if (state == 0) {
+            session.setAttribute("host", lm_model.getUser());
+            session.setAttribute("state", lm_model.getState()); //일반회원(0) 로그인 상태 세션 저장
+            if (lm_model.getState() == 0) {
                 urls = "redirect:/";
             } else {
                 urls = "/host-center";
