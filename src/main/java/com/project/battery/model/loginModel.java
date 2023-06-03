@@ -84,4 +84,94 @@ public class loginModel {
     public int getState(){
         return state;
     }
+    
+    // 아이디 찾기
+    public userInfo findIdResult(String name, String phone) {
+
+        javax.sql.DataSource ds = dbConfig.dataSource();
+
+        try {
+            Connection conn = ds.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt = conn.createStatement();
+            String sql = "SELECT username, userid, password, phone FROM userinfo WHERE username='" + name + "' AND phone='" + phone + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            log.info(sql);
+
+            if (rs.next()) {
+
+                String userName = rs.getString("username");
+                String userId = rs.getString("userid");
+                String userPw = rs.getString("password");
+                String userPhone = rs.getString("phone");
+
+                userInfo user = new userInfo(userName, userId, userPw, userPhone);
+
+                return user;
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생 오류: {})", ex.getMessage());
+        }
+        return null;
+    }
+
+    // 비밀번호 찾기
+    public userInfo findPwResult(String userid, String name, String phone) {
+
+        javax.sql.DataSource ds = dbConfig.dataSource();
+
+        try {
+            Connection conn = ds.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt = conn.createStatement();
+            String sql = "SELECT username, userid, password, phone FROM userinfo WHERE userid='" + userid + "' AND username='" + name + "' AND phone='" + phone + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            log.info(sql);
+
+            if (rs.next()) {
+
+                String userName = rs.getString("username");
+                String userId = rs.getString("userid");
+                String userPw = rs.getString("password");
+                String userPhone = rs.getString("phone");
+
+                userInfo user = new userInfo(userName, userId, userPw, userPhone);
+
+                return user;
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생 오류: {})", ex.getMessage());
+        }
+        return null;
+    }
+
+    // 비밀번호 변경
+    public void changePw(String userid, String password) {
+
+        javax.sql.DataSource ds = dbConfig.dataSource();
+
+        try {
+            Connection conn = ds.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt = conn.createStatement();
+            String sql = "UPDATE userinfo SET password = '" + password + "' WHERE (userid = '" + userid + "')";
+            log.info(sql);
+            stmt.executeUpdate(sql);
+
+            stmt.close();
+            conn.close();
+
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생 오류: {})", ex.getMessage());
+        }
+
+    }
 }
