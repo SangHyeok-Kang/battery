@@ -41,6 +41,10 @@
                     <form method="POST" role="form" class="text-start" style="width: 300px;" action="${pageContext.request.contextPath}/login.do">
                         <h6>로그인</h6>
                         <div class="input-group input-group-outline my-3">
+                            <input type="radio" name="chk_state" value="user" checked>사용자&nbsp;&nbsp;
+                            <input type="radio" name="chk_state" value="business">비즈니스
+                        </div>
+                        <div class="input-group input-group-outline my-3">
                             <label class="form-label">Id</label>
                             <input type="text" class="form-control" name="userid">
                         </div>
