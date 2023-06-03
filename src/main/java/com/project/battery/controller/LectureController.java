@@ -48,6 +48,8 @@ public class LectureController {
 
     @Value("${file.notice_folder}")
     private String notice_folder;
+    @Value("${file.materia_folder}")
+    private String materia_folder;
 
     @GetMapping("lecture/lecture_notice")
     public String lecture(@RequestParam("lecture") String id,@RequestParam("page") int page, Model model) {
@@ -89,7 +91,7 @@ public class LectureController {
         }else{
             attrs.addFlashAttribute("msg", "공지사항 등록에 실패하였습니다.");
         }
-        return String.format("redirect:/lecture/lecture_notice?lecture=%s&page=%d", (String)session.getAttribute("lecture"),1);
+        return String.format("redirect:/lecture/lecture_notice?lecture=%s&page=1", (String)session.getAttribute("lecture"));
     }
     
     @GetMapping("lecture/show_notice")
@@ -107,7 +109,7 @@ public class LectureController {
         }else{
             attrs.addFlashAttribute("msg", "공지사항 삭제에 실패하였습니다.");
         }
-        return String.format("redirect:/lecture/lecture_notice?lecture=%s&page=%d", (String)session.getAttribute("lecture"),1);
+        return String.format("redirect:/lecture/lecture_notice?lecture=%s&page=1", (String)session.getAttribute("lecture"));
     }
     
     @GetMapping("/lecture/download.do")
@@ -115,5 +117,23 @@ public class LectureController {
         //경로를 만들어주고 넘김
         String url = String.format( ctx.getRealPath(this.notice_folder)+ File.separator +(String)session.getAttribute("lecture")+ File.separator +writer);
         return FileService.downloadFile(url, filename,new HttpHeaders());  
+    }
+    
+    @GetMapping("/lecture/lecture_materia")
+    public String lecturemateria(){
+        return "lecture/lecture_materia";
+    }
+    
+    @PostMapping("/lecture/uploadMateria.do")
+    public String uploadMateria(@RequestParam(name="materia",required=false) MultipartFile materia,RedirectAttributes attrs){
+        String str =FileService.insertFolder(ctx.getRealPath(this.materia_folder), 
+                                        materia, (String)session.getAttribute("lecture"), 
+                                        (String)session.getAttribute("host"));
+        if(!str.equals("")){
+            attrs.addFlashAttribute("msg", "파일 업로드에 성공하였습니다.");
+        }else{
+            attrs.addFlashAttribute("msg", "파일 업로드에 실패하였습니다.");
+        }
+        return String.format("redirect:/lecture/lecture_materia?lecture=%s&page=1", (String)session.getAttribute("lecture"));
     }
 }

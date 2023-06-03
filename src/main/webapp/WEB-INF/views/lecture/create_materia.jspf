@@ -1,0 +1,8 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<nav>
+    <ul>
+        <li><a href="lecture_notice?lecture=${sessionScope.lecture}&page=1">공지사항</a></li>
+        <li><a href="lecture_materia?lecture=${sessionScope.lecture}&page=1">학습자료</a></li>
+        <li><a href="#">출석확인</a></li>
+    </ul>
+</nav>

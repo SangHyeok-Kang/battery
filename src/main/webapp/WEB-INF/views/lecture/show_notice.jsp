@@ -17,7 +17,6 @@
             function update(){
                 alert("update");
             }
-            
         </script>
     </head>
     <body>

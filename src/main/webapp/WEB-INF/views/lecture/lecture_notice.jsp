@@ -20,16 +20,10 @@
         </script>
     </head>
     <body>
-        <nav>
-                <ul>
-                    <li><a href="#">공지사항</a></li>
-                    <li><a href="#">학습자료</a></li>
-                    <li><a href="#">출석확인</a></li>
-                </ul>
-            </nav>
+            <%@include file="lecturemenu.jspf"%> 
             <div>
                 <c:if test="${sessionScope.hostState eq 'business'}">
-                    <a href="create_notice">공지사항</a>
+                    <a href="create_notice">공지사항 등록</a>
                 </c:if>
                 <table border="1">
                     <thead>
