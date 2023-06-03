@@ -6,9 +6,24 @@ package com.project.battery.service;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.CacheControl;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -50,4 +65,35 @@ public class FileService {
             }
         }
     }
+    
+    public final static ResponseEntity<Resource> downloadFile(String url, String filename,HttpHeaders headers){
+        //파일의 Content-Type 찾기
+        Path path = Paths.get(url + File.separator + filename);
+        String contentType = null;
+        try {
+            contentType = Files.probeContentType(path);
+            log.debug("File: {}, Content-Type: {}", path.toString(), contentType);
+        } catch (IOException e) {
+            log.error("download: 오류 발생 - {}", e.getMessage());
+        }
+
+        //Http 헤더 생성
+        headers.setContentDisposition(
+                ContentDisposition.builder("attachment").filename(filename, StandardCharsets.UTF_8).build());
+        headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+
+        //파일을 입력 스트림으로 만들어 내려받기 준비
+        Resource resource = null;
+        try {
+            resource = new InputStreamResource(Files.newInputStream(path));
+        } catch (IOException e) {
+            log.error("download: 오류 발생 - {}", e.getMessage());
+        }
+        if (resource == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+    }
+    
 }

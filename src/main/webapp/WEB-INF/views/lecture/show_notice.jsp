@@ -17,7 +17,6 @@
             function update(){
                 alert("update");
             }
-            
         </script>
     </head>
     <body>
@@ -40,7 +39,7 @@
                 </tr>
                 <tr>
                     <th>첨부파일</th>
-                    <td></td>
+                    <td><a href="noticedownload.do?filename=${notice.getFile()}&writer=${notice.getWriter()}">${notice.getFile()}</a></td>
                 </tr>
             </tbody>
         </table>

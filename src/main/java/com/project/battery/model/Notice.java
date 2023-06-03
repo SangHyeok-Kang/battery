@@ -129,7 +129,7 @@ public class Notice {
             if(rs.next()){
                 notice = new Notice(String.valueOf(lectureid),rs.getString("n_title"),
                         rs.getString("n_text"),rs.getString("n_date"),
-                        rs.getString("writer"),rs.getString("n_file"));
+                        rs.getString("writer"),rs.getString("n_file").substring(rs.getString("n_file").lastIndexOf("\\")+1));
             }
             if(conn!=null){conn.close();}
             if(pstmt!=null){pstmt.close();}
