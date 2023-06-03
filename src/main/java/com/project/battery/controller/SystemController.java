@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -74,5 +75,14 @@ public class SystemController {
             urls = "/login_fail";
         }
         return urls;
+    }
+    
+    @GetMapping("/logout.do")
+    public String logoutDo(RedirectAttributes attrs){
+        if(session.getAttribute("host") != null){
+            session.invalidate();
+            attrs.addFlashAttribute("msg","로그아웃하였습니다.");
+        }
+        return "redirect:/";
     }
 }
