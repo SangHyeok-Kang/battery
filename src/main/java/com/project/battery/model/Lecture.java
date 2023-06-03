@@ -4,6 +4,12 @@
  */
 package com.project.battery.model;
 
+
+import com.project.battery.dto.LectureDto;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import com.project.battery.service.FileService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -71,7 +77,12 @@ public class Lecture {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
     
-    
+    private HikariConfiguration dbConfig;
+    ArrayList<LectureDto> list = new ArrayList<LectureDto>();
+
+    public Lecture(HikariConfiguration dbConfig) {
+        this.dbConfig = dbConfig;
+    }
     
     public Boolean insertLecture(HikariConfiguration dbConfig, Lecture lecture,MultipartFile thumnail,MultipartFile text_image,MultipartFile resume, String[] path){
         boolean success=false;
@@ -147,6 +158,86 @@ public class Lecture {
         return success;
     }
     
+
+    public ArrayList<LectureDto> getLecture(){
+        javax.sql.DataSource ds = dbConfig.dataSource();
+        try {
+            Connection conn = ds.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt = conn.createStatement();
+            String sql = "SELECT * FROM lecture ";
+            ResultSet rs = stmt.executeQuery(sql);
+
+
+            while (rs.next()) {
+                LectureDto lec = new LectureDto();
+                lec.setLectureid(rs.getInt("lectureid"));
+                lec.setThumbnail(rs.getString("thumbnail"));
+                lec.setL_title(rs.getString("l_title"));
+                lec.setL_text(rs.getString("l_text"));
+                lec.setText_image(rs.getString("text_image"));
+                lec.setRec_dt(rs.getString("rec_dt"));
+                lec.setRec_target(rs.getString("rec_target"));
+                lec.setRec_num(rs.getString("rec_num"));
+                lec.setL_date(rs.getString("l_date"));
+                lec.setL_keyword(rs.getString("l_keyword"));
+                lec.setPrice(rs.getString("price"));
+                lec.setAgree(rs.getInt("agree"));
+                lec.setTeacher(rs.getInt("teacher"));
+                lec.setTeacher_num(rs.getInt("teacher_num"));
+                lec.setStaffe(rs.getInt("staffe"));
+                lec.setStaffe_num(rs.getInt("staffe_num"));
+                lec.setQual(rs.getString("qualification"));
+                lec.setHost(rs.getString("host"));
+                lec.setL_state(rs.getString("l_state"));
+                lec.setL_grade(rs.getString("l_grade"));
+                list.add(lec);
+                
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
+
+        }
+        
+        return list;
+    }
+    
+    public String getLectureTable(ArrayList<LectureDto> list){
+
+        StringBuilder buffer = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            String str = list.get(i).getL_date();
+            String[] strAry =  str.split("%");
+            
+            buffer.append("<div class=\"swiper-slide\">"
+                    + "<div class =\"card_thumbnail\">"
+                    + " <a href=\"lecture/lecture_notice?lecture="+list.get(i).getLectureid()+"\">"
+                    + " <img src=\"assets/img/"+list.get(i).getThumbnail()+"\"></a>"
+                    + "</div>"
+                    + "<div class=\"me-2 pt-2 row\">"
+                    + "<a href=\"lecture/lecture_notice?lecture="+list.get(i).getLectureid()+"\" class=\"thumnail-date\">"
+                    + strAry[0] + " - " +strAry[1]
+                    + "<div class=\"thumnail-explain pt-2\">"
+                    + list.get(i).getL_title()
+                    + "<div class=\"row justify-content-between pt-3 ps-3\">"
+                    + "<div class=\"thumbnail-pirce col-auto\">"
+                    + list.get(i).getPrice()+"\\</div>"
+                    + "<div class=\"thumbnail-view col-auto\">"
+                    + "조회수 "+list.get(i).getSel_count()
+                    +"</div>"
+                    +"</div>"
+                    +"</div>"
+                    +"</a>"
+                    +"</div>"
+                    +"</div>");   
+        }
+
+        return buffer.toString();
+
     public boolean uploadMateria(HikariConfiguration dbConfig,String path, MultipartFile materia, String lecid, String id){
         boolean success=false;
         String sql = "insert into materia values(default, default, ?,?,?)";
@@ -217,6 +308,7 @@ public class Lecture {
         }
             
         return success;
+
     }
 }
 
