@@ -4,6 +4,35 @@
  */
 
 
+//학교 정보 입력 스크립트
+function showSchoolInfo() {
+    var schooltype = document.getElementById("schooltype").value;
+    var schoolinfo = document.getElementById("schoolinfo");
+    if (schooltype == "university") {
+        schoolinfo.innerHTML = `
+                        <label for="school">학교:</label>
+                        <input type="text" id="school" name="school" required style="width:auto"><br><br>
+                        <label for="major">학과:</label>
+                        <input type="text" id="major" name="major" required style="width:auto"><br><br>
+                        <label for="grade">학년:</label>
+                        <input type="text" id="grade" name="grade" required style="width:auto"><br><br>
+                        <label for="status">상태:</label>
+                        <input type="text" id="status" name="status" required style="width:auto"><br><br>
+                    `;
+    } else if (schooltype == "elementary" || schooltype == "middle" || schooltype == "high") {
+        schoolinfo.innerHTML = `
+                        <label for="school">학교:</label>
+                        <input type="text" id="school" name="school" required style="width:auto"><br><br>
+                        <label for="grade">학년:</label>
+                        <input type="text" id="grade" name="grade" required style="width:auto"><br><br>
+                        <input type="hidden" id="status" name="status" value ="">
+                        <input type="hidden" id="major" name="major" value="" >
+                    `;
+    } else {
+        schoolinfo.innerHTML = "";
+    }
+}
+
 //주소 입력 스크립트
 function sample6_execDaumPostcode() {
     new daum.Postcode({
@@ -58,60 +87,69 @@ var subcategoryContainer = document.getElementById('subcategoryContainer');
 var subcategoryGroups = Array.from(subcategoryContainer.getElementsByClassName('subcategory-group'));
 var selectedSubcategoriesContainer = document.getElementById('selectedSubcategories');
 var selectedSubcategories = new Array(); // 선택한 소분류를 저장할 배열
-var itArr = [["Web","모바일","IoT","네트워크","프로그래밍 언어"],["web","mobile","iot","network","proraming"]];
-var selfImproArr= [["취업", "힐링", "운동","취미"],["employ","healing","sport","hobby"]];
-var musicArr= [["K-pop", "클래식", "국악", "힙합"],["kpop","classic","gukak","hiphop"]];
-var economyArr= [["주식","펀드","회계"],["stock","fund","accounting"]];
-var artArr = [["서양화","동양화","서예","조소"],["wpaint","epaint","calligraphy","sculpture"]];
-var enginArr= [["건축","기계","생명"],["architecture","engineering","life"]];
-var mediaArr = [["신문","영상","사진"],["newspaper","video","photo"]];
-var languageArr = [["영어","일본어","중국어","아랍어"],["eng","japan","china","arab"]];
+var itArr = [["Web", "모바일", "IoT", "네트워크", "프로그래밍 언어"], ["web", "mobile", "iot", "network", "proraming"]];
+var selfImproArr = [["취업", "힐링", "운동", "취미"], ["employ", "healing", "sport", "hobby"]];
+var musicArr = [["K-pop", "클래식", "국악", "힙합"], ["kpop", "classic", "gukak", "hiphop"]];
+var economyArr = [["주식", "펀드", "회계"], ["stock", "fund", "accounting"]];
+var artArr = [["서양화", "동양화", "서예", "조소"], ["wpaint", "epaint", "calligraphy", "sculpture"]];
+var enginArr = [["건축", "기계", "생명"], ["architecture", "engineering", "life"]];
+var mediaArr = [["신문", "영상", "사진"], ["newspaper", "video", "photo"]];
+var languageArr = [["영어", "일본어", "중국어", "아랍어"], ["eng", "japan", "china", "arab"]];
 
 categorySelect.addEventListener('change', function () {
     var arr;
     var checkOnOff = "";
     var selectedCategory = this.value + "Gruop";
     var keyword = "";
-    if ( this.value === "" ){
+    if (this.value === "") {
         subcategoryContainer.style.display = 'none';
-    }else{
-        if(this.value === "it") {arr = itArr;}
-        else if(this.value === "selfImpro") {arr = selfImproArr;}
-        else if(this.value === "music") {arr = musicArr;}
-        else if(this.value === "economy") {arr = economyArr;}
-        else if(this.value === "art") {arr = artArr;}
-        else if(this.value === "engin") {arr = enginArr;}
-        else if(this.value === "media") {arr = mediaArr;}
-        else if(this.value === "language") {arr = languageArr;}
+    } else {
+        if (this.value === "it") {
+            arr = itArr;
+        } else if (this.value === "selfImpro") {
+            arr = selfImproArr;
+        } else if (this.value === "music") {
+            arr = musicArr;
+        } else if (this.value === "economy") {
+            arr = economyArr;
+        } else if (this.value === "art") {
+            arr = artArr;
+        } else if (this.value === "engin") {
+            arr = enginArr;
+        } else if (this.value === "media") {
+            arr = mediaArr;
+        } else if (this.value === "language") {
+            arr = languageArr;
+        }
         subcategoryContainer.style.display = 'block';
-        for(i=0;i<arr[0].length;i++){
-            if(selectedSubcategories.includes(`${arr[1][i]}`)){
-                checkOnOff="checked";
-            }else{
-                checkOnOff="";
+        for (i = 0; i < arr[0].length; i++) {
+            if (selectedSubcategories.includes(`${arr[1][i]}`)) {
+                checkOnOff = "checked";
+            } else {
+                checkOnOff = "";
             }
             keyword += `<label><input type="checkbox" name="subcategory" value="${arr[1][i]}" ${checkOnOff}>${arr[0][i]}</label>`;
         }
-        subcategoryContainer.innerHTML = `<div id="${selectedCategory}" class="subcategory-group">${keyword}</div>`; 
+        subcategoryContainer.innerHTML = `<div id="${selectedCategory}" class="subcategory-group">${keyword}</div>`;
     }
 });
 
 subcategoryContainer.addEventListener('change', function (check) {
-    
-    if(check.target.checked===true){//체크 시 목록 추가
+
+    if (check.target.checked === true) {//체크 시 목록 추가
         // 최대 3개의 소분류만 선택 가능
         if (selectedSubcategories.length === 3) {
             // 초과된 항목의 체크 해제
-            check.target.checked=false;
+            check.target.checked = false;
             // 부트스트랩의 알림 메시지 표시
             alert('최대 3개의 소분류만 선택할 수 있습니다.');
-        }else{
+        } else {
             // 선택한 항목들을 배열에 저장
             selectedSubcategories.push(check.target.value);
         }
-    }else{//체크 해제시 목록에서 제거
-        selectedSubcategories.splice(selectedSubcategories.indexOf(check.target.value),1);
-        
+    } else {//체크 해제시 목록에서 제거
+        selectedSubcategories.splice(selectedSubcategories.indexOf(check.target.value), 1);
+
     }
     // 선택된 소분류들을 동적으로 출력
     showSelectedSubcategories();

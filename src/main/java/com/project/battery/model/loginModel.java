@@ -20,23 +20,9 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Slf4j
 public class loginModel {
-
-    private String mysqlServerIp;
-    private String mysqlServerPort;
-    private String userName;
-    private String pass;
-    private String jdbcDriver;
+    private String user;
     private HikariConfiguration dbConfig;
 
-   /* public loginModel(String mysqlServerIp, String mysqlServerPort, String userName, String pass, String jdbcDriver) {
-        this.mysqlServerIp = mysqlServerIp;
-        this.mysqlServerPort = mysqlServerPort;
-        this.userName = userName;
-        this.pass = pass;
-        this.jdbcDriver = jdbcDriver;
-        log.debug("AddrBookManager(): mysqlServerIp = {}, jdbvDriver = {}", mysqlServerIp, jdbcDriver);
-    }
-*/
     public loginModel(HikariConfiguration dbConfig) {
         this.dbConfig = dbConfig;
     }
@@ -54,6 +40,7 @@ public class loginModel {
 
             if (rs.next()) {
                 String user = rs.getString("userid");
+                setUser(user);
                 return true;
             }
             rs.close();
@@ -64,5 +51,13 @@ public class loginModel {
             log.error("오류가 발생했습니다. (발생 오류: {})", ex.getMessage());
         }
         return false;
+    }
+    
+    public void setUser(String user){
+        this.user = user;
+    }
+    
+    public String getUser(){
+        return user;
     }
 }

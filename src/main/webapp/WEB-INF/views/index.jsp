@@ -66,7 +66,6 @@
 
             <div class="pt-3 pb-2" id="navigation">
                 <ul class="navbar-nav ms-auto d-flex flex-row">
-
                     <li class="nav-item mx-2 flex-grow-1">
                         <c:set var="host" value="${sessionScope.host}"/>
                         <c:set var="logout" value="redirect:/"/>
@@ -145,6 +144,7 @@
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
+
         </div>
     </header>
     <!--end 캐러셀-->
@@ -174,54 +174,7 @@
         <!-- Swiper -->
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="card thumbnail">
-                        <a href="lecture/lecture_notice?lecture=15&page=1"><img src="assets/img/머신러닝.png"></a>
-                    </div>
-                    <div class="me-2 pt-2 row"> <!--margin 설정 요함..-->
-                        <a href="lecture/lecture_notice?lecture=15&page=1" class="thumnail-date">
-                            2023-5-8
-                            <div class="thumnail-explain pt-2">
-                                머신러닝 관련 강의
-                                <div class="row justify-content-between pt-3 ps-3">
-                                    <div class="thumbnail-pirce col-auto">
-                                        10000￦</div>
-                                    <div class="thumbnail-view col-auto">
-                                        조회수 100
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="card thumbnail">
-                        <a href="#"><img src="assets/img/요가.webp"></a>
-                    </div>
-                    <div class="me-2 pt-2 row">
-                        <a href="#" class="thumnail-date">
-                            2023-5-8
-                            <div class="thumnail-explain pt-2">
-                                요가 관련 강의
-                                <div class="row justify-content-between pt-3 ps-3">
-                                    <div class="thumbnail-pirce col-auto">
-                                        12000￦</div>
-                                    <div class="thumbnail-view col-auto">
-                                        조회수 97
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="swiper-slide">Slide 3</div>
-                <div class="swiper-slide">Slide 4</div>
-                <div class="swiper-slide">Slide 5</div>
-                <div class="swiper-slide">Slide 6</div>
-                <div class="swiper-slide">Slide 7</div>
-                <div class="swiper-slide">Slide 8</div>
-                <div class="swiper-slide">Slide 9</div>
+                    ${lecturelist}
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
