@@ -4,7 +4,6 @@
 <html lang="ko" itemscope itemtype="http://schema.org/WebPage">
 
     <head>
-
         <script src="./js/kakao_api/kakao_login.js" type="text/javascript"></script>
         <!-- 카카오 js -->
         <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>

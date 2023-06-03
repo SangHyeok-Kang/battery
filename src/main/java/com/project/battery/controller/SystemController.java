@@ -43,11 +43,11 @@ public class SystemController {
 
     @Autowired
     private HikariConfiguration dbConfig;
-    
+
     ArrayList<LectureDto> list = new ArrayList<LectureDto>();
 
     @GetMapping("/")
-    public String projectMain(Model model) {   
+    public String projectMain(Model model) {
         Lecture lec = new Lecture(dbConfig);
         list = lec.getLecture();
         String result = lec.getLectureTable(list);
@@ -72,27 +72,23 @@ public class SystemController {
     public String businessSignUp() {
         return "/business-sign-up";
     }
-    
+
     @PostMapping(value = "/login.do")
     public String loginDo(@RequestParam String chk_state, @RequestParam String userid, @RequestParam String password, RedirectAttributes attrs) {
         String urls = "";
 
         loginModel lm_model = new loginModel(dbConfig);
         result = lm_model.loginResult(chk_state, userid, password);
-        String user = lm_model.getUser();
-        int state = lm_model.getState();
         if (result == true) {
-            session.setAttribute("host", user);
-            session.setAttribute("state", state); //일반회원(0) 로그인 상태 세션 저장
-            if (state == 0) urls = "redirect:/";
-            else urls = "/host-center";
+            session.setAttribute("host", lm_model.getUser());
+            session.setAttribute("state", lm_model.getState()); //일반회원(0) 로그인 상태 세션 저장
+            urls = "redirect:/";
         } else {
-            attrs.addFlashAttribute("msg","로그인에 실패하였습니다.");
+            attrs.addFlashAttribute("msg", "로그인에 실패하였습니다.");
             urls = "redirect:/sign-in";
         }
         return urls;
     }
-
 
     @PostMapping("/normal_signup.do")
     public String insertNormalUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
@@ -124,11 +120,12 @@ public class SystemController {
         }
         return "/signup_result";
     }
+
     @GetMapping("/logout.do")
-    public String logoutDo(RedirectAttributes attrs){
-        if(session.getAttribute("host") != null){
+    public String logoutDo(RedirectAttributes attrs) {
+        if (session.getAttribute("host") != null) {
             session.invalidate();
-            attrs.addFlashAttribute("msg","로그아웃하였습니다.");
+            attrs.addFlashAttribute("msg", "로그아웃하였습니다.");
         }
         return "redirect:/";
 

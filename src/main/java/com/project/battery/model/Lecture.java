@@ -6,10 +6,6 @@ package com.project.battery.model;
 
 
 import com.project.battery.dto.LectureDto;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import com.project.battery.service.FileService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,9 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,43 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 @NoArgsConstructor
 public class Lecture {
-    
-    @Getter@Setter private String thumnail = null; //1. 썸네일 url
-    @Getter@Setter private String title= null; //2. 강의명
-    @Getter@Setter private String text= null; // 3. 강의 내용
-    @Getter@Setter private String text_image= null; // 4. 강의 내용
-    @Getter@Setter private String postcode= null; //장소
-    @Getter@Setter private String address= null; 
-    @Getter@Setter private String detail= null;
-    @Getter@Setter private String extra= null;
-    @Getter@Setter private String rec_dt= null; //5. 모집기간
-    @Getter@Setter private String rec_target= null; //6. 모집 대상
-    @Getter@Setter private int rec_num = 0; // 7. 모집 인원
-    @Getter@Setter private String datelist= null; // 8. 교육 기간
-    @Getter@Setter private String keyword= null; // 9. 키워드
-    @Getter@Setter private String price= null; // 10. 가격
-    @Getter@Setter private int agree = 0; // 11. 자동 수락 동의(선착순)
-    @Getter@Setter private int teacher = 0; // 12. 강사 모집
-    @Getter@Setter private int teacher_num = 0;//13. 강사 인원 수
-    @Getter@Setter private int staffe = 0; // 14. 스탭 모집
-    @Getter@Setter private int staffe_num = 0;//15. 스탭 인원 수
-    @Getter@Setter private String qualification= null; //16.모집 조건 작성
-    @Getter@Setter private String resume= null; //18. 지원서 양식
-    @Getter@Setter private String host= null; // 19. 강의자
-    @Getter@Setter private Double grade = 0.0; // 20. 별점
-    @Getter private int matCo;
-    @Getter private String filename;
-    @Getter private String fileuploader;
-    @Getter private String filedate;
 
-    //학습자료 정보 관리를 위한 생성자
-    public Lecture(int matCo, String filename, String fileuploader, String filedate) {
-        this.matCo = matCo;
-        this.filename = filename;
-        this.fileuploader = fileuploader;
-        this.filedate = filedate;
-    }
-    
     DataSource ds = null;
     Connection conn = null;
     PreparedStatement pstmt = null;
@@ -84,7 +42,7 @@ public class Lecture {
         this.dbConfig = dbConfig;
     }
     
-    public Boolean insertLecture(HikariConfiguration dbConfig, Lecture lecture,MultipartFile thumnail,MultipartFile text_image,MultipartFile resume, String[] path){
+    public Boolean insertLecture(HikariConfiguration dbConfig, LectureDto lecture,MultipartFile thumnail,MultipartFile text_image,MultipartFile resume, String[] path){
         boolean success=false;
         String sql = "INSERT INTO lecture values (default,default,?,?,default,?,?,?,?,?,?,?,?,?,?,?,?,default,?,default,0)";
         String addressSQL = "INSERT INTO address values (default,?,?,?,?,?,1)";
@@ -101,7 +59,7 @@ public class Lecture {
             pstmt.setString(3, lecture.getRec_dt());
             pstmt.setString(4,lecture.getRec_target());
             pstmt.setInt(5,lecture.getRec_num());
-            pstmt.setString(6,lecture.getDatelist());
+            pstmt.setString(6,lecture.getDate());
             pstmt.setString(7,lecture.getKeyword());
             pstmt.setString(8,lecture.getPrice());
             pstmt.setInt(9, lecture.getAgree());
@@ -109,7 +67,7 @@ public class Lecture {
             pstmt.setInt(11,lecture.getTeacher_num());
             pstmt.setInt(12,lecture.getStaffe());
             pstmt.setInt(13,lecture.getStaffe_num());
-            pstmt.setString(14, lecture.getQualification());
+            pstmt.setString(14, lecture.getQual());
             pstmt.setString(15,lecture.getHost());
             
             if( pstmt.executeUpdate() == 1){
@@ -160,27 +118,27 @@ public class Lecture {
     
 
     public ArrayList<LectureDto> getLecture(){
-        javax.sql.DataSource ds = dbConfig.dataSource();
+        
         try {
-            Connection conn = ds.getConnection();
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
             Statement stmt = conn.createStatement();
-            stmt = conn.createStatement();
-            String sql = "SELECT * FROM lecture ";
-            ResultSet rs = stmt.executeQuery(sql);
+            String sql = "SELECT * FROM lecture";
+            rs = stmt.executeQuery(sql);
 
 
             while (rs.next()) {
                 LectureDto lec = new LectureDto();
                 lec.setLectureid(rs.getInt("lectureid"));
                 lec.setThumbnail(rs.getString("thumbnail"));
-                lec.setL_title(rs.getString("l_title"));
-                lec.setL_text(rs.getString("l_text"));
+                lec.setTitle(rs.getString("l_title"));
+                lec.setText(rs.getString("l_text"));
                 lec.setText_image(rs.getString("text_image"));
                 lec.setRec_dt(rs.getString("rec_dt"));
                 lec.setRec_target(rs.getString("rec_target"));
-                lec.setRec_num(rs.getString("rec_num"));
-                lec.setL_date(rs.getString("l_date"));
-                lec.setL_keyword(rs.getString("l_keyword"));
+                lec.setRec_num(rs.getInt("rec_num"));
+                lec.setDate(rs.getString("l_date"));
+                lec.setKeyword(rs.getString("l_keyword"));
                 lec.setPrice(rs.getString("price"));
                 lec.setAgree(rs.getInt("agree"));
                 lec.setTeacher(rs.getInt("teacher"));
@@ -189,8 +147,8 @@ public class Lecture {
                 lec.setStaffe_num(rs.getInt("staffe_num"));
                 lec.setQual(rs.getString("qualification"));
                 lec.setHost(rs.getString("host"));
-                lec.setL_state(rs.getString("l_state"));
-                lec.setL_grade(rs.getString("l_grade"));
+                lec.setState(rs.getString("l_state"));
+                lec.setGrade(rs.getDouble("l_grade"));
                 list.add(lec);
                 
             }
@@ -210,7 +168,7 @@ public class Lecture {
 
         StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
-            String str = list.get(i).getL_date();
+            String str = list.get(i).getDate();
             String[] strAry =  str.split("%");
             
             buffer.append("<div class=\"swiper-slide\">"
@@ -222,7 +180,7 @@ public class Lecture {
                     + "<a href=\"lecture/lecture_notice?lecture="+list.get(i).getLectureid()+"\" class=\"thumnail-date\">"
                     + strAry[0] + " - " +strAry[1]
                     + "<div class=\"thumnail-explain pt-2\">"
-                    + list.get(i).getL_title()
+                    + list.get(i).getTitle()
                     + "<div class=\"row justify-content-between pt-3 ps-3\">"
                     + "<div class=\"thumbnail-pirce col-auto\">"
                     + list.get(i).getPrice()+"\\</div>"
@@ -262,8 +220,8 @@ public class Lecture {
         return success;
     }
     
-    public List<Lecture> getMateriaList(HikariConfiguration dbConfig, int lectureid){
-        List<Lecture> list = new ArrayList<>();
+    public List<LectureDto> getMateriaList(HikariConfiguration dbConfig, int lectureid){
+        List<LectureDto> list = new ArrayList<>();
         String sql = "select materiaurl, uploader, date from materia where lectureid=? order by date asc";
         int co = 1;
         
@@ -274,7 +232,7 @@ public class Lecture {
             pstmt.setInt(1, lectureid);
             rs = pstmt.executeQuery();
             while(rs.next()){
-                list.add(new Lecture(co, rs.getString("materiaurl").substring(rs.getString("materiaurl").lastIndexOf("\\")+1),
+                list.add(new LectureDto(co, rs.getString("materiaurl").substring(rs.getString("materiaurl").lastIndexOf("\\")+1),
                         rs.getString("uploader"),rs.getString("date")));
                 co++;
             }

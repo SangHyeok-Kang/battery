@@ -567,6 +567,10 @@
                                                             </div>
                                                             <div id="container">
                                                                 <%-- 스태프 모집 사용 시 추가  --%>
+                                                                
+                                                            </div>
+                                                            <div class="input-group input-group-outline" id="staffefile" style="display:none">
+                                                                <input type="file" id="resume" name="resume" />
                                                             </div>
                                                         </td>
                                                     </tr>
