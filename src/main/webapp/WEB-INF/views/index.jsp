@@ -68,7 +68,6 @@
                 <ul class="navbar-nav ms-auto d-flex flex-row">
                     <li class="nav-item mx-2 flex-grow-1">
                         <c:set var="host" value="${sessionScope.host}"/>
-                        <c:set var="logout" value="redirect:/"/>
                         <c:choose>
                             <c:when test="${host eq null}">
                                 <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="sign-in" id="signIn">로그인</a>
@@ -81,12 +80,11 @@
                     <li class="nav-item mx-2 flex-grow-1">
                         <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="host-center" id="hostCenter">호스트센터</a>
                     </li>
-                    <li class="nav-item mx-2 flex-grow-1">
-                        <c:if test="${host ne null}">
-                            <c:set var="logout" value="logout.do"/>
-                        </c:if>
-                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="${logout}" id="logout">로그아웃</a>
-                    </li>
+                    <c:if test="${host ne null}">
+                        <li class="nav-item mx-2 flex-grow-1">
+                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="logout.do" id="logout">로그아웃</a>
+                        </li>
+                    </c:if>
                 </ul>
             </div>
 
