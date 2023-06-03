@@ -89,7 +89,7 @@ public class AddUserManager {
         }
     }
 
-    public void addRow(String userid, String password, String name, String phone, String com_name, String postcode, String detail, String address, String extra) {
+    public void addRow(String userid, String password, String business_name, String phone, String ceo_name, String postcode, String detail, String address, String extra) {
         javax.sql.DataSource ds = dbConfig.dataSource();
 
         try {
@@ -99,8 +99,8 @@ public class AddUserManager {
 
             pstmt.setString(1, userid);
             pstmt.setString(2, password);
-            pstmt.setString(3, com_name);
-            pstmt.setString(4, name);
+            pstmt.setString(3, business_name);
+            pstmt.setString(4, ceo_name);
             pstmt.setString(5, phone);
 
             pstmt.executeUpdate();
@@ -123,4 +123,6 @@ public class AddUserManager {
             log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
         }
     }
+    
+    
 }
