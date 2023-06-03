@@ -74,16 +74,18 @@ public class SystemController {
     }
     
     @PostMapping(value = "/login.do")
-    public String loginDo(@RequestParam String userid, @RequestParam String password, RedirectAttributes attrs) {
+    public String loginDo(@RequestParam String chk_state, @RequestParam String userid, @RequestParam String password, RedirectAttributes attrs) {
         String urls = "";
 
         loginModel lm_model = new loginModel(dbConfig);
-        result = lm_model.loginResult(userid, password);
+        result = lm_model.loginResult(chk_state, userid, password);
         String user = lm_model.getUser();
+        int state = lm_model.getState();
         if (result == true) {
             session.setAttribute("host", user);
-            session.setAttribute("state", 0); //일반회원(0) 로그인 상태 세션 저장
-            urls = "/index";
+            session.setAttribute("state", state); //일반회원(0) 로그인 상태 세션 저장
+            if (state == 0) urls = "/index";
+            else urls = "/host-center";
         } else {
             attrs.addFlashAttribute("msg","로그인에 실패하였습니다.");
             urls = "redirect:/sign-in";
