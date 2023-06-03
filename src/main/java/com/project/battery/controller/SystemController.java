@@ -52,6 +52,11 @@ public class SystemController {
         return "/sign-up";
     }
     
+    @GetMapping("/business-sign-up")
+    public String businessSignUp() {
+        return "/business-sign-up";
+    }
+    
     @PostMapping(value = "/login.do")
     public String loginDo(@RequestParam String userid, @RequestParam String password, Model model) {
         String urls = "";

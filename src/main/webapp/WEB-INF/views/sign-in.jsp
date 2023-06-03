@@ -78,7 +78,7 @@
                         </div>
                         <div class="col text-center">
                             비즈니스 회원
-                            <button type="button" class="btn btn-outline-info w-100 my-4 mb-2">가입하기</button>
+                            <button type="button" onclick="location.href = 'business-sign-up'" class="btn btn-outline-info w-100 my-4 mb-2">가입하기</button>
                         </div>
                         <div class="mb-5"></div>
                     </div>
