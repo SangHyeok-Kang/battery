@@ -66,6 +66,7 @@ public class FileService {
         }
     }
     
+    //웹상에서 파일 다운로드 함수
     public final static ResponseEntity<Resource> downloadFile(String url, String filename,HttpHeaders headers){
         //파일의 Content-Type 찾기
         Path path = Paths.get(url + File.separator + filename);

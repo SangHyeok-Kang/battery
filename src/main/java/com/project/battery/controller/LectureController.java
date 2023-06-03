@@ -5,6 +5,7 @@
 package com.project.battery.controller;
 
 import com.project.battery.model.HikariConfiguration;
+import com.project.battery.model.Lecture;
 import com.project.battery.model.Notice;
 import com.project.battery.service.FileService;
 import com.project.battery.service.PagingService;
@@ -25,7 +26,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -121,13 +121,10 @@ public class LectureController {
     
     @GetMapping("/lecture/lecture_materia")
     public String lecturemateria(Model model, @RequestParam("page") int page){
+        /*
         List<String> filename = new ArrayList<>();
         List<String> pagingfilename = new ArrayList<>();
-        for(File f : new File(ctx.getRealPath(this.materia_folder) + File.separator + (String)session.getAttribute("lecture")).listFiles()){
-            for(File file : new File(f.getAbsolutePath()).listFiles()){
-                filename.add(file.getName());
-            }
-        }
+        
         PagingService paging = new PagingService(page, filename.size());
         if (!filename.isEmpty()) {
             //출력할 메시지 목록만 슬라이싱
@@ -137,15 +134,15 @@ public class LectureController {
         }
         model.addAttribute("filelist",pagingfilename);
         model.addAttribute("paging",paging);
+*/
         return "lecture/lecture_materia";
     }
     
     @PostMapping("/lecture/uploadMateria.do")
     public String uploadMateria(@RequestParam(name="materia",required=false) MultipartFile materia,RedirectAttributes attrs){
-        String str =FileService.insertFolder(ctx.getRealPath(this.materia_folder), 
+        if(new Lecture().uploadMateria(dbConfig,ctx.getRealPath(this.materia_folder), 
                                         materia, (String)session.getAttribute("lecture"), 
-                                        (String)session.getAttribute("host"));
-        if(!str.equals("")){
+                                        (String)session.getAttribute("host"))){
             attrs.addFlashAttribute("msg", "파일 업로드에 성공하였습니다.");
         }else{
             attrs.addFlashAttribute("msg", "파일 업로드에 실패하였습니다.");
@@ -162,4 +159,15 @@ public class LectureController {
         }
         return FileService.downloadFile(url, filename,new HttpHeaders());  
     }
+    
+    @GetMapping("/lecture/del_materia.do")
+    public String delMateria(@RequestParam("name") String filename){
+        String url ="";
+        for(File f : new File(ctx.getRealPath(this.materia_folder) + File.separator + (String)session.getAttribute("lecture")).listFiles()){
+            url = f.getAbsolutePath();
+            System.out.println(url);
+        }
+        return String.format("redirect:/lecture/lecture_materia?lecture=%s&page=1", (String)session.getAttribute("lecture"));
+    }
+                
 }

@@ -13,28 +13,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>JSP Page</title>
+        <script type="text/javascript" src="../js/lecture.js" ></script>
         <script>
             <c:if test="${!empty msg}">
                 alert("${msg}");
             </c:if>
-            //강의실 학습자료 업로드
-            clickcount = 0;
-            function insertFile(){
-                var nodes = document.getElementById("uploadMateria");
-                clickcount++;
-                if(clickcount%2 === 0){
-                    nodes.innerHTML = ``;
-                }else{
-                    nodes.innerHTML = `<form action="uploadMateria.do" method="POST" enctype="multipart/form-data">
-                                        <input type="file" id="materia" name="materia">
-                                        <span onclick="delMateria()">x</span>
-                                        <input type="submit" value="업로드하기"/>
-                                        </form>`;
-                }
-            }
-            function delMateria(){
-                document.getElementById("materia").value='';
-            }
+            
         </script>
     </head>
     <body>
@@ -43,11 +27,32 @@
             <c:if test="${sessionScope.hostState eq 'business'}">
                 <a onclick="insertFile()" id="upload">학습자료 업로드하기</a>
                 <div id="uploadMateria"></div>
-                <a >삭제하기</a>
             </c:if>
-                <c:forEach items="${filelist}" var="file">
-                    <a href="materiadownload.do?filename=${file}">${file}</a>
-                </c:forEach>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <td>No.</td>
+                            <td>파일 명</td>
+                            <td>작성자</td>
+                            <td>등록 날짜</td>
+                            <c:if test="${sessionScope.hostState eq 'business'}">
+                                <td></td>
+                            </c:if>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${filelist}" var="file">
+                            <tr>
+                                <td><a href="materiadownload.do?filename=${file}">${file}</a></td>
+                                <c:if test="${sessionScope.hostState eq 'business'}">
+                                    <td><a onclick="delMateria(`${file}`)" id="del_materia">삭제</a></td>
+                                </c:if>
+                            </tr>
+                        </c:forEach>
+                    </tbody>
+                </table>
+                    
+                
             <c:if test="${paging}!=null">
                 <c:forEach var="num" begin="${paging.getFirst()}" end="${paging.getLast()}">
                     <a href="lecture_notice?lecture=${param.lecture}&page=${num}">${num}</a>

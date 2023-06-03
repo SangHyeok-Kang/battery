@@ -135,6 +135,30 @@ public class Lecture {
         }
         return success;
     }
+    
+    public boolean uploadMateria(HikariConfiguration dbConfig,String path, MultipartFile materia, String lecid, String id){
+        boolean success=false;
+        String sql = "insert into materia values(default, default, ?,?,?)";
+        
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, FileService.insertFolder(path,
+                                        materia, lecid, id));
+            pstmt.setInt(2, Integer.parseInt(lecid));
+            pstmt.setString(3, id);
+            if(pstmt.executeUpdate() == 1){
+                success = true;
+            }else{
+                log.debug("학습자료 입력 실패 host={}, lecture={}",id,lecid);
+            }
+       
+        } catch (SQLException ex) {
+            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return success;
+    }
 }
 
 
