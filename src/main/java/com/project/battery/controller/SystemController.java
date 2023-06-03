@@ -9,6 +9,7 @@ import com.project.battery.model.AddUserManager;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
 import com.project.battery.model.loginModel;
+import com.project.battery.model.userInfo;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -94,7 +96,7 @@ public class SystemController {
         return urls;
     }
 
-    @PostMapping("/normal_signup.do")
+    @PostMapping("/sign-up.do")
     public String insertNormalUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
             @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String birthdate, @RequestParam String school,
             @RequestParam String major, @RequestParam String grade, @RequestParam String status, @RequestParam List<String> subcategory,
@@ -133,5 +135,101 @@ public class SystemController {
         }
         return "redirect:/";
 
+    }
+    
+     //TEST
+    
+    @GetMapping("/test")
+    public String login() {
+        return "test";
+    }
+    
+    // id찾을껀지 비밀번호 찾을껀지 선택하는 페이지
+     @GetMapping("/select_findinfo")
+    public String selectFindinfo() {
+        return "select_findinfo";
+    }
+
+    @GetMapping("/findid")
+    public String findidPage() {
+        return "findid";
+    }
+
+    @GetMapping("/findpass")
+    public String findpassPage() {
+        return "findpass";
+    }
+
+    @GetMapping("/changepw")
+    public String changepwPage() {
+        return "changepw";
+    }
+
+    // 아이디 찾기
+    @RequestMapping("/findid.do")
+    public String findIdDo(@RequestParam String name, @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, Model model) {
+        
+        String phone = phone1 + "-" + phone2 + "-" + phone3;
+        loginModel lm_model = new loginModel(dbConfig);
+
+        userInfo user;
+
+        user = lm_model.findIdResult(name, phone);
+        // 이름과 전화번호로 아이디를 찾는 비즈니스 로직 수행
+
+        if (user != null) {
+
+            model.addAttribute("msg", user.getUsername() + "님의 ID는 " + user.getUserid() + "입니다.");
+        } else {
+            model.addAttribute("msg", "일치하는 정2보가 없습니다.");
+
+        }
+
+        return "test"; // 결과를 보여줄 view의 이름
+    }
+
+    // 비밀번호 찾기
+    @RequestMapping("/findpass.do")
+    public String findPwDo(@RequestParam String userid, @RequestParam String name, @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, Model model) {        
+      String phone = phone1 + "-" + phone2 + "-" + phone3;
+      loginModel lm_model = new loginModel(dbConfig);
+      userInfo user;
+
+        user = lm_model.findPwResult(userid, name, phone);
+        // 이름과 전화번호로 아이디를 찾는 비즈니스 로직 수행
+
+        if (user != null) {
+            model.addAttribute("msg", user.getUsername() + "님 비밀번호를 새로 변경해주세요");
+            model.addAttribute("id", user.getUserid());
+            return "changepw";
+        } else {
+            model.addAttribute("msg", "일치하는 정보가 없습니다.");
+        }
+
+        return "findpass";
+    }
+
+    // 비밀번호 변경
+    @RequestMapping("/changePw.do")
+    public String changePw(@RequestParam String userid, @RequestParam String pass1, @RequestParam String pass2, Model model) {
+
+        log.info(userid);
+        log.info(pass1);
+        log.info(pass2);
+
+        if (!pass1.equals(pass2)) {
+            // 오류띄우고
+            model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
+            return "changepw";
+
+        } else {            
+
+           loginModel lm_model = new loginModel(dbConfig);
+           lm_model.changePw(userid, pass1);
+
+            //변경 완료 알림
+            model.addAttribute("msg", "비밀번호가 정상적으로 변경되었습니다.");
+            return "test"; // 결과를 보여줄 view의 이름
+        }
     }
 }
