@@ -26,10 +26,14 @@
                     nodes.innerHTML = ``;
                 }else{
                     nodes.innerHTML = `<form action="uploadMateria.do" method="POST" enctype="multipart/form-data">
-                                        <input type="file" name="materia">
+                                        <input type="file" id="materia" name="materia">
+                                        <span onclick="delMateria()">x</span>
                                         <input type="submit" value="업로드하기"/>
                                         </form>`;
                 }
+            }
+            function delMateria(){
+                document.getElementById("materia").value='';
             }
         </script>
     </head>
@@ -38,9 +42,8 @@
         <div>
             <c:if test="${sessionScope.hostState eq 'business'}">
                 <a onclick="insertFile()" id="upload">학습자료 업로드하기</a>
-                <div id="uploadMateria">
-
-                </div>
+                <div id="uploadMateria"></div>
+                <a >삭제하기</a>
             </c:if>
                 <c:forEach items="${filelist}" var="file">
                     <a href="materiadownload.do?filename=${file}">${file}</a>
