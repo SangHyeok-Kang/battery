@@ -121,7 +121,7 @@ public class SystemController {
             model.addAttribute("url", "/sign-up");
         }
         return "/signup_result";
-
+    }
     @GetMapping("/logout.do")
     public String logoutDo(RedirectAttributes attrs){
         if(session.getAttribute("host") != null){

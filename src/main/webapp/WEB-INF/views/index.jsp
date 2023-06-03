@@ -113,9 +113,7 @@
                     <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
                          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide"
                          preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#777"></rect><text x="50%" y="50%" fill="#555" dy=".3em">
-                    1</text>
+                        <image href="banner\힙합교실.png" height="100%" width="100%" alt="힙합교실.png"></image>
                     </svg>
                 </div>
                 <div class="carousel-item">
