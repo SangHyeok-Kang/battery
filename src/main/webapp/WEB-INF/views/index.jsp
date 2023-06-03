@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import = "java.util.ResourceBundle" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!--
 =========================================================
 * Material Kit 2 - v3.0.4
@@ -24,7 +26,6 @@
 <html lang="ko" itemscope itemtype="http://schema.org/WebPage">
 
     <head>
-        <%@page contentType="text/html" pageEncoding="UTF-8"%>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         <!--bootstrap-->
@@ -77,7 +78,7 @@
                             </c:otherwise>
                         </c:choose>
                     </li>
-                    <c:if test="${sessionScope.state eq 0}">
+                    <c:if test="${sessionScope.state eq 1}">
                       <li class="nav-item mx-2 flex-grow-1">
                           <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="host-center" id="hostCenter">호스트센터</a>
                       </li>
@@ -113,7 +114,7 @@
                     <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
                          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide"
                          preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <image href="banner\힙합교실.png" height="100%" width="100%" alt="힙합교실.png"></image>
+                        <image href="resource/banner/힙합교실.png" height="100%" width="100%" alt="힙합교실.png"></image>
                     </svg>
                 </div>
                 <div class="carousel-item">
