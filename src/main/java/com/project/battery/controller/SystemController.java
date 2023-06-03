@@ -59,7 +59,7 @@ public class SystemController {
     }
     
     @PostMapping(value = "/login.do")
-    public String loginDo(@RequestParam String userid, @RequestParam String password, Model model) {
+    public String loginDo(@RequestParam String userid, @RequestParam String password, RedirectAttributes attrs) {
         String urls = "";
 
         loginModel lm_model = new loginModel(dbConfig);
@@ -70,9 +70,8 @@ public class SystemController {
             
             urls = "/index";
         } else {
-            model.addAttribute("msg", "로그인에 실패하였습니다 입력 정보확인 후 다시 시도해주세요.");
-            model.addAttribute("url", "/sign-in");
-            urls = "/login_fail";
+            attrs.addFlashAttribute("msg","로그인에 실패하였습니다.");
+            urls = "redirect:/sign-in";
         }
         return urls;
     }

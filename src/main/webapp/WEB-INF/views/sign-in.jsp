@@ -1,8 +1,9 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko" itemscope itemtype="http://schema.org/WebPage">
 
     <head>
-        <%@page contentType="text/html" pageEncoding="UTF-8"%>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         <!--bootstrap-->
@@ -28,6 +29,11 @@
         <link id="pagestyle" href="${pageContext.request.contextPath}/assets/css/material-kit.css" rel="stylesheet" />
         <!-- Link Swiper's CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+        <script>
+            <c:if test="${!empty msg}">
+                alert("${msg}");
+            </c:if>
+        </script>
     </head>
     <body>
         <div class="container mt-9 mx-auto">
