@@ -80,7 +80,7 @@
                     </li>
                     <c:if test="${sessionScope.state eq 1}">
                       <li class="nav-item mx-2 flex-grow-1">
-                          <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="host-center/host-center" id="hostCenter">호스트센터</a>
+                          <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="host-center/" id="hostCenter">호스트센터</a>
                       </li>
                     </c:if>
                     <c:if test="${host ne null}">

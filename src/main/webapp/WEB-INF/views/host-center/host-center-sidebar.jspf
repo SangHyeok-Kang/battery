@@ -1,28 +1,30 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
-<!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
+<!-- Sidebar -->
+
+<div class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion " id="accordionSidebar">
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="host-center">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="${pageContext.request.contextPath}/host-center/">
         <div class="sidebar-brand-icon ">
-            <div><img src="../assets/img/ssac.png" width="100%" height="100%"/></div>
+            <img src="${pageContext.request.contextPath}/assets/img/ssac.png" width="100%" height="100%"/>
         </div>
         <div class="sidebar-brand-text mx-3">HostCenter</div>
     </a>
-
     <!-- Divider -->
-    <hr class="sidebar-divider my-0">
-
+    <hr class="sidebar-divider">
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
-        <a class="nav-link" href="..">
+    <div class="nav-item active ">
+        <a class="nav-link " href="..">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>호스트센터 나가기</span></a>
-    </li>
-    <hr class="sidebar-divider my-0">
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="create_lecture" >
+    </div>
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+        MENU
+    </div>
+    <div class="nav-item active">
+        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/host-center/create_lecture" >
             <%--
                 사이드 바 아이콘
                 <i class="fas fa-fw fa-cog"></i> //톱니
@@ -33,9 +35,9 @@
             --%>
             <span>강의 개설</span>
         </a>
-    </li>
+    </div>
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    <div class="nav-item active">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
            aria-expanded="true" aria-controls="collapseTwo">
             <span>강의 목록</span>
@@ -47,14 +49,14 @@
                 <a class="collapse-item" href="cards.html">종료된 강의</a>
             </div>
         </div>
-    </li>
+    </div>
 
     <!-- Nav Item - Utilities Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-            <span>설문 등록하기</span>
+    <div class="nav-item active">
+        <a class="nav-link collapsed" href="${pageContext.request.contextPath}/host-center/survey/surveymanager">
+            <span>설문 관리</span>
         </a>
-    </li>
+    </div>
     <%--
     사이드 바 영역 구분
     <!-- Divider -->
@@ -65,4 +67,4 @@
         Addons
     </div>
     --%>
-</ul>
+</div>
