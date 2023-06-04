@@ -23,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -49,18 +48,9 @@ public class surveyController {
     
     @Autowired
     private HttpSession session;
-
-    @GetMapping("/index")
-    public String index() {
-
-        log.debug("index called...");
-
-        System.out.println("index called...");
-        return "index";
-    }
-
+    
     // 생성한 설문 리스트
-    @GetMapping("survey/surveyList")
+    @GetMapping("host-center/survey/surveymanager")
     public String surveyList(Model model, HttpServletRequest request) {
 
         String business_id = "manager";
@@ -79,7 +69,12 @@ public class surveyController {
         model.addAttribute("surveyList", surveyList);
         model.addAttribute("isChecked", isChecked);
 
-        return "survey/surveyList";
+        return "host-center/survey/surveymanager";
+    }
+    
+    @GetMapping("host-center/survey/createSurvey")
+    public String createSurvey() {
+        return "host-center/survey/createSurvey";
     }
 
     // 생성한 설문 삭제 
@@ -126,17 +121,10 @@ public class surveyController {
         return "survey/surveyList";
     }
     
-    @PostMapping("survey/createSurvey")
-    public String createSurvey() {
-
-        log.debug("createSurvey called...");
-
-        System.out.println("createSurvey called...");
-        return "survey/createSurvey";
-    }
+    
 
     // 설문 생성 
-    @PostMapping("survey/createSurvey.do")
+    @PostMapping("host-center/survey/createSurvey.do")
     public String createSurveyDo(Model model, @RequestParam String surveyName, @RequestParam String[] test, String[] test1, String[] test2, @RequestParam String[] test3, String[] test4, String[] test5, RedirectAttributes attrs) {
         String business_id = "manager";
         session.setAttribute("business_id", business_id);
@@ -156,7 +144,7 @@ public class surveyController {
             attrs.addFlashAttribute("msg", "설문 생성 실패하였습니다.");
         }
 //        System.out.println(createSurveySuccess);
-        return "redirect:/survey/surveyList";
+        return "redirect:/survey/surveymanager";
     }
     
     
