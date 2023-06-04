@@ -81,6 +81,7 @@ public class SystemController {
             session.setAttribute("host", lm_model.getUser());
             session.setAttribute("state", lm_model.getState()); //일반회원(0) 로그인 상태 세션 저장
             session.setAttribute("name",lm_model.getName());
+            System.out.println("");
             System.out.println(lm_model.getName());
             urls = "redirect:/";
         } else {

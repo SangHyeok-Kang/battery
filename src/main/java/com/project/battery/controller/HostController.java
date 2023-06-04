@@ -43,19 +43,14 @@ public class HostController {
     private String resume;
     
     
-    @GetMapping("host-center/host-center")
+    @GetMapping("host-center")
     public String hostCentter(){
-        return "host-center/host-center";
+        return "host-center/index";
     }
     
     @GetMapping("host-center/create_lecture")
     public String createLecture(){
         return "host-center/create_lecture";
-    }
-    
-    @GetMapping("host-center/surveymanager")
-    public String surveyMain(){
-        return "host-center/surveymanager";
     }
     
     //신규 강의 입력
