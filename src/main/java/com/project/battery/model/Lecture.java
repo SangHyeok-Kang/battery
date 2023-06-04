@@ -174,7 +174,7 @@ public class Lecture {
             buffer.append("<div class=\"swiper-slide\">"
                     + "<div class =\"card_thumbnail\">"
                     + " <a href=\"lecture/lecture_notice?lecture="+list.get(i).getLectureid()+"\">"
-                    + " <img src=\"assets/img/"+list.get(i).getThumbnail()+"\"></a>"
+                    + " <img src=\"resource/thumbnail/"+list.get(i).getThumbnail()+"\"></a>"
                     + "</div>"
                     + "<div class=\"me-2 pt-2 row\">"
                     + "<a href=\"lecture/lecture_notice?lecture="+list.get(i).getLectureid()+"\" class=\"thumnail-date\">"
