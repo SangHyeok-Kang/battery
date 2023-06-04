@@ -43,16 +43,16 @@ public class HostController {
     private String resume;
     
     
-    @GetMapping("host-center/host-center")
+    @GetMapping("host-center")
     public String hostCentter(){
-        return "host-center/host-center";
+        return "host-center/index";
     }
     
     @GetMapping("host-center/create_lecture")
     public String createLecture(){
         return "host-center/create_lecture";
     }
-    //, @RequestParam("text_image") MultipartFile text_image
+    
     //신규 강의 입력
     @PostMapping("host-center/insert_lecture.do")
     public String insertLecture(MultipartHttpServletRequest request, RedirectAttributes attrs){

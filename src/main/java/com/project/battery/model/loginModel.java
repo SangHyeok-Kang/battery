@@ -5,14 +5,9 @@
 package com.project.battery.model;
 
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.http.HttpServletRequest;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  *
@@ -21,9 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class loginModel {
 
-    private String user;
-    private int state;
-    private String name;
+    @Getter@Setter private String user;
+    @Getter@Setter private int state;
+    @Getter@Setter private String name;
     private HikariConfiguration dbConfig;
 
     public loginModel(HikariConfiguration dbConfig) {
@@ -39,25 +34,28 @@ public class loginModel {
             Statement stmt = conn.createStatement();
             stmt = conn.createStatement();
             if (chkstate.equals("user")) {
-                String sql = "SELECT userid, password FROM userinfo WHERE userid= '" + userid + "' and password = '"+password+"'";
+                String sql = "SELECT userid, password, username FROM userinfo WHERE userid= '" + userid + "' and password = '"+password+"'";
+
                 ResultSet rs = stmt.executeQuery(sql);
 
                 if (rs.next()) {
-                    setUser(rs.getString("userid"));
-                    setState(0);
+                    this.setUser(rs.getString("userid"));
+                    this.setState(0);
+                    this.setName(rs.getString("username"));
                     return true;
                 }
                 rs.close();
                 stmt.close();
                 conn.close();
             }else{
-                String sql = "SELECT business_id, password FROM business_info WHERE business_id= '" + userid + "' and password = '"+password+"'";
+                String sql = "SELECT business_id, password, business_name FROM business_info WHERE business_id= '" + userid + "' and password = '"+password+"'";
+
                 ResultSet rs = stmt.executeQuery(sql);
 
                 if (rs.next()) {
-                    String user = rs.getString("business_id");
-                    setUser(user);
+                    setUser(rs.getString("business_id"));
                     setState(1);
+                    this.setName(rs.getString("business_name"));
                     return true;
                 }
                 rs.close();
@@ -70,6 +68,7 @@ public class loginModel {
         }
         return false;
     }
+
 
     public void setState(int state){
         this.state = state;
