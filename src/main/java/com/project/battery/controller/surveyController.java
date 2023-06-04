@@ -78,7 +78,7 @@ public class surveyController {
     }
 
     // 생성한 설문 삭제 
-    @PostMapping("survey/deleteSurvey")
+    @PostMapping("host-center/survey/deleteSurvey")
     public String deleteSurvey(Model model, @RequestParam String surveyName, RedirectAttributes attrs) {
 
         String business_id = "manager";
@@ -101,11 +101,11 @@ public class surveyController {
         } else {
             attrs.addFlashAttribute("msg", "설문 삭제 실패하였습니다.");
         }
-        return "redirect:/survey/surveyList";
+        return "redirect:/host-center/survey/surveymanager";
     }
 
     // 생성한 설문 다운
-    @PostMapping("survey/downloadSurvey")
+    @PostMapping("host-center/survey/downloadSurvey")
     public String downloadSurvey(Model model, @RequestParam String surveyName, HttpServletResponse response) throws IOException {
 
         String business_id = "manager";
@@ -118,10 +118,10 @@ public class surveyController {
         surveyModel survey = new surveyModel();
         survey.downloadSurvey(surveyName, response, basePath);
         
-        return "survey/surveyList";
+        return "host-center/survey/surveyList";
     }
     
-    
+   
 
     // 설문 생성 
     @PostMapping("host-center/survey/createSurvey.do")
@@ -144,7 +144,7 @@ public class surveyController {
             attrs.addFlashAttribute("msg", "설문 생성 실패하였습니다.");
         }
 //        System.out.println(createSurveySuccess);
-        return "redirect:/survey/surveymanager";
+        return "redirect:/host-center/survey/surveymanager";
     }
     
     
