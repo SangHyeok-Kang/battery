@@ -52,11 +52,7 @@ public class surveyController {
     // 생성한 설문 리스트
     @GetMapping("host-center/survey/surveymanager")
     public String surveyList(Model model, HttpServletRequest request) {
-
-        String business_id = "manager";
-        session.setAttribute("business_id", business_id);
-        
-        String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("business_id");
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("host");
         String basePath1 = ctx.getRealPath(surveyInfo_folder);
         surveyModel survey = new surveyModel();
         String[] surveyList = survey.surveyList(basePath);
@@ -126,12 +122,9 @@ public class surveyController {
     // 설문 생성 
     @PostMapping("host-center/survey/createSurvey.do")
     public String createSurveyDo(Model model, @RequestParam String surveyName, @RequestParam String[] test, String[] test1, String[] test2, @RequestParam String[] test3, String[] test4, String[] test5, RedirectAttributes attrs) {
-        String business_id = "manager";
-        session.setAttribute("business_id", business_id);
-        session.getAttribute("business_id");
-        
-       // String managerId = (String)session.getAttribute("surveyName");
-        String basePath = ctx.getRealPath(survey_folder) + File.separator + session.getAttribute("business_id");
+ 
+        // String managerId = (String)session.getAttribute("surveyName");
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + session.getAttribute("host");
         // model에 파일 경로 전달
         model.addAttribute("basePath", basePath);
 
