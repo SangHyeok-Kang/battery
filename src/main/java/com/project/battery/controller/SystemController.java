@@ -102,8 +102,9 @@ public class SystemController {
 
         return "redirect:/sign-up";
     }
-
-    @PostMapping("/sign-up.do")
+    
+    //일반 사용자 회원가입
+    @PostMapping("/normal_signup.do")
     public String insertNormalUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
             @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String birthdate, @RequestParam String school,
             @RequestParam String major, @RequestParam String grade, @RequestParam String status, @RequestParam List<String> subcategory,
@@ -123,7 +124,7 @@ public class SystemController {
         AddUserManager manager = new AddUserManager(dbConfig);
         result = manager.checkId(userid);
         if (result == true) {
-            manager.addRow(userid, password, name, phone, birthdate, schoolinfo, interest, postcode, detail, extra, address, gender);
+            manager.addRow(userid, name, password, phone, birthdate, schoolinfo, interest, postcode, detail, extra, address, gender);
 
             model.addAttribute("msg", "회원가입 완료되었습니다.");
             model.addAttribute("url", "/");
