@@ -43,18 +43,18 @@ public class HostController {
     private String resume;
     
     
-    @GetMapping("/host-center")
+    @GetMapping("host-center/host-center")
     public String hostCentter(){
-        return "host-center";
+        return "host-center/host-center";
     }
     
-    @GetMapping("/lecture/create_lecture")
+    @GetMapping("host-center/create_lecture")
     public String createLecture(){
-        return "/lecture/create_lecture";
+        return "host-center/create_lecture";
     }
     //, @RequestParam("text_image") MultipartFile text_image
     //신규 강의 입력
-    @PostMapping("/lecture/insert_lecture.do")
+    @PostMapping("host-center/insert_lecture.do")
     public String insertLecture(MultipartHttpServletRequest request, RedirectAttributes attrs){
         LectureDto lecture = new LectureDto();
         //강의 객체로 정보 입력
@@ -92,6 +92,6 @@ public class HostController {
         }else{
             attrs.addFlashAttribute("msg", "강의 개설에 실패하였습니다");
         }
-        return "redirect:/host-center";
+        return "redirect:/host-center/host-center";
     }
 }
