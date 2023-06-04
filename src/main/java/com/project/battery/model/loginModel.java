@@ -39,7 +39,7 @@ public class loginModel {
             Statement stmt = conn.createStatement();
             stmt = conn.createStatement();
             if (chkstate.equals("user")) {
-                String sql = "SELECT userid, password FROM userinfo WHERE userid= '" + userid + "'";
+                String sql = "SELECT userid, password FROM userinfo WHERE userid= '" + userid + "' and password = '"+password+"'";
                 ResultSet rs = stmt.executeQuery(sql);
 
                 if (rs.next()) {
@@ -51,7 +51,7 @@ public class loginModel {
                 stmt.close();
                 conn.close();
             }else{
-                String sql = "SELECT business_id, password FROM business_info WHERE business_id= '" + userid + "'";
+                String sql = "SELECT business_id, password FROM business_info WHERE business_id= '" + userid + "' and password = '"+password+"'";
                 ResultSet rs = stmt.executeQuery(sql);
 
                 if (rs.next()) {
