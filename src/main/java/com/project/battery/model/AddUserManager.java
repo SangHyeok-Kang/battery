@@ -22,6 +22,7 @@ public class AddUserManager {
         this.dbConfig = dbConfig;
     }
 
+    //일반 사용자 아이디 체크 메소드
     public boolean checkId(String userid) {
         javax.sql.DataSource ds = dbConfig.dataSource();
         System.out.println("sadffff");
@@ -47,6 +48,7 @@ public class AddUserManager {
         return true;
     }
 
+    //비지니스 사용자 아이디 체크 메소드
     public boolean check_bId(String userid) {
         javax.sql.DataSource ds = dbConfig.dataSource();
         System.out.println("sadffff");
@@ -133,7 +135,7 @@ public class AddUserManager {
 
             pstmt.executeUpdate();
 
-            sql = "INSERT INTO address VALUES(?,?,?,?,?,1)";
+            sql = "INSERT INTO address VALUES(default,?,?,?,?,?,1)";
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, userid);
