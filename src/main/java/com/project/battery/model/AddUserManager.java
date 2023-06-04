@@ -1,4 +1,3 @@
-
 package com.project.battery.model;
 
 import java.sql.Connection;
@@ -48,10 +47,36 @@ public class AddUserManager {
         return true;
     }
 
+    public boolean check_bId(String userid) {
+        javax.sql.DataSource ds = dbConfig.dataSource();
+        System.out.println("sadffff");
+        try {
+            Connection conn = ds.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt = conn.createStatement();
+            String sql = "SELECT business_id FROM business_info WHERE business_id= '" + userid + "'";
+            ResultSet rs = stmt.executeQuery(sql);
+            System.out.println(sql);
+            if (rs.next()) {
+                String user = rs.getString("business_id");
+                System.out.println(user);
+                return false;
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생 오류: {})", ex.getMessage());
+        }
+        return true;
+    }
+
+    // 일반 사용자 회원가입
     public void addRow(String userid, String username, String password, String phone,
-                       String birth, String attendingInfo, String u_keyword, 
-                       String postcode, String detail, String extra, String address, String gender) {
-        
+            String birth, String attendingInfo, String u_keyword,
+            String postcode, String detail, String extra, String address, String gender) {
+
         javax.sql.DataSource ds = dbConfig.dataSource();
 
         try {
@@ -70,7 +95,7 @@ public class AddUserManager {
 
             pstmt.executeUpdate();
 
-            sql = "INSERT INTO address VALUES(defalut,?,?,?,?,?,0)";
+            sql = "INSERT INTO address VALUES(?,?,?,?,?,0)";
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, userid);
@@ -78,7 +103,7 @@ public class AddUserManager {
             pstmt.setString(3, address);
             pstmt.setString(4, detail);
             pstmt.setString(5, extra);
-            pstmt.setInt(6, 0);
+           
 
             pstmt.executeUpdate();
             pstmt.close();
@@ -89,12 +114,13 @@ public class AddUserManager {
         }
     }
 
-    public void addRow(String userid, String password, String business_name, String phone, String ceo_name, String postcode, String detail, String address, String extra) {
+    // 비즈니스 회원가입
+    public void b_addRow(String userid, String password, String business_name, String phone, String ceo_name, String b_keyword, String postcode, String detail, String address, String extra) {
         javax.sql.DataSource ds = dbConfig.dataSource();
 
         try {
             Connection conn = ds.getConnection();
-            String sql = "INSERT INTO business_info VALUES(?,?,?,?,?)";
+            String sql = "INSERT INTO business_info VALUES(?,?,?,?,?,?,1)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, userid);
@@ -102,18 +128,19 @@ public class AddUserManager {
             pstmt.setString(3, business_name);
             pstmt.setString(4, ceo_name);
             pstmt.setString(5, phone);
+            pstmt.setString(6, b_keyword);
+            
 
             pstmt.executeUpdate();
 
-            sql = "INSERT INTO address VALUES(?,?,?,?,?,?)";
+            sql = "INSERT INTO address VALUES(?,?,?,?,?,1)";
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, userid);
             pstmt.setString(2, postcode);
             pstmt.setString(3, address);
             pstmt.setString(4, detail);
-            pstmt.setString(5, extra);
-            pstmt.setInt(6, 1);
+            pstmt.setString(5, extra);           
 
             pstmt.executeUpdate();
             pstmt.close();
@@ -123,6 +150,5 @@ public class AddUserManager {
             log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
         }
     }
-    
-    
+
 }

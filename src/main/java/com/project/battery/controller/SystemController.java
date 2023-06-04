@@ -103,6 +103,17 @@ public class SystemController {
         return "redirect:/sign-up";
     }
     
+    @GetMapping("/check_bId.do")
+    public String checkCeoId(@RequestParam String userid, RedirectAttributes attrs) {
+        this.userid = userid;
+        AddUserManager manager = new AddUserManager(dbConfig);
+        result = manager.check_bId(userid);
+        System.out.println(result);
+        attrs.addFlashAttribute("result", result);
+
+        return "redirect:/business-sign-up";
+    }
+    
     //일반 사용자 회원가입
     @PostMapping("/normal_signup.do")
     public String insertNormalUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
@@ -131,6 +142,32 @@ public class SystemController {
         } else {
             model.addAttribute("msg", "회원가입에 실패하였습니다 입력 정보확인 후 다시 시도해주세요.");
             model.addAttribute("url", "/sign-up");
+        }
+        return "/signup_result";
+    }
+    
+     //비즈니스 사용자 회원가입
+    @PostMapping("/ceo_signup.do")
+    public String insertBusinessUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
+            @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String com_name, 
+            @RequestParam List<String> subcategory, @RequestParam String postcode, @RequestParam String detail, 
+            @RequestParam String extra, @RequestParam String address, Model model) {       
+        String phone = phone1 + "-" + phone2 + "-" + phone3;
+        String interest = subcategory.get(0) + "/" + subcategory.get(1) + "/" + subcategory.get(2) + "/";
+       
+        System.out.println(interest);
+        
+
+        AddUserManager manager = new AddUserManager(dbConfig);
+        result = manager.check_bId(userid);
+        if (result == true) {
+            manager.b_addRow(userid, password, com_name, phone, name, interest, postcode, detail, address, extra);
+
+            model.addAttribute("msg", "회원가입 완료되었습니다.");
+            model.addAttribute("url", "/");
+        } else {
+            model.addAttribute("msg", "회원가입에 실패하였습니다 입력 정보확인 후 다시 시도해주세요.");
+            model.addAttribute("url", "/business-sign-up");
         }
         return "/signup_result";
     }
