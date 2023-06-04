@@ -81,13 +81,14 @@ public class SystemController {
 
         loginModel lm_model = new loginModel(dbConfig);
         result = lm_model.loginResult(chk_state, userid, password);
-        String user = lm_model.getUser();
-        int state = lm_model.getState();
         if (result == true) {
-            session.setAttribute("host", user);
-            session.setAttribute("state", state); //일반회원(0) 로그인 상태 세션 저장
-            if (state == 0) urls = "redirect:/";
-            else urls = "/host-center";
+            session.setAttribute("host", lm_model.getUser());
+            session.setAttribute("state", lm_model.getState()); //일반회원(0) 로그인 상태 세션 저장
+            if (lm_model.getState() == 0) {
+                urls = "redirect:/";
+            } else {
+                urls = "/host-center";
+            }
         } else {
             attrs.addFlashAttribute("msg", "로그인에 실패하였습니다.");
             urls = "redirect:/sign-in";
@@ -95,7 +96,18 @@ public class SystemController {
         return urls;
     }
 
-    @PostMapping("/normal_signup.do")
+    @GetMapping("/checkId.do")
+    public String checkUserId(@RequestParam String userid, RedirectAttributes attrs) {
+        this.userid = userid;
+        AddUserManager manager = new AddUserManager(dbConfig);
+        result = manager.checkId(userid);
+        System.out.println(result);
+        attrs.addFlashAttribute("result", result);
+
+        return "redirect:/sign-up";
+    }
+
+    @PostMapping("/sign-up.do")
     public String insertNormalUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
             @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String birthdate, @RequestParam String school,
             @RequestParam String major, @RequestParam String grade, @RequestParam String status, @RequestParam List<String> subcategory,
@@ -135,16 +147,15 @@ public class SystemController {
         return "redirect:/";
 
     }
-    
-     //TEST
-    
+
+    //TEST
     @GetMapping("/test")
     public String login() {
         return "test";
     }
-    
+
     // id찾을껀지 비밀번호 찾을껀지 선택하는 페이지
-     @GetMapping("/select_findinfo")
+    @GetMapping("/select_findinfo")
     public String selectFindinfo() {
         return "select_findinfo";
     }
@@ -167,7 +178,7 @@ public class SystemController {
     // 아이디 찾기
     @RequestMapping("/findid.do")
     public String findIdDo(@RequestParam String name, @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, Model model) {
-        
+
         String phone = phone1 + "-" + phone2 + "-" + phone3;
         loginModel lm_model = new loginModel(dbConfig);
 
@@ -189,10 +200,10 @@ public class SystemController {
 
     // 비밀번호 찾기
     @RequestMapping("/findpass.do")
-    public String findPwDo(@RequestParam String userid, @RequestParam String name, @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, Model model) {        
-      String phone = phone1 + "-" + phone2 + "-" + phone3;
-      loginModel lm_model = new loginModel(dbConfig);
-      userInfo user;
+    public String findPwDo(@RequestParam String userid, @RequestParam String name, @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, Model model) {
+        String phone = phone1 + "-" + phone2 + "-" + phone3;
+        loginModel lm_model = new loginModel(dbConfig);
+        userInfo user;
 
         user = lm_model.findPwResult(userid, name, phone);
         // 이름과 전화번호로 아이디를 찾는 비즈니스 로직 수행
@@ -221,10 +232,10 @@ public class SystemController {
             model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
             return "changepw";
 
-        } else {            
+        } else {
 
-           loginModel lm_model = new loginModel(dbConfig);
-           lm_model.changePw(userid, pass1);
+            loginModel lm_model = new loginModel(dbConfig);
+            lm_model.changePw(userid, pass1);
 
             //변경 완료 알림
             model.addAttribute("msg", "비밀번호가 정상적으로 변경되었습니다.");

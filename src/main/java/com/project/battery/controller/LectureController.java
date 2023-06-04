@@ -4,6 +4,7 @@
  */
 package com.project.battery.controller;
 
+import com.project.battery.dto.LectureDto;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
 import com.project.battery.model.Notice;
@@ -121,9 +122,9 @@ public class LectureController {
     
     @GetMapping("/lecture/lecture_materia")
     public String lecturemateria(Model model, @RequestParam("page") int page,@RequestParam("lecture") int lecid){
-        List<Lecture> materia = new Lecture().getMateriaList(dbConfig,lecid);
+        List<LectureDto> materia = new Lecture().getMateriaList(dbConfig,lecid);
         if(!materia.isEmpty()){
-             List<Lecture> pagingMateria = new ArrayList<>();
+             List<LectureDto> pagingMateria = new ArrayList<>();
             PagingService paging = new PagingService(page, materia.size());
             for (int i = paging.getStartlist(); i < paging.getEndlist() + 1; i++) {
                 pagingMateria.add(materia.get(i - 1));
