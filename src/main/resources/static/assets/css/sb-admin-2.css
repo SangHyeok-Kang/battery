@@ -46,7 +46,10 @@
 *::after {
   box-sizing: border-box;
 }
-
+.ssac-mark:before{
+    content: url("../img/ssac.png");
+   
+}
 html {
   font-family: sans-serif;
   line-height: 1.15;

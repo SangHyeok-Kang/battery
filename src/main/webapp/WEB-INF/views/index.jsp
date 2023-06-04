@@ -80,7 +80,7 @@
                     </li>
                     <c:if test="${sessionScope.state eq 1}">
                       <li class="nav-item mx-2 flex-grow-1">
-                          <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="host-center" id="hostCenter">호스트센터</a>
+                          <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="host-center/host-center" id="hostCenter">호스트센터</a>
                       </li>
                     </c:if>
                     <c:if test="${host ne null}">
@@ -114,7 +114,7 @@
                     <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
                          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide"
                          preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <image href="resource/banner/힙합교실.png" height="100%" width="100%" alt="힙합교실.png"></image>
+                        <image href="resource\banner\힙합교실.png" height="100%" width="100%" alt="힙합교실.png"></image>
                     </svg>
                 </div>
                 <div class="carousel-item">

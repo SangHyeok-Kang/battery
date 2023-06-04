@@ -1,0 +1,9 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>동의대학교 컴퓨터소프트웨어공학과 캡스톤 디자인</span>
+        </div>
+    </div>
+</footer>
