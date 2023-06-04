@@ -23,6 +23,7 @@ public class loginModel {
 
     private String user;
     private int state;
+    private String name;
     private HikariConfiguration dbConfig;
 
     public loginModel(HikariConfiguration dbConfig) {
@@ -42,8 +43,7 @@ public class loginModel {
                 ResultSet rs = stmt.executeQuery(sql);
 
                 if (rs.next()) {
-                    String user = rs.getString("userid");
-                    setUser(user);
+                    setUser(rs.getString("userid"));
                     setState(0);
                     return true;
                 }

@@ -223,12 +223,12 @@
                                     </tr>
                                     <tr>
                                         <th scope="row">
-                                            <label for="schooltype">학력</label>
+                                            <label for="schooltype" class="text-black">학력</label>
                                         </th>
                                         <td>
                                             <div class="row">
                                                 <div class="col-md-4">
-                                                    <select id="schooltype" name="schooltype" onchange="showSchoolInfo()">
+                                                    <select id="schooltype" name="schooltype" onchange="showSchoolInfo()" class="form-select ps-md-2">
                                                         <option value="">--학교 유형--</option>
                                                         <option value="elementary">초등학교</option>
                                                         <option value="middle">중학교</option>
@@ -274,9 +274,9 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> 
+            </section>
         </div>
-    </section>
 </body>
 
 <script src="./assets/material-kit.min.js?v=3.0.4" type="text/javascript"></script> <!--이거 있어야 입력 폼 애니메이션 들어감-->
