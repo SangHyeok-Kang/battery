@@ -25,14 +25,14 @@ public class AddUserManager {
 
     public boolean checkId(String userid) {
         javax.sql.DataSource ds = dbConfig.dataSource();
-
+        System.out.println("sadffff");
         try {
             Connection conn = ds.getConnection();
             Statement stmt = conn.createStatement();
             stmt = conn.createStatement();
             String sql = "SELECT userid FROM userinfo WHERE userid= '" + userid + "'";
             ResultSet rs = stmt.executeQuery(sql);
-
+            System.out.println(sql);
             if (rs.next()) {
                 String user = rs.getString("userid");
                 System.out.println(user);

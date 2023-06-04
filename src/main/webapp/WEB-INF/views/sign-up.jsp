@@ -3,6 +3,7 @@
 
     <head>
         <%@page contentType="text/html" pageEncoding="UTF-8" %>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         <!--bootstrap-->
@@ -31,8 +32,19 @@
 
 
     </head>
-
     <body class="about-us bg-gray-100">
+        <script>
+            <c:choose>
+                <c:when test="${result eq 'true' }">
+            alert("사용가능한 아이디입니다.");
+                </c:when>
+
+                <c:when test="${result eq 'false' }">
+            alert("사용할 수 없는 아이디입니다.");
+                </c:when>
+
+            </c:choose>
+        </script>
         <!-- Navbar-->
         <nav class="navbar navbar-light py-3">
             <div class="container">
@@ -76,8 +88,18 @@
                                                     <small>아이디 관련 설명 여기에 적어야 함</small>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <button type="button" class="btn btn-outline-info">중복 확인</button>
-                                                    <!--중복 확인 관련 나중에 할거임-->
+                                                    <button type="button" class="btn btn-outline-info" onclick = "checkId()">중복 확인</button>
+                                                    <script>
+                                                        function checkId() {
+                                                            var userid = document.getElementById("userid").value;
+                                                            if (!userid)
+                                                                alert("아이디를 입력해주세요");
+                                                            else {
+                                                                const link = 'checkId.do?userid=' + userid;
+                                                                location.replace(link);
+                                                            }
+                                                        }
+                                                    </script>
                                                 </div>
                                             </div>
                                         </td>
