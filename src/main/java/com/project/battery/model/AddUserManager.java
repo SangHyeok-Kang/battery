@@ -25,14 +25,14 @@ public class AddUserManager {
 
     public boolean checkId(String userid) {
         javax.sql.DataSource ds = dbConfig.dataSource();
-
+        System.out.println("sadffff");
         try {
             Connection conn = ds.getConnection();
             Statement stmt = conn.createStatement();
             stmt = conn.createStatement();
             String sql = "SELECT userid FROM userinfo WHERE userid= '" + userid + "'";
             ResultSet rs = stmt.executeQuery(sql);
-
+            System.out.println(sql);
             if (rs.next()) {
                 String user = rs.getString("userid");
                 System.out.println(user);
@@ -48,8 +48,8 @@ public class AddUserManager {
         return true;
     }
 
-    public void addRow(String userid, String password, String name, String phone,
-                       String birthdate, String schoolinfo, String interest, 
+    public void addRow(String userid, String username, String password, String phone,
+                       String birth, String attendingInfo, String u_keyword, 
                        String postcode, String detail, String extra, String address, String gender) {
         
         javax.sql.DataSource ds = dbConfig.dataSource();
@@ -60,17 +60,17 @@ public class AddUserManager {
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, userid);
-            pstmt.setString(2, name);
+            pstmt.setString(2, username);
             pstmt.setString(3, password);
             pstmt.setString(4, phone);
-            pstmt.setString(5, birthdate);
-            pstmt.setString(6, schoolinfo);
-            pstmt.setString(7, interest);
+            pstmt.setString(5, birth);
+            pstmt.setString(6, attendingInfo);
+            pstmt.setString(7, u_keyword);
             pstmt.setString(8, gender);
 
             pstmt.executeUpdate();
 
-            sql = "INSERT INTO address VALUES(?,?,?,?,?,?)";
+            sql = "INSERT INTO address VALUES(defalut,?,?,?,?,?,0)";
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, userid);
@@ -89,7 +89,7 @@ public class AddUserManager {
         }
     }
 
-    public void addRow(String userid, String password, String name, String phone, String com_name, String postcode, String detail, String address, String extra) {
+    public void addRow(String userid, String password, String business_name, String phone, String ceo_name, String postcode, String detail, String address, String extra) {
         javax.sql.DataSource ds = dbConfig.dataSource();
 
         try {
@@ -99,8 +99,8 @@ public class AddUserManager {
 
             pstmt.setString(1, userid);
             pstmt.setString(2, password);
-            pstmt.setString(3, com_name);
-            pstmt.setString(4, name);
+            pstmt.setString(3, business_name);
+            pstmt.setString(4, ceo_name);
             pstmt.setString(5, phone);
 
             pstmt.executeUpdate();
@@ -123,4 +123,6 @@ public class AddUserManager {
             log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
         }
     }
+    
+    
 }
