@@ -30,7 +30,7 @@
         <script type="text/javascript" src="../js/lecture.js" ></script>
         <script>
             <c:if test="${!empty msg}">
-                alert("${msg}");
+            alert("${msg}");
             </c:if>
         </script>
     </head>
@@ -55,35 +55,162 @@
 
                     <!-- Begin Page Content -->
                     <!-- Begin Page Content -->
-                <div class="container-fluid">
+                    <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                        <!-- Page Heading -->
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-2xl font-weight-bold text-primary text-uppercase mb-1">
+                                                    완료한 강의</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">40,000 개</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-success shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-2xl font-weight-bold text-success text-uppercase mb-1">
+                                                    수료한 인원</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">215,000 명</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-info shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-2xl font-weight-bold text-info text-uppercase mb-1">평점
+                                                </div>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col-auto">
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="progress progress-sm mr-2">
+                                                            <div class="progress-bar bg-info" role="progressbar"
+                                                                 style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                                                 aria-valuemax="100"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-2xl font-weight-bold text-warning text-uppercase mb-1">
+                                                    내게 달린 리뷰</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="card shadow mb-4">
+                            <div class="card-body">
+                                <%-- 호스트 센터 강의 목록 시작 --%>
+                                <div class="row mb-3">
+                                    <div class="col-auto">
+                                        <label class="mb-2 text-gray-800">진행 중인 강의</label>
+                                    </div>
+                                    <div class="col-auto ms-auto">
+                                        <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                                            전체보기
+                                            <i class="bi bi-arrow-right mb-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div>
+                                    진행중인 강의 슬라이드
+                                </div>
+                                <hr class="sidebar-divider">
+                                <%-- 강의 목록 끝 --%>
+                                <div class="row mb-3">
+                                    <div class="col-auto">
+                                        <label class="mb-2 text-gray-800">모집 중인 강의</label>
+                                    </div>
+                                    <div class="col-auto ms-auto">
+                                        <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                                            전체보기
+                                            <i class="bi bi-arrow-right mb-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div>
+                                    모집 중인 강의 슬라이드
+                                </div>
+                                <hr class="sidebar-divider">
+                                <div class="row mb-3">
+                                    <div class="col-auto">
+                                        <label class="mb-2 text-gray-800">완료된 강의</label>
+                                    </div>
+                                    <div class="col-auto ms-auto">
+                                        <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                                            전체보기
+                                            <i class="bi bi-arrow-right mb-1"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div>
+                                    완료된 강의 슬라이드
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Content Row -->
+                        <div class="row">
+
+                            <%-- 그래프
+                            <!-- Earnings (Monthly) Card Example -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card border-left-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Earnings (Monthly)</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                         <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
@@ -384,62 +511,63 @@
 
                 </div>
                     <!-- /.container-fluid -->
+                            --%>
+                        </div>
+                        <!-- End of Main Content -->
+
+
+
+                    </div>
+                    <!-- End of Content Wrapper -->
 
                 </div>
-                <!-- End of Main Content -->
-
+                <!-- End of Page Wrapper -->
                 <!-- Footer -->
                 <%@include file="host-center-footer.jspf"%>
                 <!-- End of Footer -->
 
-            </div>
-            <!-- End of Content Wrapper -->
+                <!-- Scroll to Top Button-->
+                <a class="scroll-to-top rounded" href="#page-top">
+                    <i class="fas fa-angle-up"></i>
+                </a>
 
-        </div>
-        <!-- End of Page Wrapper -->
-
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
-
-        <!-- Logout Modal-->
-        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="login.html">Logout</a>
+                <!-- Logout Modal-->
+                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <a class="btn btn-primary" href="login.html">Logout</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="../vendor/jquery/jquery.min.js"></script>
-        <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <!-- Bootstrap core JavaScript-->
+                <script src="../vendor/jquery/jquery.min.js"></script>
+                <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Core plugin JavaScript-->
-        <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+                <!-- Core plugin JavaScript-->
+                <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
-        <!-- Custom scripts for all pages-->
-        <script src="../js/sb-admin-2.min.js"></script>
+                <!-- Custom scripts for all pages-->
+                <script src="../js/sb-admin-2.min.js"></script>
 
-        <!-- Page level plugins -->
-        <script src="../vendor/chart.js/Chart.min.js"></script>
+                <!-- Page level plugins -->
+                <script src="../vendor/chart.js/Chart.min.js"></script>
 
-        <!-- Page level custom scripts -->
-        <script src="../js/demo/chart-area-demo.js"></script>
-        <script src="../js/demo/chart-pie-demo.js"></script>
+                <!-- Page level custom scripts -->
+                <script src="../js/demo/chart-area-demo.js"></script>
+                <script src="../js/demo/chart-pie-demo.js"></script>
 
-    </body>
+                </body>
 
-</html>
+                </html>
