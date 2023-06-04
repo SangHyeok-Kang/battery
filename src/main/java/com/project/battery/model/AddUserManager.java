@@ -102,7 +102,7 @@ public class AddUserManager {
             pstmt.setString(2, postcode);
             pstmt.setString(3, address);
             pstmt.setString(4, detail);
-            pstmt.setString(5, extra);
+            pstmt.setString(5, extra);        
            
 
             pstmt.executeUpdate();
