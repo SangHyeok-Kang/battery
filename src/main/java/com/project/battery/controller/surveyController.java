@@ -171,14 +171,14 @@ public class surveyController {
         return "redirect:/survey/surveySelectList";
     }
 
-    @PostMapping("survey/downloadSelectSurvey")
+    @PostMapping("host-center/downloadSelectSurvey")
     public String downloadSelectSurvey(Model model, @RequestParam String surveyTitle,@RequestParam String surveyContent, HttpServletResponse response, RedirectAttributes attrs) throws IOException {
         
         log.debug("downloadSelectSurvey called...");
 
         System.out.println("st = " + surveyTitle);
         System.out.println("sc = " + surveyContent);
-        String basePath = ctx.getRealPath(surveyResult_folder) + File.separator + (String) session.getAttribute("host") + File.separator + (int) session.getAttribute("lecture");
+        String basePath = ctx.getRealPath(surveyResult_folder) + File.separator + (String) session.getAttribute("host") + File.separator + (String)session.getAttribute("lecture");
 
         surveyModel survey = new surveyModel();
         
@@ -187,7 +187,7 @@ public class surveyController {
             attrs.addFlashAttribute("msg", "설문 결과가 없습니다.");
         }
 
-        return "survey/surveySelectList";
+        return String.format("redirect:/host-center/lecture?lecture=%s", (String)session.getAttribute("lecture"));
     }
      /* 모달 창으로 변경
     // 강의에 설문 등록 
