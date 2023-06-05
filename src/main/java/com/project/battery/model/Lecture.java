@@ -44,7 +44,7 @@ public class Lecture {
     
     public Boolean insertLecture(HikariConfiguration dbConfig, LectureDto lecture,MultipartFile thumnail,MultipartFile text_image,MultipartFile resume, String[] path){
         boolean success=false;
-        String sql = "INSERT INTO lecture values (default,default,?,?,default,?,?,?,?,?,?,?,?,?,?,?,?,default,?,default,0)";
+        String sql = "INSERT INTO lecture values (default,default,?,?,default,?,?,?,?,?,?,?,?,?,?,?,?,default,?,default,0,default)";
         String addressSQL = "INSERT INTO address values (default,?,?,?,?,?,1)";
         String updateFileFathSql = "update lecture set thumbnail=?, text_image=?, resume=? where lectureid=?";
         
@@ -149,6 +149,7 @@ public class Lecture {
                 lec.setHost(rs.getString("host"));
                 lec.setState(rs.getString("l_state"));
                 lec.setGrade(rs.getDouble("l_grade"));
+                lec.setSel_count(rs.getInt("view_count"));
                 list.add(lec);
                 
             }
@@ -173,11 +174,11 @@ public class Lecture {
             
             buffer.append("<div class=\"swiper-slide\">"
                     + "<div class =\"card_thumbnail\">"
-                    + " <a href=\"lecture/lecture_notice?lecture="+list.get(i).getLectureid()+"\">"
+                    + " <a href=\"lecture/select_lecture?lecture="+list.get(i).getLectureid()+"\">"
                     + " <img src=\"resource/thumbnail/"+list.get(i).getThumbnail()+"\"></a>"
                     + "</div>"
                     + "<div class=\"me-2 pt-2 row\">"
-                    + "<a href=\"lecture/lecture_notice?lecture="+list.get(i).getLectureid()+"\" class=\"thumnail-date\">"
+                    + "<a href=\"lecture/select_lecture?lecture="+list.get(i).getLectureid()+"\" class=\"thumnail-date\">"
                     + strAry[0] + " - " +strAry[1]
                     + "<div class=\"thumnail-explain pt-2\">"
                     + list.get(i).getTitle()
@@ -196,6 +197,27 @@ public class Lecture {
 
         return buffer.toString();
     }
+    
+    //조회수 업로드 메소드
+    public void updateViews(int lectureId){
+        javax.sql.DataSource ds = dbConfig.dataSource();
+
+        try {
+            Connection conn = ds.getConnection();
+            String sql = "UPDATE lecture SET view_count = view_count+1 WHERE lectureid = ? ";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setInt(1, lectureId);
+
+            pstmt.executeUpdate();
+            pstmt.close();
+            conn.close();
+
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
+        }
+    }
+    
     public boolean uploadMateria(HikariConfiguration dbConfig,String path, MultipartFile materia, String lecid, String id){
         boolean success=false;
         String sql = "insert into materia values(default, default, ?,?,?)";

@@ -52,6 +52,13 @@ public class LectureController {
     @Value("${file.materia_folder}")
     private String materia_folder;
 
+    @GetMapping("lecture/select_lecture")
+    public String ShowLecInfo(@RequestParam("lecture") int id){
+        Lecture lec = new Lecture(dbConfig);
+        lec.updateViews(id);
+        return "lecture/lecture_info";
+    }
+    
     @GetMapping("lecture/lecture_notice")
     public String lecture(@RequestParam("lecture") String id,@RequestParam("page") int page, Model model) {
         if(!id.equals((String)session.getAttribute("lecture")) || session.getAttribute("lecture") == null ){
