@@ -62,6 +62,11 @@ public class HostController {
         return "host-center/create_lecture";
     }
     
+    @GetMapping("host-center/lecture")
+    public String hostLecture(){
+        return "host-center/lecture";
+    }
+    
     //신규 강의 입력
     @PostMapping("host-center/insert_lecture.do")
     public String insertLecture(MultipartHttpServletRequest request, RedirectAttributes attrs){

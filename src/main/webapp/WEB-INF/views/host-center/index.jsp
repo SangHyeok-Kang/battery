@@ -179,12 +179,12 @@
                                             <c:forEach items="${startList}" var="list">
                                                 <div class="swiper-slide col-lg-3 col-md-6 ">
                                                     <div class ="card thumbnail">
-                                                        <a href='../lecture/lecture_notice?lecture=${list.getLectureid()}&page=1'>
+                                                        <a href='lecture?lecture=${list.getLectureid()}'>
                                                             <img src='${pageContext.request.contextPath}/resource/thumbnail/${list.getThumbnail()}' alt="${list.getThumbnail()}">
                                                         </a>
                                                     </div>
                                                     <div class="me-2 pt-2 row">
-                                                        <a href="lecture/lecture_notice?lecture=${list.getLectureid()}&page=1" class="thumnail-date">
+                                                        <a href="lecture?lecture=${list.getLectureid()}" class="thumnail-date">
                                                             ${list.getTitle()}
                                                             <%--
                                                             <div class="thumnail-explain pt-2">
@@ -249,12 +249,11 @@
                     <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="login.html">Logout</a>
+                        <a class="btn btn-primary" href="../logout.do">Logout</a>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
