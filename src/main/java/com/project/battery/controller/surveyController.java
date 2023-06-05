@@ -52,11 +52,7 @@ public class surveyController {
     // 생성한 설문 리스트
     @GetMapping("host-center/survey/surveymanager")
     public String surveyList(Model model, HttpServletRequest request) {
-
-        String business_id = "manager";
-        session.setAttribute("business_id", business_id);
-        
-        String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("business_id");
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("host");
         String basePath1 = ctx.getRealPath(surveyInfo_folder);
         surveyModel survey = new surveyModel();
         String[] surveyList = survey.surveyList(basePath);
@@ -126,12 +122,9 @@ public class surveyController {
     // 설문 생성 
     @PostMapping("host-center/survey/createSurvey.do")
     public String createSurveyDo(Model model, @RequestParam String surveyName, @RequestParam String[] test, String[] test1, String[] test2, @RequestParam String[] test3, String[] test4, String[] test5, RedirectAttributes attrs) {
-        String business_id = "manager";
-        session.setAttribute("business_id", business_id);
-        session.getAttribute("business_id");
-        
-       // String managerId = (String)session.getAttribute("surveyName");
-        String basePath = ctx.getRealPath(survey_folder) + File.separator + session.getAttribute("business_id");
+ 
+        // String managerId = (String)session.getAttribute("surveyName");
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + session.getAttribute("host");
         // model에 파일 경로 전달
         model.addAttribute("basePath", basePath);
 
@@ -151,23 +144,15 @@ public class surveyController {
     // 강의에 등록된 설문 리스트 
     @GetMapping("survey/surveySelectList")
     public String surveySelectList(Model model) {
-        
-        String business_id = "manager";
-        session.setAttribute("business_id", business_id);
-        int lectureid = 1234;
-        session.setAttribute("lectureid", lectureid);
-        String userid = "test";
-        session.setAttribute("userid", userid);
-        
-        log.debug("surveySelectList called...");
 
-        String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("business_id");
+
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("host");
         String basePath1 = ctx.getRealPath(surveyInfo_folder);
 
         surveyModel survey = new surveyModel();
-        String[] searchSurvey = survey.searchSurvey(basePath, (String) session.getAttribute("business_id"), basePath1, (int) session.getAttribute("lectureid"));
+        String[] searchSurvey = survey.searchSurvey(basePath, (String) session.getAttribute("host"), basePath1, (int) session.getAttribute("lecture"));
 
-        boolean[] isStart = survey.checkIfStart(searchSurvey, (String) session.getAttribute("userid"));
+        boolean[] isStart = survey.checkIfStart(searchSurvey, (String) session.getAttribute("host"));
 //        for (int i = 0; i < isStart.length; i++) {
 //            System.out.println("isStart =" + isStart[i]);
 //        }
@@ -205,11 +190,6 @@ public class surveyController {
     // 강의에 설문 등록 
     @PostMapping("survey/selectSurvey")
     public String selectSurvey(Model model) {
-
-        String business_id = "manager";
-        session.setAttribute("business_id", business_id);
-        
-        log.debug("selectSurvey called...");
 
         String basePath = ctx.getRealPath(survey_folder) + File.separator + session.getAttribute("business_id");
 
