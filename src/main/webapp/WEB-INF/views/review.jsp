@@ -25,11 +25,12 @@
 
             강의 별점 : 
             <select name="lectureGrade" >
+                <option value="-1">선택</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
-                <option value="5" selected>5</option>
+                <option value="5">5</option>
             </select>
             <br> <br>
 
@@ -40,11 +41,12 @@
 
             강사 별점 : 
             <select name="instructorGrade" >
+                <option value="-1">선택</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
-                <option value="5" selected>5</option>
+                <option value="5">5</option>
             </select>
             <br> <br>
 
@@ -55,11 +57,12 @@
 
             스탭 별점 : 
             <select name="staffGrade" >
+                <option value="-1">선택</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
-                <option value="5" selected>5</option>
+                <option value="5">5</option>
             </select>
             <br> <br><!-- comment -->
 
@@ -70,11 +73,12 @@
 
             기업 별점 : 
             <select name="businessGrade" >
+                <option value="-1">선택</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
-                <option value="5" selected>5</option>
+                <option value="5">5</option>
             </select>
             <br> <br>
 

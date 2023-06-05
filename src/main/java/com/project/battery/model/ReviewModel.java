@@ -37,18 +37,18 @@ public class ReviewModel {
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 
-    // 리뷰 등록
-    // 강의 아이디 : 세션값 /  강사 아이디 : staff테이블에서 s_state가 0인 userid / 스탭 아이디 : staff테이블에서 s_state가 1인 userid / 기업 아이디 : lecture테이블에서 host
+    // 리뷰 등록 (별점 또는 리뷰 하나라도 작성되면 리뷰 추가 (별점 선택 안된 경우 -1 값으로 데이터베이스 저장)
+    // 강의 아이디 : 세션값 /  강사 아이디 : staffe테이블에서 user_state가 0인 userid / 스탭 아이디 : staff테이블에서 user_state가 1인 userid / 기업 아이디 : lecture테이블에서 host
     public boolean insertReview(HikariConfiguration dbConfig, int lectureId, String userId, int lectureGrade, String lectureReview, int instructorGrade, String instructorReview, int staffGrade, String staffReview, int businessGrade, String businessReview) throws SQLException {
         boolean status = false;
 
-        String searchSql = "SELECT userid, s_state FROM staffe where lectureid = ?";  // 해당 강의의 강사, 스탭 아이디 찾는 sql문 
+        String searchSql = "SELECT userid, user_state FROM staffe where lectureid = ?";  // 해당 강의의 강사, 스탭 아이디 찾는 sql문 
         String searchHostSql = "SELECT host FROM lecture WHERE lectureid = ?";  // 해당 강의의 기업 아이디 찾는 sql문 
 
         String sql = "INSERT INTO review(id, writer, userstate, review, grade) values (?,?,?,?,?)";  // 리뷰 insert문 
 
-        List<Integer> instructorIdList = new ArrayList<>();
-        List<Integer> staffIdList = new ArrayList<>();
+        List<String> instructorIdList = new ArrayList<>();
+        List<String> staffIdList = new ArrayList<>();
         String businessId = null;
 
         try {
@@ -62,15 +62,15 @@ public class ReviewModel {
 
             while (rs.next()) {
                 String userid = rs.getString("userid");
-                int s_state = rs.getInt("s_state");
+                int user_state = rs.getInt("user_state");
                 // System.out.println("User ID: " + userid + ", S_State: " + s_state);
 
-                // 강사 아이디 (s_state가 0인 경우)
-                if (s_state == 0) {
-                    instructorIdList.add(Integer.parseInt(userid));
-                } // 스탭 아이디 (s_state가 1인 경우)
-                else if (s_state == 1) {
-                    staffIdList.add(Integer.parseInt(userid));
+                // 강사 아이디 (user_state가 0인 경우)
+                if (user_state == 0) {
+                    instructorIdList.add(userid);
+                } // 스탭 아이디 (user_state가 1인 경우)
+                else if (user_state == 1) {
+                    staffIdList.add(userid);
                 }
             }
 
@@ -85,44 +85,52 @@ public class ReviewModel {
             pstmt = conn.prepareStatement(sql);
 
             // 강의 리뷰
-            pstmt.setInt(1, lectureId);  // 강의 아이디
-            pstmt.setString(2, userId);  // 작성자 아이디 
-            pstmt.setInt(3, 1);  // state
-            pstmt.setString(4, lectureReview);  // 강의 리뷰 
-            pstmt.setInt(5, lectureGrade);  // 강의 별점 
-            pstmt.addBatch();  // addBatch에 담기
-            pstmt.clearParameters();  // 파라미터 clear
+            if (lectureGrade > 0 || !lectureReview.isEmpty()) {
+                pstmt.setInt(1, lectureId);  // 강의 아이디
+                pstmt.setString(2, userId);  // 작성자 아이디 
+                pstmt.setInt(3, 1);  // state
+                pstmt.setString(4, lectureReview);  // 강의 리뷰 
+                pstmt.setInt(5, lectureGrade);  // 강의 별점 
+                pstmt.addBatch();  // addBatch에 담기
+                pstmt.clearParameters();  // 파라미터 clear
+            }
 
             // 강사 리뷰
-            for (int instructorId : instructorIdList) {
-                pstmt.setInt(1, instructorId);  // 강사 아이디 
-                pstmt.setString(2, userId);  // 작성자 아이디 
-                pstmt.setInt(3, 0);  // state
-                pstmt.setString(4, instructorReview);  // 강사 리뷰 
-                pstmt.setInt(5, instructorGrade);  // 강사 별점 
-                pstmt.addBatch();
-                pstmt.clearParameters();
+            for (String instructorId : instructorIdList) {
+                if (instructorGrade > 0 || !instructorReview.isEmpty()) {
+                    pstmt.setString(1, instructorId);  // 강사 아이디 
+                    pstmt.setString(2, userId);  // 작성자 아이디 
+                    pstmt.setInt(3, 0);  // state
+                    pstmt.setString(4, instructorReview);  // 강사 리뷰 
+                    pstmt.setInt(5, instructorGrade);  // 강사 별점 
+                    pstmt.addBatch();
+                    pstmt.clearParameters();
+                }
             }
 
             // 스태프 리뷰
-            for (int staffId : staffIdList) {
-                pstmt.setInt(1, staffId);  // 스탭 아이디 
-                pstmt.setString(2, userId);  // 작성자 아이디 
-                pstmt.setInt(3, 0);  // state
-                pstmt.setString(4, staffReview);  // 스탭 리뷰 
-                pstmt.setInt(5, staffGrade);  // 스탭 별점 
-                pstmt.addBatch();
-                pstmt.clearParameters();
+            for (String staffId : staffIdList) {
+                if (staffGrade > 0 || !staffReview.isEmpty()) {
+                    pstmt.setString(1, staffId);  // 스탭 아이디 
+                    pstmt.setString(2, userId);  // 작성자 아이디 
+                    pstmt.setInt(3, 0);  // state
+                    pstmt.setString(4, staffReview);  // 스탭 리뷰 
+                    pstmt.setInt(5, staffGrade);  // 스탭 별점 
+                    pstmt.addBatch();
+                    pstmt.clearParameters();
+                }
             }
 
             // 기업 리뷰 
-            pstmt.setString(1, businessId);  // 기업 아이디 
-            pstmt.setString(2, userId);  // 작성자 아이디 
-            pstmt.setInt(3, 0);  // state
-            pstmt.setString(4, businessReview);  // 기업 리뷰 
-            pstmt.setInt(5, businessGrade);  // 기업 별점 
-            pstmt.addBatch();  // addBatch에 담기
-            pstmt.clearParameters();  // 파라미터 clear
+            if (businessGrade > 0 || !businessReview.isEmpty()) {
+                pstmt.setString(1, businessId);  // 기업 아이디 
+                pstmt.setString(2, userId);  // 작성자 아이디 
+                pstmt.setInt(3, 0);  // state
+                pstmt.setString(4, businessReview);  // 기업 리뷰 
+                pstmt.setInt(5, businessGrade);  // 기업 별점 
+                pstmt.addBatch();  // addBatch에 담기
+                pstmt.clearParameters();  // 파라미터 clear
+            }
 
             pstmt.executeBatch();   // Batch 실행
 
