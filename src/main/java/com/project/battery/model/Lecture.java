@@ -241,16 +241,20 @@ public class Lecture {
         return view_list;
     }
 
-    public ArrayList<LectureDto> getLocalList() {
+    public ArrayList<LectureDto> getLocalList(String local, String keyword) {
 
         try {
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
-            Statement stmt = conn.createStatement();
-            String local_sql = "select * from lecture lec join address ad on lec.lectureid = ad.id where ad.address like '?%' and l_state = 'start'"; //지역별 검색
-
-            rs = stmt.executeQuery(local_sql);
-
+            
+            String local_sql = "select * from lecture lec join address ad on lec.lectureid = ad.id where ad.address like '?%' and l_state = 'start' and lec.l_keyword = '%?%"; //지역별 검색          
+            pstmt = conn.prepareStatement(local_sql);
+            
+            pstmt.setString(1,local);
+            pstmt.setString(2,keyword);
+            
+            rs = pstmt.executeQuery();
+            
             while (rs.next()) {
                 LectureDto lec = new LectureDto();
                 lec.setLectureid(rs.getInt("lectureid"));
@@ -264,7 +268,7 @@ public class Lecture {
 
             }
             rs.close();
-            stmt.close();
+            pstmt.close();
             conn.close();
 
         } catch (Exception ex) {
