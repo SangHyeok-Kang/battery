@@ -14,37 +14,25 @@
             <div class ="mypage">
                 <div>
                     <label for="userid">아이디:</label>
-                    <input type="text" id="userid" name="userid" readonly="readonly" value="${host}" required style="width:auto"; onkeyup="checkReg(event)">                    
+                    <input type="text" id="userid" name="userid" readonly="readonly" value="${host}" required style="width:auto"; >                    
                 </div>
-                <script>
-                    function checkReg(event) {
-                        const regExp = /[^0-9a-zA-Z]/g; // 숫자와 영문자만 허용
-                //   const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
-                        const del = event.target;
-                        if (regExp.test(del.value)) {
-                            del.value = del.value.replace(regExp, '');
-                        }
-                    }
-                    ;
-                </script>
+
                 <form action="changePassword.jsp" method="post">
                     <label for="password">현재 비밀번호:</label>
                     <input type="password" id="currentPassword" name="currentPassword" required style="width:auto"; ><br>
                     <label for="newPassword">변경할 비밀번호:</label>
-                    <input type="password" id="newPassword" name="newPassword" required style="width:auto"; ><br>
-                    <label for="confirmPassword">비밀번호 확인:</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required style="width:auto"; ><br>                   
+                    <input type="password" id="newPassword" name="newPassword" required style="width:auto"; ><br>                 
                 </form>
 
                 <label for="name">이름:</label>
                 <input type="text" id="name" name="name" readonly="readonly" value="${host}" required style="width:auto"><br><br>
 
                 <label for="phone">전화번호:</label>
-                <input type="tel" id="phone1" name="phone1" maxlength="3" required>
+                <input type="tel" id="phone1" name="phone1" maxlength="3" required onkeyup="checkReg(event)">
                 -
-                <input type="tel" id="phone2" name="phone2" maxlength="4" required>
+                <input type="tel" id="phone2" name="phone2" maxlength="4" required onkeyup="checkReg(event)">
                 -
-                <input type="tel" id="phone3" name="phone3" maxlength="4" required> <br><br>
+                <input type="tel" id="phone3" name="phone3" maxlength="4" required onkeyup="checkReg(event)"> <br><br>
 
 
                 <label for="address">주소:</label>
@@ -58,7 +46,18 @@
                 <button type="submit" formaction="${pageContext.request.contextPath }/delUser.do">탈퇴하기</button>
                 <button onclick="history.back()">뒤로가기</button>
             </div>
-
+            <script>
+                function checkReg(event) {
+                    const regExp = /[^0-9]/g; // 숫자만 허용
+                    //   const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
+                    const del = event.target;
+                    if (regExp.test(del.value)) {
+                        del.value = del.value.replace(regExp, '');
+                    }
+                }
+                ;
+            </script>
     </body>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/info.js" ></script>
 </html>
 

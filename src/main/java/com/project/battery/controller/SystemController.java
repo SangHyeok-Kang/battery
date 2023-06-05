@@ -72,7 +72,11 @@ public class SystemController {
     public String businessSignUp() {
         return "/business-sign-up";
     }
-
+    @GetMapping("/mypage")
+    public String mypage(){
+        return "/mypage";
+    }
+    
     @PostMapping(value = "/login.do")
     public String loginDo(@RequestParam String chk_state, @RequestParam String userid, @RequestParam String password, RedirectAttributes attrs) {
         String urls = "";
