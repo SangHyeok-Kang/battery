@@ -66,7 +66,7 @@
                 <div class="container">
                     <div class="row align-items-center justify-content-start">
                         <p class="font-weight-bold text-2xl text-gradient-dark">회원가입</p>
-                        <form id="contact-form" method="post" autocomplete="off" action="${pageContext.request.contextPath}/normal_signup.do">
+                        <form id="contact-form" method="post" autocomplete="off" action="${pageContext.request.contextPath}/normal_signup.do" onsubmit="subcatergory()">
                             <table class="table">
                                 <colgroup>
                                     <col style="width: 20%;">
@@ -96,7 +96,7 @@
                                                                 alert("아이디를 입력해주세요");
                                                             else {
                                                                 const link = 'checkId.do?userid=' + userid;
-                                                                location.href=link;
+                                                                location.href = link;
                                                             }
                                                         }
                                                     </script>
@@ -284,7 +284,14 @@
 
                                                 </div>
                                                 <div id="selectedSubcategories"></div>
-                                            </div>
+                                                <input type="hidden" id="keyword" name="keyword">
+                                                <script>
+                                                    function subcatergory() {
+                                                        document.getElementById('keyword').value = document.getElementById('selectedSubcategories').innerText;
+                                                        sessionStorage.removeItem("user");
+                                                    }
+                                                </script>
+                                            </div> 
                                         </td>
                                     </tr>
                                     <tr>
@@ -299,8 +306,8 @@
                 </div> 
             </section>
         </div>
-</body>
+    </body>
 
-<script src="./assets/material-kit.min.js?v=3.0.4" type="text/javascript"></script> <!--이거 있어야 입력 폼 애니메이션 들어감-->
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/info.js" ></script>
+    <script src="./assets/material-kit.min.js?v=3.0.4" type="text/javascript"></script> <!--이거 있어야 입력 폼 애니메이션 들어감-->
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/info.js" ></script>
 </html>

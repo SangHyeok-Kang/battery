@@ -67,7 +67,7 @@
                 <div class="container">
                     <div class="row align-items-center justify-content-start">
                         <p class="font-weight-bold text-2xl text-gradient-dark">비즈니스 회원가입</p>
-                        <form id="contact-form" method="post" autocomplete="off" action="${pageContext.request.contextPath}/ceo_signup.do">
+                        <form id="contact-form" method="post" autocomplete="off" action="${pageContext.request.contextPath}/ceo_signup.do" onsubmit="subcatergory()">
                             <table class="table">
                                 <colgroup>
                                     <col style="width: 20%;">
@@ -247,6 +247,13 @@
 
                                                 </div>
                                                 <div id="selectedSubcategories"></div>
+                                                <input type="hidden" id="keyword" name="keyword">
+                                                <script>
+                                                    function subcatergory() {
+                                                        document.getElementById('keyword').value = document.getElementById('selectedSubcategories').innerText;
+                                                        sessionStorage.removeItem("user");
+                                                    }
+                                                </script>
                                             </div>
                                         </td>
                                     </tr>

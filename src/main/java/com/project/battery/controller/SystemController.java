@@ -51,7 +51,7 @@ public class SystemController {
     @GetMapping("/")
     public String projectMain(Model model) {
         Lecture lec = new Lecture(dbConfig);
-        list = lec.getLecture();
+        list = lec.getLectureList();
         String result = lec.getLectureTable(list);
 
         model.addAttribute("lecturelist", result);
@@ -60,6 +60,7 @@ public class SystemController {
 
     @GetMapping("/sign-in")
     public String signIn() {
+        session.invalidate();
         return "/sign-in";
     }
 
@@ -116,7 +117,7 @@ public class SystemController {
         session.setAttribute("user", userid);
         attrs.addFlashAttribute("result", result);
         attrs.addFlashAttribute("user", session.getAttribute("user"));
-        
+
         return "redirect:/business-sign-up";
     }
 
@@ -124,12 +125,11 @@ public class SystemController {
     @PostMapping("/normal_signup.do")
     public String insertNormalUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
             @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String birthdate, @RequestParam String school,
-            @RequestParam String major, @RequestParam String grade, @RequestParam String status, @RequestParam List<String> subcategory,
+            @RequestParam String major, @RequestParam String grade, @RequestParam String status, @RequestParam String keyword,
             @RequestParam String postcode, @RequestParam String detail, @RequestParam String extra, @RequestParam String address, @RequestParam String gender, Model model) {
         String schoolinfo = "";
         String phone = phone1 + "-" + phone2 + "-" + phone3;
-        String interest = subcategory.get(0) + "/" + subcategory.get(1) + "/" + subcategory.get(2) + "/";
-        
+        session.invalidate();
         if (major.isEmpty() && status.isEmpty()) {
             schoolinfo = school + " " + grade;
         } else {
@@ -139,7 +139,7 @@ public class SystemController {
         AddUserManager manager = new AddUserManager(dbConfig);
         result = manager.checkId(userid);
         if (result == true) {
-            manager.addRow(userid, name, password, phone, birthdate, schoolinfo, interest, postcode, detail, extra, address, gender);
+            manager.addRow(userid, name, password, phone, birthdate, schoolinfo, keyword, postcode, detail, extra, address, gender);
 
             model.addAttribute("msg", "회원가입 완료되었습니다.");
             model.addAttribute("url", "/");
@@ -154,16 +154,15 @@ public class SystemController {
     @PostMapping("/ceo_signup.do")
     public String insertBusinessUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
             @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String com_name,
-            @RequestParam List<String> subcategory, @RequestParam String postcode, @RequestParam String detail,
+            @RequestParam String keyword, @RequestParam String postcode, @RequestParam String detail,
             @RequestParam String extra, @RequestParam String address, Model model) {
+        session.invalidate();
         String phone = phone1 + "-" + phone2 + "-" + phone3;
-        String interest = subcategory.get(0) + "/" + subcategory.get(1) + "/" + subcategory.get(2) + "/";
-
 
         AddUserManager manager = new AddUserManager(dbConfig);
         result = manager.check_bId(userid);
         if (result == true) {
-            manager.b_addRow(userid, password, com_name, phone, name, interest, postcode, detail, address, extra);
+            manager.b_addRow(userid, password, com_name, phone, name, keyword, postcode, detail, address, extra);
 
             model.addAttribute("msg", "회원가입 완료되었습니다.");
             model.addAttribute("url", "/");

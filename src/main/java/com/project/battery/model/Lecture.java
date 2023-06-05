@@ -117,13 +117,15 @@ public class Lecture {
     }
     
 
-    public ArrayList<LectureDto> getLecture(){
+    public ArrayList<LectureDto> getLectureList(){
         
         try {
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
             Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM lecture";
+            String sql = "SELECT * FROM lecture ORDER BY view_count desc"; //조회수별 검색
+            String local_sql = "select * from lecture lec join address ad on lec.lectureid = ad.id where ad.address like '?%'";
+            
             rs = stmt.executeQuery(sql);
 
 
