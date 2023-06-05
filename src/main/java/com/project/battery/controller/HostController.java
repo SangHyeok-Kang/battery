@@ -79,7 +79,7 @@ public class HostController {
         surveyModel survey = new surveyModel();
         String[] searchSurvey = survey.searchSurvey(basePath, (String) session.getAttribute("host"), basePath1, Integer.parseInt(lecid));
 
-        boolean[] isStart = survey.checkIfStart(searchSurvey, (String) session.getAttribute("host"));
+        boolean[] isStart = survey.checkIfStart(searchSurvey);
 //        for (int i = 0; i < isStart.length; i++) {
 //            System.out.println("isStart =" + isStart[i]);
 //        }

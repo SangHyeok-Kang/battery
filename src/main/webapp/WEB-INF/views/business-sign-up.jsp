@@ -1,14 +1,9 @@
-<%-- 
-    Document   : business-sign-up
-    Created on : 2023. 6. 3., 오전 11:03:23
-    Author     : qntjd
---%>
-
 <!DOCTYPE html>
 <html lang="ko" itemscope itemtype="http://schema.org/WebPage">
 
     <head>
         <%@page contentType="text/html" pageEncoding="UTF-8" %>
+        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
         <!--bootstrap-->
@@ -38,7 +33,19 @@
 
     </head>
 
-    <body class="about-us bg-gray-100">
+    <body class="about-us bg-gray-100">  
+        <script>
+            <c:choose>
+                <c:when test="${result eq 'true' }">
+            alert("사용가능한 아이디입니다.");
+                </c:when>
+
+                <c:when test="${result eq 'false' }">
+            alert("사용할 수 없는 아이디입니다.");
+                </c:when>
+
+            </c:choose>
+        </script>
         <!-- Navbar-->
         <nav class="navbar navbar-light py-3">
             <div class="container">
@@ -60,7 +67,7 @@
                 <div class="container">
                     <div class="row align-items-center justify-content-start">
                         <p class="font-weight-bold text-2xl text-gradient-dark">비즈니스 회원가입</p>
-                        <form id="contact-form" method="post" autocomplete="off">
+                        <form id="contact-form" method="post" autocomplete="off" action="${pageContext.request.contextPath}/ceo_signup.do">
                             <table class="table">
                                 <colgroup>
                                     <col style="width: 20%;">
@@ -77,13 +84,24 @@
                                                 <div class="col-md-6">
                                                     <div class="input-group input-group-outline">
                                                         <input type="text" id="userid" name="userid" class="form-control"
-                                                               required>
+                                                               value ="${user}" onkeyup="checkReg(event)" required >
                                                     </div>
                                                     <small>아이디 관련 설명 여기에 적어야 함</small>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <button type="button" class="btn btn-outline-info">중복 확인</button>
+                                                    <button type="button" class="btn btn-outline-info" onclick ="check_bId()">중복 확인</button>
                                                     <!--중복 확인 관련 나중에 할거임-->
+                                                    <script>
+                                                        function check_bId() {
+                                                            var userid = document.getElementById("userid").value;
+                                                            if (!userid)
+                                                                alert("아이디를 입력해주세요");
+                                                            else {
+                                                                const link = 'check_bId.do?userid=' + userid;
+                                                                location.replace(link);
+                                                            }
+                                                        }
+                                                    </script>
                                                 </div>
                                             </div>
                                         </td>
@@ -237,13 +255,23 @@
                                 </tbody>
                             </table>
                             <div class="col-auto text-center pt-4">
-                                <button type="button" class="btn btn-info ">회원 가입</button>
+                                <button type="submit" class="btn btn-info ">회원 가입</button>
                             </div>
                         </form>
                     </div>
                 </div>
         </div>
     </section>
+    <script>
+        function checkReg(event) {
+            const regExp = /[^0-9a-zA-Z]/g; // 영어 및 숫자만 허용
+            //   const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
+            const del = event.target;
+            if (regExp.test(del.value)) {
+                del.value = del.value.replace(regExp, '');
+            }
+        };
+    </script>
 </body>
 
 <script src="./assets/material-kit.min.js?v=3.0.4" type="text/javascript"></script> <!--이거 있어야 입력 폼 애니메이션 들어감-->
