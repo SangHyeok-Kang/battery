@@ -37,9 +37,29 @@
     <body onload="updateButtons()">
         <h1>강의 상세 페이지</h1>
         <br>
-        ${juso}
-        <hr>
         <br><br>
+        <img src="../resource/thumbnail/${thumbnail}"/>
+        <br><br>
+        기업명 : ${com_name} <!--기업명-->
+        <br><br>
+        카테고리 : ${category} <!--카테고리-->
+        <br><br>
+        조회수 : ${view_count} <!--조회수-->
+        <br><br>
+        신청인원 : ${enroll_count} <!--신청 인원-->
+        <br><br>
+        강의명 : ${lecture_name} <!-- 강의명 -->
+        <br><br>
+        모집 기간 : ${rec_date} <!--모집 기간-->
+        <br><br>
+        강의 기간 : ${lec_date} <!--강의 기간-->
+        <br><br>
+        <img src = "../resource/text_image/${text_image}/>
+        <br><br>
+        가격 : ${price}
+        <br><br>
+        ${juso} <!--주소-->
+        <hr>
         <div id="map" style="width:500px;height:400px;"></div>
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5385b2bd1d614d808c86f0bb4257bc4&libraries=services"></script>
         <script>

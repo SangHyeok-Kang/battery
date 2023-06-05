@@ -46,7 +46,9 @@ public class LectureDto {
     private String filename;
     private String fileuploader;
     private String filedate;
-    private int sel_count = 0;
+    private int sel_count = 0; //조회수
+    private String comname; //회사명
+    private int enroll_count =0; //신청 인원
     
     //학습자료 정보 관리를 위한 생성자
     public LectureDto(int matCo, String filename, String fileuploader, String filedate) {
