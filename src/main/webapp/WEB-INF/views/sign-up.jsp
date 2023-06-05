@@ -77,7 +77,6 @@
                     what.focus();
                 }
             }
-
         </script>
         <!-- Navbar-->
         <nav class="navbar navbar-light py-3">
@@ -133,8 +132,7 @@
                                                                 alert("아이디를 입력해주세요");
                                                             } else if (!check(re, id, "아이디는 4~12자의 영문 대소문자와 숫자로만 입력")){
                                                                   return false;
-                                                            }
-                                                            else {
+                                                            } else {
                                                                 const link = 'checkId.do?userid=' + userid;
                                                                 location.href = link;
                                                             }                                                           
@@ -246,7 +244,7 @@
                                                 <div class="col-4 col-md-2">
                                                     <!--전화번호 끝 4자리-->
                                                     <div class="input-group input-group-outline">
-                                                        <input type="text" id="phone3" name="phone3" class="form-control" maxlength="4"
+                                                        <input type="text" id="phone3" name="phone3" class="form-control" maxlength="4" onKeydown="this.value = this.value.replace(/[^0-9]/g, '');"
                                                                required>
                                                     </div>
                                                 </div>
