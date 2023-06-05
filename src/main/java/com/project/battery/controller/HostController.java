@@ -7,6 +7,8 @@ package com.project.battery.controller;
 import com.project.battery.dto.LectureDto;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
+import com.project.battery.model.surveyModel;
+import java.io.File;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -43,7 +46,10 @@ public class HostController {
     private String thumbnail;
     @Value("${file.resumeForm_folder}")
     private String resume;
-    
+    @Value("${file.survey_folder}")
+    private String survey_folder;
+    @Value("${file.surveyInfo_folder}")
+    private String surveyInfo_folder;
     
     @GetMapping("host-center")
     public String hostCentter(Model model){
@@ -63,7 +69,27 @@ public class HostController {
     }
     
     @GetMapping("host-center/lecture")
-    public String hostLecture(){
+    public String hostLecture(@RequestParam("lecture") int lecid, Model model){
+        Lecture lec = new Lecture(dbConfig);
+        LectureDto lecDto = lec.getHostLecture(lecid);
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("host");
+        String basePath1 = ctx.getRealPath(surveyInfo_folder);
+
+        surveyModel survey = new surveyModel();
+        String[] searchSurvey = survey.searchSurvey(basePath, (String) session.getAttribute("host"), basePath1, lecid);
+
+        boolean[] isStart = survey.checkIfStart(searchSurvey, (String) session.getAttribute("host"));
+//        for (int i = 0; i < isStart.length; i++) {
+//            System.out.println("isStart =" + isStart[i]);
+//        }
+        String[] surveyList = survey.surveyList(basePath);
+        for(String a : surveyList){
+            System.out.println(a);
+        }
+        model.addAttribute("surveyList", surveyList);
+        model.addAttribute("searchSurvey", searchSurvey);
+        model.addAttribute("isStart", isStart);
+        model.addAttribute("lecture",lecDto);
         return "host-center/lecture";
     }
     
