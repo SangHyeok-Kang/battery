@@ -58,7 +58,7 @@ public class SystemController {
         view_list = lec.getViewCountList();
         nopri_list = lec.getNoPriceList();
         pri_list = lec.getPriceList();
-        loc_list = lec.getLocalList();
+        //loc_list = lec.getLocalList();
         String view_count = lec.getLectureTable(view_list);
         String nopri = lec.getLectureTable(nopri_list);
         String pri = lec.getLectureTable(pri_list);
