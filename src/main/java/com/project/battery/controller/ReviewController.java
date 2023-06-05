@@ -55,7 +55,7 @@ public class ReviewController {
         
         ReviewModel review = new ReviewModel();
         
-        boolean insertReviewSuccess = review.insertReview(dbConfig, (int) session.getAttribute("lecture"), (String) session.getAttribute("host"), Integer.parseInt(lectureGrade), lectureReview, Integer.parseInt(instructorGrade), instructorReview, Integer.parseInt(staffGrade), staffReview, Integer.parseInt(businessGrade), businessReview);
+        boolean insertReviewSuccess = review.insertReview(dbConfig, Integer.parseInt((String)session.getAttribute("lecture")), (String) session.getAttribute("host"), Integer.parseInt(lectureGrade), lectureReview, Integer.parseInt(instructorGrade), instructorReview, Integer.parseInt(staffGrade), staffReview, Integer.parseInt(businessGrade), businessReview);
         
         if (insertReviewSuccess) {
             attrs.addFlashAttribute("msg", "리뷰 등록 완료하였습니다.");
