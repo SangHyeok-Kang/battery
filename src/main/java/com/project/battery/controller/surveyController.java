@@ -96,9 +96,6 @@ public class surveyController {
     // 생성한 설문 다운
     @PostMapping("host-center/survey/downloadSurvey")
     public String downloadSurvey(Model model, @RequestParam String surveyName, HttpServletResponse response) throws IOException {
-        
-        log.debug("downloadSurvey called...");
-
         String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("host");
 
         surveyModel survey = new surveyModel();
@@ -130,7 +127,7 @@ public class surveyController {
         return "redirect:/host-center/survey/surveymanager";
     }
     
-    
+    /*호스트 센터에서 강의를 호출할 때 불러오는 것으로 변경
     // 강의에 등록된 설문 리스트 
     @GetMapping("survey/surveySelectList")
     public String surveySelectList(Model model) {
@@ -151,7 +148,7 @@ public class surveyController {
         model.addAttribute("isStart", isStart);
 
         return "survey/surveySelectList";
-    }
+    }*/
 
     // 강의에 등록된 설문 삭제 
     @PostMapping("survey/deleteSelectSurvey")
@@ -173,15 +170,15 @@ public class surveyController {
         }
         return "redirect:/survey/surveySelectList";
     }
-    
-    @PostMapping("survey/downloadSelectSurvey")
+
+    @PostMapping("host-center/downloadSelectSurvey")
     public String downloadSelectSurvey(Model model, @RequestParam String surveyTitle,@RequestParam String surveyContent, HttpServletResponse response, RedirectAttributes attrs) throws IOException {
         
         log.debug("downloadSelectSurvey called...");
 
         System.out.println("st = " + surveyTitle);
         System.out.println("sc = " + surveyContent);
-        String basePath = ctx.getRealPath(surveyResult_folder) + File.separator + (String) session.getAttribute("host") + File.separator + (int) session.getAttribute("lecture");
+        String basePath = ctx.getRealPath(surveyResult_folder) + File.separator + (String) session.getAttribute("host") + File.separator + (String)session.getAttribute("lecture");
 
         surveyModel survey = new surveyModel();
         
@@ -190,9 +187,9 @@ public class surveyController {
             attrs.addFlashAttribute("msg", "설문 결과가 없습니다.");
         }
 
-        return "survey/surveySelectList";
+        return String.format("redirect:/host-center/lecture?lecture=%s", (String)session.getAttribute("lecture"));
     }
-    
+     /* 모달 창으로 변경
     // 강의에 설문 등록 
     @PostMapping("survey/selectSurvey")
     public String selectSurvey(Model model) {
@@ -204,12 +201,12 @@ public class surveyController {
         model.addAttribute("surveyList", surveyList);
 
         return "survey/selectSurvey";
-    }
+    }*/
 
     // 강의에 대해서 설문 등록 시 엑셀 파일로 정보 저장
-    @PostMapping("survey/registerSurvey.do")
+    @PostMapping("host-center/registerSurvey.do")
     public String registerSurveyDo(Model model, @RequestParam String surveyName, @RequestParam String title, @RequestParam String startDatetime, @RequestParam String endDatetime,  RedirectAttributes attrs) {
- 
+
         String basePath = ctx.getRealPath(surveyInfo_folder);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
@@ -218,7 +215,8 @@ public class surveyController {
 
         if (startDateTime.isBefore(endDateTime)) {
             surveyModel survey = new surveyModel();
-            boolean registerSurveySuccess = survey.registerSurvey(basePath, (int) session.getAttribute("lecture"), surveyName, (String) session.getAttribute("host"), title, startDatetime.toString(), endDatetime.toString());
+            boolean registerSurveySuccess = survey.registerSurvey(basePath, Integer.parseInt((String)session.getAttribute("lecture")) , surveyName, (String) session.getAttribute("host"), title, startDatetime, endDatetime);
+
 
             if (registerSurveySuccess) {
                 attrs.addFlashAttribute("msg", "설문 생성 완료하였습니다.");
@@ -229,7 +227,7 @@ public class surveyController {
             attrs.addFlashAttribute("msg", "시작 일시가 종료 일시보다 늦거나 같습니다.");
         }
 //        System.out.println(registerSurveySuccess);
-        return "redirect:/survey/surveySelectList";
+        return String.format("redirect:/host-center/lecture?lecture=%s", (String)session.getAttribute("lecture"));
     }
     
     
