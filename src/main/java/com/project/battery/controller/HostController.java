@@ -7,6 +7,7 @@ package com.project.battery.controller;
 import com.project.battery.dto.LectureDto;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
+import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -44,7 +46,14 @@ public class HostController {
     
     
     @GetMapping("host-center")
-    public String hostCentter(){
+    public String hostCentter(Model model){
+        Lecture lec = new Lecture(dbConfig);
+        List<LectureDto> leclist = lec.getCreateLectureList((String) session.getAttribute("host"),"start");
+        for(LectureDto l : leclist){
+          
+        }
+
+        model.addAttribute("startList",leclist);
         return "host-center/index";
     }
     
@@ -57,6 +66,7 @@ public class HostController {
     @PostMapping("host-center/insert_lecture.do")
     public String insertLecture(MultipartHttpServletRequest request, RedirectAttributes attrs){
         LectureDto lecture = new LectureDto();
+        System.out.println("yes");
         //강의 객체로 정보 입력
         lecture.setTitle(request.getParameter("title"));
         lecture.setText(request.getParameter("text"));
@@ -92,6 +102,6 @@ public class HostController {
         }else{
             attrs.addFlashAttribute("msg", "강의 개설에 실패하였습니다");
         }
-        return "redirect:/host-center/host-center";
+        return "redirect:/host-center/";
     }
 }

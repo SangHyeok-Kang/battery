@@ -15,19 +15,19 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
         <!-- favicon ?????? -->
-        <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/ssac.png">
-        <link rel="icon" type="image/png" href="../assets/img/ssac.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="${pageContext.request.contextPath}/assets/img/ssac.png">
+        <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/assets/img/ssac.png">
         <title>호스트 센터</title>
 
         <!-- Custom fonts for this template-->
-        <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link href="${pageContext.request.contextPath}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
-
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
         <!-- Custom styles for this template-->
-        <link href="../assets/css/sb-admin-2.css" rel="stylesheet">
-        <script type="text/javascript" src="../js/lecture.js" ></script>
+        <link href="${pageContext.request.contextPath}/assets/css/sb-admin-2.css" rel="stylesheet">
+        <script src="${pageContext.request.contextPath}/js/lecture.js" ></script>
         <script>
             <c:if test="${!empty msg}">
             alert("${msg}");
@@ -143,105 +143,167 @@
                         <div class="card shadow mb-4">
                             <div class="card-body">
                                 <%-- 호스트 센터 강의 목록 시작 --%>
-                                <div class="row mb-3">
-                                    <div class="col-auto">
-                                        <label class="mb-2 text-gray-800">진행 중인 강의</label>
+                                <div class="mt-6">
+                                    <div class="row mb-3">
+                                        <div class="col-auto">
+                                            <label class="mb-2 text-gray-800">진행 중인 강의</label>
+                                        </div>
+                                        <div class="col-auto ms-auto">
+                                            <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                                                전체보기
+                                                <i class="bi bi-arrow-right mb-1"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="col-auto ms-auto">
-                                        <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
-                                            전체보기
-                                            <i class="bi bi-arrow-right mb-1"></i>
-                                        </a>
+                                    <div>
+                                        진행중인 강의 슬라이드
                                     </div>
-                                </div>
-                                <div>
-                                    진행중인 강의 슬라이드
                                 </div>
                                 <hr class="sidebar-divider">
                                 <%-- 강의 목록 끝 --%>
-                                <div class="row mb-3">
-                                    <div class="col-auto">
-                                        <label class="mb-2 text-gray-800">모집 중인 강의</label>
+                                <div class="mt-6">
+                                    <div class="row mb-3">
+                                        <div class="col-auto">
+                                            <label class="mb-2 text-gray-800">모집 중인 강의</label>
+                                        </div>
+                                        <div class="col-auto ms-auto">
+                                            <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                                                전체보기
+                                                <i class="bi bi-arrow-right mb-1"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="col-auto ms-auto">
-                                        <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
-                                            전체보기
-                                            <i class="bi bi-arrow-right mb-1"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div>
-                                    모집 중인 강의 슬라이드
+                                    <!-- Swiper -->
+                                    <div class="swiper mySwiper">
+                                        <div class="swiper-wrapper">
+                                            <c:forEach items="${startList}" var="list">
+                                                <div class="swiper-slide col-lg-3 col-md-6 ">
+                                                    <div class ="card thumbnail">
+                                                        <a href='../lecture/lecture_notice?lecture=${list.getLectureid()}&page=1'>
+                                                            <img src='${pageContext.request.contextPath}/resource/thumbnail/${list.getThumbnail()}' alt="${list.getThumbnail()}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="me-2 pt-2 row">
+                                                        <a href="lecture/lecture_notice?lecture=${list.getLectureid()}&page=1" class="thumnail-date">
+                                                            ${list.getTitle()}
+                                                            <%--
+                                                            <div class="thumnail-explain pt-2">
+                                                                <div class="row justify-content-between pt-3 ps-3">
+                                                                    <div class="thumbnail-pirce col-auto">
+                                                                        list.get(i).getPrice()+"\\</div>
+                                                                    <div class="thumbnail-view col-auto">
+                                                                        "조회수 "+list.get(i).getSel_count()
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            --%>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
+                                        <div class="swiper-button-next"></div>
+                                        <div class="swiper-button-prev"></div>
+                                        <div class="swiper-pagination"></div>
+                                    </div> 
                                 </div>
                                 <hr class="sidebar-divider">
-                                <div class="row mb-3">
-                                    <div class="col-auto">
-                                        <label class="mb-2 text-gray-800">완료된 강의</label>
+                                <div class="mt-6">
+                                    <div class="row mb-3">
+                                        <div class="col-auto">
+                                            <label class="mb-2 text-gray-800">완료된 강의</label>
+                                        </div>
+                                        <div class="col-auto ms-auto">
+                                            <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                                                전체보기
+                                                <i class="bi bi-arrow-right mb-1"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="col-auto ms-auto">
-                                        <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
-                                            전체보기
-                                            <i class="bi bi-arrow-right mb-1"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div>
-                                    완료된 강의 슬라이드
                                 </div>
                             </div>
                         </div>
-
-                        <!-- End of Main Content -->
                     </div>
-                    <!-- End of Content Wrapper -->
+                    <!-- End of Main Content -->
                 </div>
-                <!-- End of Page Wrapper -->
-                <!-- Footer -->
-                <%@include file="host-center-footer.jspf"%>
-                <!-- End of Footer -->
-                <!-- Scroll to Top Button-->
-                <a class="scroll-to-top rounded" href="#page-top">
-                    <i class="fas fa-angle-up"></i>
-                </a>
-                <!-- Logout Modal-->
-                <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                            <div class="modal-footer">
-                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-primary" href="login.html">Logout</a>
-                            </div>
-                        </div>
+                <!-- End of Content Wrapper -->
+            </div>
+            <!-- End of Page Wrapper -->
+            <!-- Footer -->
+        </div>
+        <%@include file="host-center-footer.jspf"%>
+        <!-- End of Footer -->
+
+
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="login.html">Logout</a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="../vendor/jquery/jquery.min.js"></script>
-        <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Core plugin JavaScript-->
-        <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="${pageContext.request.contextPath}/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-        <!-- Custom scripts for all pages-->
-        <script src="../js/sb-admin-2.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>
 
-        <!-- Page level plugins -->
-        <script src="../vendor/chart.js/Chart.min.js"></script>
+    <!-- Page level plugins -->
+    <script src="${pageContext.request.contextPath}/vendor/chart.js/Chart.min.js"></script>
 
-        <!-- Page level custom scripts -->
-        <script src="../js/demo/chart-area-demo.js"></script>
-        <script src="../js/demo/chart-pie-demo.js"></script>
-
-    </body>
+    <!-- Page level custom scripts -->
+    <script src="${pageContext.request.contextPath}/js/demo/chart-area-demo.js"></script>
+    <script src="${pageContext.request.contextPath}/js/demo/chart-pie-demo.js"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <!-- Initialize Swiper -->
+    <script>
+            var swiper = new Swiper(".mySwiper", {
+                slidesPerView: 2, //�ʱ�?? ??????. ���???���� ��???
+                spaceBetween: 10, //����
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                breakpoints: {
+                    600: {
+                        slidesPerView: 3, //���???????? 600���� ??? ???
+                    },
+                    800: {
+                        slidesPerView: 4, //���???????? 800���� ??? ???
+                    },
+                    1024: {
+                        slidesPerView: 5, //���???????? 1024���� ??? ???
+                    },
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                    dynamicBullets: true,
+                },
+            });
+    </script>
+</body>
 
 </html>

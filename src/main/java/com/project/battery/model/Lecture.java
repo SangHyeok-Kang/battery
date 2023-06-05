@@ -6,6 +6,7 @@ package com.project.battery.model;
 
 
 import com.project.battery.dto.LectureDto;
+import com.project.battery.dto.MateriaDto;
 import com.project.battery.service.FileService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,7 +45,7 @@ public class Lecture {
     
     public Boolean insertLecture(HikariConfiguration dbConfig, LectureDto lecture,MultipartFile thumnail,MultipartFile text_image,MultipartFile resume, String[] path){
         boolean success=false;
-        String sql = "INSERT INTO lecture values (default,default,?,?,default,?,?,?,?,?,?,?,?,?,?,?,?,default,?,default,0)";
+        String sql = "INSERT INTO lecture values (default,default,?,?,default,?,?,?,?,?,?,?,?,?,?,?,?,default,?,default,0,0)";
         String addressSQL = "INSERT INTO address values (default,?,?,?,?,?,1)";
         String updateFileFathSql = "update lecture set thumbnail=?, text_image=?, resume=? where lectureid=?";
         
@@ -116,7 +117,32 @@ public class Lecture {
         return success;
     }
     
-
+    //비즈니스 아이디로 개설한 모든 강의 헤더 정보 가져오기
+    public List<LectureDto> getCreateLectureList(String id, String state){
+        List<LectureDto> list = new ArrayList<>();
+        String sql = "SELECT lectureid, thumbnail, l_title, l_date FROM lecture where host=? and l_state=?";
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString( 1, id);
+            pstmt.setString(2, state);
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+                String thumbnail = rs.getString("thumbnail");
+                if(thumbnail.equals("")){
+                    thumbnail = "none.png";
+                }
+                list.add(new LectureDto(rs.getInt("lectureid"),thumbnail, rs.getString("l_title"),rs.getString("l_date")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
+    }
+    
+    // 전체 강의 리스트 가져오기
     public ArrayList<LectureDto> getLecture(){
         
         try {
@@ -220,8 +246,8 @@ public class Lecture {
         return success;
     }
     
-    public List<LectureDto> getMateriaList(HikariConfiguration dbConfig, int lectureid){
-        List<LectureDto> list = new ArrayList<>();
+    public List<MateriaDto> getMateriaList(HikariConfiguration dbConfig, int lectureid){
+        List<MateriaDto> list = new ArrayList<>();
         String sql = "select materiaurl, uploader, date from materia where lectureid=? order by date asc";
         int co = 1;
         
@@ -232,7 +258,7 @@ public class Lecture {
             pstmt.setInt(1, lectureid);
             rs = pstmt.executeQuery();
             while(rs.next()){
-                list.add(new LectureDto(co, rs.getString("materiaurl").substring(rs.getString("materiaurl").lastIndexOf("\\")+1),
+                list.add(new MateriaDto(co, rs.getString("materiaurl").substring(rs.getString("materiaurl").lastIndexOf("\\")+1),
                         rs.getString("uploader"),rs.getString("date")));
                 co++;
             }
