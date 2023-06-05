@@ -6,4 +6,8 @@
             <span>동의대학교 컴퓨터소프트웨어공학과 캡스톤 디자인</span>
         </div>
     </div>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+                <i class="fas fa-angle-up"></i>
+            </a>
 </footer>
