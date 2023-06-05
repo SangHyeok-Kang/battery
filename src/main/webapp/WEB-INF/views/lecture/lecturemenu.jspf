@@ -1,9 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <nav>
     <ul>
         <li><a href="lecture_notice?lecture=<%= session.getAttribute("lecture") %>&page=1">공지사항</a></li>
         <li><a href="lecture_materia?lecture=<%= session.getAttribute("lecture") %>&page=1">학습자료</a></li>
         <li><a href="#">출석확인</a></li>
-        <li><a href="#">설문 등록</a></li>
+        <li><a href="lecture_survey?lecture=<%= session.getAttribute("lecture") %>&page=1">설문하기</a></li>
     </ul>
 </nav>

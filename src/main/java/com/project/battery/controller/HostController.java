@@ -72,7 +72,7 @@ public class HostController {
             session.setAttribute("lecture", lecid);
         }
         Lecture lec = new Lecture(dbConfig);
-        LectureDto lecDto = lec.getHostLecture(Integer.parseInt(lecid));
+        LectureDto lecDto = lec.getLecture(Integer.parseInt(lecid));
         String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("host");
         String basePath1 = ctx.getRealPath(surveyInfo_folder);
 

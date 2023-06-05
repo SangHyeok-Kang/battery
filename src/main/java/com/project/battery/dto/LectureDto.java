@@ -50,6 +50,7 @@ public class LectureDto {
     private String comname; //회사명
     private int enroll_count =0; //신청 인원
     
+
     public LectureDto(int lectureid, String thumbnail, String title, String date) {
         this.lectureid = lectureid;
         this.thumbnail = thumbnail;
