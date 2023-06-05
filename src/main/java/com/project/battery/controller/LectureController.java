@@ -10,6 +10,7 @@ import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
 import com.project.battery.model.Notice;
 import com.project.battery.model.SearchAddress;
+import com.project.battery.model.surveyModel;
 import com.project.battery.service.FileService;
 import com.project.battery.service.PagingService;
 import java.io.File;
@@ -54,6 +55,12 @@ public class LectureController {
     private String notice_folder;
     @Value("${file.materia_folder}")
     private String materia_folder;
+    @Value("${file.survey_folder}")
+    private String survey_folder;
+    @Value("${file.surveyResult_folder}")
+    private String surveyResult_folder;
+    @Value("${file.surveyInfo_folder}")
+    private String surveyInfo_folder;
 
     @GetMapping("lecture/select_lecture")
     public String ShowLecInfo(@RequestParam("lecture") int id, Model model) {
@@ -71,6 +78,9 @@ public class LectureController {
     public String lecture(@RequestParam("lecture") String id, @RequestParam("page") int page, Model model) {
         if (!id.equals((String) session.getAttribute("lecture")) || session.getAttribute("lecture") == null) {
             session.setAttribute("lecture", id);
+        }
+        if(session.getAttribute("lectureinfo") == null){
+            session.setAttribute("lectureinfo", new Lecture(dbConfig).getLecture(Integer.parseInt(id)));
         }
 
         //강의실에 해당하는 공지사항 목록가져온다
@@ -90,8 +100,32 @@ public class LectureController {
     }
 
     @GetMapping("lecture/create_notice")
-    public String createLectureMotice() {
+    public String createLectureNotice() {
         return "lecture/create_notice";
+
+    }
+    
+    @GetMapping("lecture/lecture_survey")
+    public String lectureSurvey(Model model, @RequestParam("lecture") String id) {
+        if(session.getAttribute("lectureinfo") == null){
+            session.setAttribute("lectureinfo", new Lecture(dbConfig).getLecture(Integer.parseInt(id)));
+        }
+        LectureDto lec = (LectureDto) session.getAttribute("lectureinfo");
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + lec.getHost();
+        String basePath1 = ctx.getRealPath(surveyInfo_folder);
+        String basePath2 = ctx.getRealPath(surveyResult_folder) + File.separator + lec.getHost() + File.separator + (String) session.getAttribute("lecture");
+
+        surveyModel survey = new surveyModel();
+        String[] searchSurvey = survey.searchSurvey(basePath, lec.getHost(), basePath1, Integer.parseInt((String)session.getAttribute("lecture")) );
+
+        boolean[] isExpired = survey.checkIfExpired(searchSurvey, basePath2, (String) session.getAttribute("host"));
+//        for (int i = 0; i < isExpired.length; i++) {
+//            System.out.println("isExpired =" + isExpired[i]);
+//        }
+        model.addAttribute("searchSurvey", searchSurvey);
+        model.addAttribute("isExpired", isExpired);
+        
+        return "lecture/lecture_survey";
 
     }
 
@@ -137,8 +171,11 @@ public class LectureController {
     }
 
     @GetMapping("/lecture/lecture_materia")
-    public String lecturemateria(Model model, @RequestParam("page") int page,@RequestParam("lecture") int lecid){
-        List<MateriaDto> materia = new Lecture().getMateriaList(dbConfig,lecid);
+    public String lecturemateria(Model model, @RequestParam("page") int page,@RequestParam("lecture") String lecid){
+        if(session.getAttribute("lectureinfo") == null){
+            session.setAttribute("lectureinfo", new Lecture(dbConfig).getLecture(Integer.parseInt(lecid)));
+        }
+        List<MateriaDto> materia = new Lecture().getMateriaList(dbConfig,Integer.parseInt(lecid));
         if(!materia.isEmpty()){
             List<MateriaDto> pagingMateria = new ArrayList<>();
             PagingService paging = new PagingService(page, materia.size());

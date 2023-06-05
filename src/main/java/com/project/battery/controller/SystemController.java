@@ -51,7 +51,7 @@ public class SystemController {
     @GetMapping("/")
     public String projectMain(Model model) {
         Lecture lec = new Lecture(dbConfig);
-        list = lec.getLecture();
+        list = lec.getLectureList();
         String result = lec.getLectureTable(list);
 
         model.addAttribute("lecturelist", result);

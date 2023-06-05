@@ -146,7 +146,7 @@ public class Lecture {
         return list;
     }
     //호스트 센터 강의 정보 불러오기
-    public LectureDto getHostLecture(int lecid){
+    public LectureDto getLecture(int lecid){
         LectureDto lec = new LectureDto();
         String sql = "select * from lecture where lectureid = ?";
         
@@ -182,7 +182,7 @@ public class Lecture {
                 lec.setState(rs.getString("l_state"));
                 lec.setGrade(rs.getDouble("l_grade"));
             }else{
-                log.debug("호스트 센터 강의 정보 불러오기 실패 : 강의번호 = {}",lecid);
+                log.debug("강의 정보 불러오기 실패 : 강의번호 = {}",lecid);
             }
             if(conn!=null){conn.close();}
             if(pstmt!=null){pstmt.close();}
@@ -195,7 +195,7 @@ public class Lecture {
     }
     
     // 전체 강의 리스트 가져오기
-    public ArrayList<LectureDto> getLecture(){
+    public ArrayList<LectureDto> getLectureList(){
         
         try {
             ds = dbConfig.dataSource();
