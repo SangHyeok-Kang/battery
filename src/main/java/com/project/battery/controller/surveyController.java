@@ -4,6 +4,7 @@
  */
 package com.project.battery.controller;
 
+import com.project.battery.dto.LectureDto;
 import com.project.battery.model.surveyModel;
 import java.io.File;
 import java.io.IOException;
@@ -235,9 +236,6 @@ public class surveyController {
     @GetMapping("survey/showDoList")
     public String showDoList(Model model) {
         
-        String business_id = "manager";  // 강의 개설한 사람 아이디
-        session.setAttribute("business_id", business_id);
-        
         log.debug("showDoList called...");
 
         String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("business_id");
@@ -262,33 +260,31 @@ public class surveyController {
     }
 
     // 엑셀 파일 읽어서 설문 폼 만들기
-    @PostMapping("survey/surveyForm")
+    @PostMapping("lecture/surveyForm")
     public String makeFormDo(Model model, @RequestParam String surveyTitle, @RequestParam String surveyContent) {
         
-        String business_id = "manager";  // 강의 개설한 사람 아이디 
-        session.setAttribute("business_id", business_id);
-        
+        LectureDto lec = (LectureDto)session.getAttribute("lectureinfo");
+        System.out.println(lec.getHost());
         // System.out.println("surveyTitle== " + surveyTitle);
-        String basePath = ctx.getRealPath(survey_folder) + File.separator + session.getAttribute("business_id");
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + lec.getHost();
 
         surveyModel survey = new surveyModel();
 
         String[] a = survey.makeForm(basePath, surveyTitle);
 
         model.addAttribute("basePath", basePath);
-        model.addAttribute("survey", survey);
+        model.addAttribute("survey", a);
         model.addAttribute("surveyContent", surveyContent);
         model.addAttribute("surveyTitle", surveyTitle);
 
-        return "survey/surveyForm";
+        return "lecture/surveyForm";
     }
 
     // 설문 결과 엑셀 파일 생성
-    @PostMapping("survey/createResult.do")
-    public String createResultDo(Model model, HttpServletRequest request, @RequestParam String name, @RequestParam String[] question, RedirectAttributes attrs) {
+    @PostMapping("lecture/createResult.do")
+    public String createResultDo(Model model, HttpServletRequest request, @RequestParam String[] question, RedirectAttributes attrs) {
 
-        String business_id = "manager";  // 강의 개설한 사람 아이디 
-        session.setAttribute("business_id", business_id);
+        LectureDto lec = (LectureDto)session.getAttribute("lectureinfo");
         
         String title = request.getParameter("title");
         String surveyTitle = request.getParameter("surveyTitle");
@@ -315,10 +311,10 @@ public class surveyController {
         }
 
         // 파일 저장 경로 (file.surveyExcel_folder=/WEB-INF/surveyResult)
-        String basePath = ctx.getRealPath(surveyResult_folder) + File.separator + session.getAttribute("business_id");
+        String basePath = ctx.getRealPath(surveyResult_folder) + File.separator + lec.getHost();
 
         surveyModel result = new surveyModel();
-        boolean resultUpdateSuccess = result.createResult(basePath, name, question, questionList, (String) session.getAttribute("host"), (int) session.getAttribute("lecture"), title, surveyTitle);
+        boolean resultUpdateSuccess = result.createResult(basePath,(String) session.getAttribute("name") , question, questionList, (String) session.getAttribute("host"), Integer.parseInt((String) session.getAttribute("lecture")) , title, surveyTitle);
 
         if (resultUpdateSuccess) {
             attrs.addFlashAttribute("msg", "설문 참여 완료하였습니다.");
@@ -326,7 +322,7 @@ public class surveyController {
             attrs.addFlashAttribute("msg", "설문 참여 실패하였습니다.");
         }
 
-        return "redirect:/survey/showDoList";
+        return String.format("redirect:/lecture/lecture_survey?lecture=%s&page=1",lec.getLectureid());
     }
 
 }

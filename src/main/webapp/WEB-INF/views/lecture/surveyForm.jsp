@@ -30,7 +30,7 @@
                 <input type="hidden" name="surveyTitle" value="<%=surveyTitle%>">
                 <% } %>
             
-            이름 : <input type="text" name="name" required >
+            
             
             <%
                 String[] survey = (String[]) request.getAttribute("survey");

@@ -54,6 +54,7 @@ public class SystemController {
     @GetMapping("/")
     public String projectMain(Model model) {
         Lecture lec = new Lecture(dbConfig);
+
         view_list = lec.getViewCountList();
         nopri_list = lec.getNoPriceList();
         pri_list = lec.getPriceList();
@@ -65,6 +66,7 @@ public class SystemController {
         model.addAttribute("viewcount_list", view_count);
         model.addAttribute("noprice_list", nopri);
         model.addAttribute("price_list", pri);
+
         return "/index";
     }
 
