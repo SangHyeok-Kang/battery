@@ -46,15 +46,25 @@ public class SystemController {
     @Autowired
     private HikariConfiguration dbConfig;
 
-    ArrayList<LectureDto> list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> view_list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> nopri_list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> pri_list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> loc_list = new ArrayList<LectureDto>();
 
     @GetMapping("/")
     public String projectMain(Model model) {
         Lecture lec = new Lecture(dbConfig);
-        list = lec.getLectureList();
-        String result = lec.getLectureTable(list);
+        view_list = lec.getViewCountList();
+        nopri_list = lec.getNoPriceList();
+        pri_list = lec.getPriceList();
+        loc_list = lec.getLocalList();
+        String view_count = lec.getLectureTable(view_list);
+        String nopri = lec.getLectureTable(nopri_list);
+        String pri = lec.getLectureTable(pri_list);
 
-        model.addAttribute("lecturelist", result);
+        model.addAttribute("viewcount_list", view_count);
+        model.addAttribute("noprice_list", nopri);
+        model.addAttribute("price_list", pri);
         return "/index";
     }
 

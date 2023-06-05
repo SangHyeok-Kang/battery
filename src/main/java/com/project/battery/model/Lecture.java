@@ -36,7 +36,10 @@ public class Lecture {
     ResultSet rs = null;
     
     private HikariConfiguration dbConfig;
-    ArrayList<LectureDto> list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> view_list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> nopri_list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> pri_list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> local_list = new ArrayList<LectureDto>();
 
     public Lecture(HikariConfiguration dbConfig) {
         this.dbConfig = dbConfig;
@@ -117,14 +120,13 @@ public class Lecture {
     }
     
 
-    public ArrayList<LectureDto> getLectureList(){
+    public ArrayList<LectureDto> getViewCountList(){
         
         try {
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
             Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM lecture ORDER BY view_count desc"; //조회수별 검색
-            String local_sql = "select * from lecture lec join address ad on lec.lectureid = ad.id where ad.address like '?%'";
+            String sql = "SELECT * FROM lecture ORDER BY view_count desc"; //조회수별 검색          
             
             rs = stmt.executeQuery(sql);
 
@@ -134,40 +136,131 @@ public class Lecture {
                 lec.setLectureid(rs.getInt("lectureid"));
                 lec.setThumbnail(rs.getString("thumbnail"));
                 lec.setTitle(rs.getString("l_title"));
-                lec.setText(rs.getString("l_text"));
-                lec.setText_image(rs.getString("text_image"));
-                lec.setRec_dt(rs.getString("rec_dt"));
-                lec.setRec_target(rs.getString("rec_target"));
-                lec.setRec_num(rs.getInt("rec_num"));
                 lec.setDate(rs.getString("l_date"));
                 lec.setKeyword(rs.getString("l_keyword"));
                 lec.setPrice(rs.getString("price"));
-                lec.setAgree(rs.getInt("agree"));
-                lec.setTeacher(rs.getInt("teacher"));
-                lec.setTeacher_num(rs.getInt("teacher_num"));
-                lec.setStaffe(rs.getInt("staffe"));
-                lec.setStaffe_num(rs.getInt("staffe_num"));
-                lec.setQual(rs.getString("qualification"));
-                lec.setHost(rs.getString("host"));
-                lec.setState(rs.getString("l_state"));
-                lec.setGrade(rs.getDouble("l_grade"));
                 lec.setSel_count(rs.getInt("view_count"));
-                list.add(lec);
+                view_list.add(lec);
                 
             }
             rs.close();
             stmt.close();
             conn.close();
-
+            
         } catch (Exception ex) {
             log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
 
         }
         
-        return list;
+        return view_list;       
     }
     
-    public String getLectureTable(ArrayList<LectureDto> list){
+    public ArrayList<LectureDto> getLocalList(){
+        
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            Statement stmt = conn.createStatement();
+            String local_sql = "select * from lecture lec join address ad on lec.lectureid = ad.id where ad.address like '?%'"; //지역별 검색
+            
+            rs = stmt.executeQuery(local_sql);
+
+
+            while (rs.next()) {
+                LectureDto lec = new LectureDto();
+                lec.setLectureid(rs.getInt("lectureid"));
+                lec.setThumbnail(rs.getString("thumbnail"));
+                lec.setTitle(rs.getString("l_title"));
+                lec.setDate(rs.getString("l_date"));
+                lec.setKeyword(rs.getString("l_keyword"));
+                lec.setPrice(rs.getString("price"));
+                lec.setSel_count(rs.getInt("view_count"));
+                local_list.add(lec);
+                
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+            
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
+
+        }
+        
+        return local_list;       
+    }
+        
+    public ArrayList<LectureDto> getNoPriceList(){
+        
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            Statement stmt = conn.createStatement();
+            String no_price_sql = "select * from lecture where price is null or price = ''"; //무료 강의 검색
+            
+            rs = stmt.executeQuery(no_price_sql);
+
+
+            while (rs.next()) {
+                LectureDto lec = new LectureDto();
+                lec.setLectureid(rs.getInt("lectureid"));
+                lec.setThumbnail(rs.getString("thumbnail"));
+                lec.setTitle(rs.getString("l_title"));
+                lec.setDate(rs.getString("l_date"));
+                lec.setKeyword(rs.getString("l_keyword"));
+                lec.setPrice(rs.getString("price"));
+                lec.setSel_count(rs.getInt("view_count"));
+                nopri_list.add(lec);
+                
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+            
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
+
+        }
+        
+        return nopri_list;       
+    }
+    
+    public ArrayList<LectureDto> getPriceList(){
+        
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            Statement stmt = conn.createStatement();
+            String yes_price_sql = "select * from lecture where price != ''"; //유료 강의 검색
+            
+            rs = stmt.executeQuery(yes_price_sql);
+
+
+            while (rs.next()) {
+                LectureDto lec = new LectureDto();
+                lec.setLectureid(rs.getInt("lectureid"));
+                lec.setThumbnail(rs.getString("thumbnail"));
+                lec.setTitle(rs.getString("l_title"));
+                lec.setDate(rs.getString("l_date"));
+                lec.setKeyword(rs.getString("l_keyword"));
+                lec.setPrice(rs.getString("price"));
+                lec.setSel_count(rs.getInt("view_count"));
+                pri_list.add(lec);
+                
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+            
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
+
+        }
+        
+        return pri_list;       
+    }
+ 
+        public String getLectureTable(ArrayList<LectureDto> list){
 
         StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
@@ -199,7 +292,6 @@ public class Lecture {
 
         return buffer.toString();
     }
-    
     //조회수 업로드 메소드
     public void updateViews(int lectureId){
         javax.sql.DataSource ds = dbConfig.dataSource();
