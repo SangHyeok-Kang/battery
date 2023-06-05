@@ -172,7 +172,51 @@
         <!-- Swiper -->
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-                ${lecturelist}
+                ${viewcount_list}
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <div class="container mt-6">
+        <div class="row mb-3">
+            <div class="col-auto">
+                <h5>🔥무료 강의🔥</h5>
+            </div>
+            <div class="col-auto ms-auto">
+                <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                    전체보기
+                    <i class="bi bi-arrow-right mb-1"></i>
+                </a>
+            </div>
+        </div>
+        <!-- Swiper -->
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                ${noprice_list}
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <div class="container mt-6">
+        <div class="row mb-3">
+            <div class="col-auto">
+                <h5>🔥유료 강의🔥</h5>
+            </div>
+            <div class="col-auto ms-auto">
+                <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                    전체보기
+                    <i class="bi bi-arrow-right mb-1"></i>
+                </a>
+            </div>
+        </div>
+        <!-- Swiper -->
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                ${price_list}
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>

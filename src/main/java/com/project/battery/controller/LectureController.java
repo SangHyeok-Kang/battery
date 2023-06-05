@@ -42,6 +42,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @PropertySource("classpath:/system.properties")
 public class LectureController {
+
     @Autowired
     private HttpServletRequest request;
     @Autowired
@@ -62,14 +63,37 @@ public class LectureController {
     @Value("${file.surveyInfo_folder}")
     private String surveyInfo_folder;
 
+    ArrayList<LectureDto> result = new ArrayList<LectureDto>();
+
     @GetMapping("lecture/select_lecture")
     public String ShowLecInfo(@RequestParam("lecture") int id, Model model) {
+
         Lecture lec = new Lecture(dbConfig);
         lec.updateViews(id);
+        result = lec.SearchlecInfo(id);
+        
+        String str2 = result.get(0).getRec_dt();
+        String str = result.get(0).getDate();
+        
+        String[] strAry = str.split("%");
+        String[] strAry2 = str2.split("%");
+        System.out.println(str2);
+        System.out.println(strAry2[2]);
+        
         
         SearchAddress manager = new SearchAddress(dbConfig);
-        
         String juso = manager.checkAddress(id);
+
+        model.addAttribute("thumbnail", result.get(0).getThumbnail());
+        model.addAttribute("com_name", result.get(0).getComname());
+        model.addAttribute("category", result.get(0).getKeyword());
+        model.addAttribute("view_count", result.get(0).getSel_count());
+        model.addAttribute("enroll_count", result.get(0).getEnroll_count());
+        model.addAttribute("lecture_name", result.get(0).getTitle());
+        model.addAttribute("rec_date", strAry2[0] + " - " + strAry2[2]);
+        model.addAttribute("lec_date", strAry[0] + " - " + strAry[1]);
+        model.addAttribute("text_image", result.get(0).getText_image());
+        model.addAttribute("price", result.get(0).getPrice());
         model.addAttribute("juso", juso);
         return "lecture/lecture_info";
     }

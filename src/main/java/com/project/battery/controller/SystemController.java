@@ -46,20 +46,33 @@ public class SystemController {
     @Autowired
     private HikariConfiguration dbConfig;
 
-    ArrayList<LectureDto> list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> view_list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> nopri_list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> pri_list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> loc_list = new ArrayList<LectureDto>();
 
     @GetMapping("/")
     public String projectMain(Model model) {
         Lecture lec = new Lecture(dbConfig);
-        list = lec.getLectureList();
-        String result = lec.getLectureTable(list);
 
-        model.addAttribute("lecturelist", result);
+        view_list = lec.getViewCountList();
+        nopri_list = lec.getNoPriceList();
+        pri_list = lec.getPriceList();
+        loc_list = lec.getLocalList();
+        String view_count = lec.getLectureTable(view_list);
+        String nopri = lec.getLectureTable(nopri_list);
+        String pri = lec.getLectureTable(pri_list);
+
+        model.addAttribute("viewcount_list", view_count);
+        model.addAttribute("noprice_list", nopri);
+        model.addAttribute("price_list", pri);
+
         return "/index";
     }
 
     @GetMapping("/sign-in")
     public String signIn() {
+        session.invalidate();
         return "/sign-in";
     }
 
@@ -117,7 +130,7 @@ public class SystemController {
         session.setAttribute("user", userid);
         attrs.addFlashAttribute("result", result);
         attrs.addFlashAttribute("user", session.getAttribute("user"));
-        
+
         return "redirect:/business-sign-up";
     }
 
@@ -125,12 +138,11 @@ public class SystemController {
     @PostMapping("/normal_signup.do")
     public String insertNormalUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
             @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String birthdate, @RequestParam String school,
-            @RequestParam String major, @RequestParam String grade, @RequestParam String status, @RequestParam List<String> subcategory,
+            @RequestParam String major, @RequestParam String grade, @RequestParam String status, @RequestParam String keyword,
             @RequestParam String postcode, @RequestParam String detail, @RequestParam String extra, @RequestParam String address, @RequestParam String gender, Model model) {
         String schoolinfo = "";
         String phone = phone1 + "-" + phone2 + "-" + phone3;
-        String interest = subcategory.get(0) + "/" + subcategory.get(1) + "/" + subcategory.get(2) + "/";
-        
+        session.invalidate();
         if (major.isEmpty() && status.isEmpty()) {
             schoolinfo = school + " " + grade;
         } else {
@@ -140,7 +152,7 @@ public class SystemController {
         AddUserManager manager = new AddUserManager(dbConfig);
         result = manager.checkId(userid);
         if (result == true) {
-            manager.addRow(userid, name, password, phone, birthdate, schoolinfo, interest, postcode, detail, extra, address, gender);
+            manager.addRow(userid, name, password, phone, birthdate, schoolinfo, keyword, postcode, detail, extra, address, gender);
 
             model.addAttribute("msg", "회원가입 완료되었습니다.");
             model.addAttribute("url", "/");
@@ -155,16 +167,15 @@ public class SystemController {
     @PostMapping("/ceo_signup.do")
     public String insertBusinessUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
             @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String com_name,
-            @RequestParam List<String> subcategory, @RequestParam String postcode, @RequestParam String detail,
+            @RequestParam String keyword, @RequestParam String postcode, @RequestParam String detail,
             @RequestParam String extra, @RequestParam String address, Model model) {
+        session.invalidate();
         String phone = phone1 + "-" + phone2 + "-" + phone3;
-        String interest = subcategory.get(0) + "/" + subcategory.get(1) + "/" + subcategory.get(2) + "/";
-
 
         AddUserManager manager = new AddUserManager(dbConfig);
         result = manager.check_bId(userid);
         if (result == true) {
-            manager.b_addRow(userid, password, com_name, phone, name, interest, postcode, detail, address, extra);
+            manager.b_addRow(userid, password, com_name, phone, name, keyword, postcode, detail, address, extra);
 
             model.addAttribute("msg", "회원가입 완료되었습니다.");
             model.addAttribute("url", "/");
