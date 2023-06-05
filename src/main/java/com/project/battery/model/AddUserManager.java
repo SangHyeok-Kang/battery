@@ -97,7 +97,7 @@ public class AddUserManager {
 
             pstmt.executeUpdate();
 
-            sql = "INSERT INTO address VALUES(?,?,?,?,?,0)";
+            sql = "INSERT INTO address VALUES(default,?,?,?,?,?,0)";
             pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, userid);
