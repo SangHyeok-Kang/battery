@@ -16,9 +16,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class loginModel {
 
-    @Getter@Setter private String user;
-    @Getter@Setter private int state;
-    @Getter@Setter private String name;
+    @Getter
+    @Setter
+    private String user;
+    @Getter
+    @Setter
+    private int state;
+    @Getter
+    @Setter
+    private String name;
     private HikariConfiguration dbConfig;
 
     public loginModel(HikariConfiguration dbConfig) {
@@ -26,7 +32,7 @@ public class loginModel {
     }
 
     public boolean loginResult(String chkstate, String userid, String password) {
-
+        String sql;
         javax.sql.DataSource ds = dbConfig.dataSource();
 
         try {
@@ -34,7 +40,7 @@ public class loginModel {
             Statement stmt = conn.createStatement();
             stmt = conn.createStatement();
             if (chkstate.equals("user")) {
-                String sql = "SELECT userid, password, username FROM userinfo WHERE userid= '" + userid + "' and password = '"+password+"'";
+                sql = "SELECT userid, password, username FROM userinfo WHERE userid= '" + userid + "' and password = '" + password + "'";
 
                 ResultSet rs = stmt.executeQuery(sql);
 
@@ -47,8 +53,8 @@ public class loginModel {
                 rs.close();
                 stmt.close();
                 conn.close();
-            }else{
-                String sql = "SELECT business_id, password, business_name FROM business_info WHERE business_id= '" + userid + "' and password = '"+password+"'";
+            } else {
+                sql = "SELECT business_id, password, business_name FROM business_info WHERE business_id= '" + userid + "' and password = '" + password + "'";
 
                 ResultSet rs = stmt.executeQuery(sql);
 
@@ -69,21 +75,6 @@ public class loginModel {
         return false;
     }
 
-
-    public void setState(int state){
-        this.state = state;
-    }
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getUser() {
-        return user;
-    }
-    public int getState(){
-        return state;
-    }
-    
     // 아이디 찾기
     public userInfo findIdResult(String name, String phone) {
 
@@ -173,4 +164,21 @@ public class loginModel {
         }
 
     }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public int getState() {
+        return state;
+    }
+
 }

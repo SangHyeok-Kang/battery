@@ -74,7 +74,7 @@
                                 <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="sign-in" id="signIn">로그인</a>
                             </c:when>
                             <c:otherwise>
-                                <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="#" id="mypage">마이페이지</a>
+                                <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="mypage" id="mypage">마이페이지</a>
                             </c:otherwise>
                         </c:choose>
                     </li>
