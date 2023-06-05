@@ -42,12 +42,20 @@ public class LectureDto {
     private String host = null; // 19. 개설자
     private Double grade = 0.0; // 20. 별점
     private String state = null; //강의 진행상태
-    private int sel_count = 0;
+    private int matCo;
+    private String filename;
+    private String fileuploader;
+    private String filedate;
+    private int sel_count = 0; //조회수
+    private String comname; //회사명
+    private int enroll_count =0; //신청 인원
+    
 
     public LectureDto(int lectureid, String thumbnail, String title, String date) {
         this.lectureid = lectureid;
         this.thumbnail = thumbnail;
         this.title = title;
         this.date = date;
+
     }
 }

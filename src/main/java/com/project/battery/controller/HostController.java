@@ -55,9 +55,7 @@ public class HostController {
     public String hostCentter(Model model){
         Lecture lec = new Lecture(dbConfig);
         List<LectureDto> leclist = lec.getCreateLectureList((String) session.getAttribute("host"),"start");
-        for(LectureDto l : leclist){
-          
-        }
+        
 
         model.addAttribute("startList",leclist);
         return "host-center/index";
@@ -69,16 +67,19 @@ public class HostController {
     }
     
     @GetMapping("host-center/lecture")
-    public String hostLecture(@RequestParam("lecture") int lecid, Model model){
+    public String hostLecture(@RequestParam("lecture") String lecid, Model model){
+        if(!lecid.equals((String)session.getAttribute("lecture")) || session.getAttribute("lecture") == null ){
+            session.setAttribute("lecture", lecid);
+        }
         Lecture lec = new Lecture(dbConfig);
-        LectureDto lecDto = lec.getHostLecture(lecid);
+        LectureDto lecDto = lec.getLecture(Integer.parseInt(lecid));
         String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("host");
         String basePath1 = ctx.getRealPath(surveyInfo_folder);
 
         surveyModel survey = new surveyModel();
-        String[] searchSurvey = survey.searchSurvey(basePath, (String) session.getAttribute("host"), basePath1, lecid);
+        String[] searchSurvey = survey.searchSurvey(basePath, (String) session.getAttribute("host"), basePath1, Integer.parseInt(lecid));
 
-        boolean[] isStart = survey.checkIfStart(searchSurvey, (String) session.getAttribute("host"));
+        boolean[] isStart = survey.checkIfStart(searchSurvey);
 //        for (int i = 0; i < isStart.length; i++) {
 //            System.out.println("isStart =" + isStart[i]);
 //        }

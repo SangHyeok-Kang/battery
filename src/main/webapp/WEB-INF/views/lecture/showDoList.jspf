@@ -7,18 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>설문 목록</title>
-    </head>
-  <body>
-      <script>
-            <c:if test="${!empty msg}">
-            alert("${msg}");
-            </c:if>
-        </script>
+
     <h1>해당 강의의 설문 목록</h1>
     <% 
         String[] searchSurvey = (String[]) request.getAttribute("searchSurvey");
@@ -30,7 +19,6 @@
     <table>
         <thead>
             <tr>
-                <th>설문 엑셀 파일명</th>
                 <th>설문 제목</th>
                 <th>시작 기간</th>
                 <th>마감 기간</th>
@@ -47,7 +35,6 @@
                     boolean currentExpired = isExpired[i / 4];
             %>
             <tr>
-                <td><%= surveyTitle %></td>
                 <td><%= surveyContent %></td>
                 <td><%= startDate %></td>
                 <td><%= endDate %></td>
@@ -67,7 +54,5 @@
         </tbody>
     </table>
     <% } %>
-</body>
 
-</html>
 
