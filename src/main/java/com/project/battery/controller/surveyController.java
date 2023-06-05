@@ -152,7 +152,7 @@ public class surveyController {
     }*/
 
     // 강의에 등록된 설문 삭제 
-    @PostMapping("survey/deleteSelectSurvey")
+    @PostMapping("host-center/deleteSelectSurvey")
     public String deleteSelectSurvey(Model model, @RequestParam String surveyTitle, @RequestParam String surveyContent, RedirectAttributes attrs) {
         
         // 등록 설문 삭제 - 설문 시작 전이면 삭제 가능 (삭제 버튼 활성화)
@@ -169,7 +169,7 @@ public class surveyController {
         } else {
             attrs.addFlashAttribute("msg", "설문 등록 삭제 실패하였습니다.");
         }
-        return "redirect:/survey/surveySelectList";
+        return String.format("redirect:/host-center/lecture?lecture=%s", (String)session.getAttribute("lecture"));
     }
 
     @PostMapping("host-center/downloadSelectSurvey")
