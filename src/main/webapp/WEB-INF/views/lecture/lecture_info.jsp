@@ -54,10 +54,11 @@
         <br><br>
         강의 기간 : ${lec_date} <!--강의 기간-->
         <br><br>
-        <img src = "../resource/text_image/${text_image}/>
+        <img src = "../resource/text_image/${text_image}"/>
         <br><br>
         가격 : ${price}
         <br><br>
+       
         ${juso} <!--주소-->
         <hr>
         <div id="map" style="width:500px;height:400px;"></div>
