@@ -37,7 +37,7 @@
         <script>
             <c:choose>
                 <c:when test="${result eq 'true' }">
-            alert("사용가능한 아이디입니다.");
+            alert("사용가능한 아이디입니다.");             
                 </c:when>
 
                 <c:when test="${result eq 'false' }">
@@ -84,7 +84,7 @@
                                             <div class="col-md-6">
                                                 <div class="input-group input-group-outline">
                                                     <input type="text" id="userid" name="userid" class="form-control"
-                                                           required>
+                                                           required>                                                   
                                                 </div>
                                                 <small>아이디 관련 설명 여기에 적어야 함</small>
                                             </div>
@@ -93,13 +93,13 @@
                                                 <!--중복 확인 관련 나중에 할거임-->
                                                  <script>
                                                         function check_bId() {
-                                                            var userid = document.getElementById("userid").value;
+                                                            var userid = document.getElementById("userid").value;                                                             
                                                             if (!userid)
                                                                 alert("아이디를 입력해주세요");
-                                                            else {
+                                                            else {                                                                                                 
                                                                 const link = 'check_bId.do?userid=' + userid;
-                                                                location.replace(link);
-                                                            }
+                                                                location.replace(link);      
+                                                            }                                                                                                                                                                                               
                                                         }
                                                     </script>
                                             </div>

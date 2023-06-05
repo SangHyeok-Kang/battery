@@ -83,7 +83,7 @@
                                                 <div class="col-md-6">
                                                     <div class="input-group input-group-outline">
                                                         <input type="text" id="userid" name="userid" class="form-control"
-                                                               required>
+                                                               required>                                                        
                                                     </div>
                                                     <small>아이디 관련 설명 여기에 적어야 함</small>
                                                 </div>
@@ -97,7 +97,7 @@
                                                             else {
                                                                 const link = 'checkId.do?userid=' + userid;
                                                                 location.replace(link);
-                                                            }
+                                                            }                                                            
                                                         }
                                                     </script>
                                                 </div>
