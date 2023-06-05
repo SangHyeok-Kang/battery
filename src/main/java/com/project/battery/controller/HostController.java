@@ -7,6 +7,9 @@ package com.project.battery.controller;
 import com.project.battery.dto.LectureDto;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
+import com.project.battery.model.surveyModel;
+import java.io.File;
+import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -41,10 +46,18 @@ public class HostController {
     private String thumbnail;
     @Value("${file.resumeForm_folder}")
     private String resume;
-    
+    @Value("${file.survey_folder}")
+    private String survey_folder;
+    @Value("${file.surveyInfo_folder}")
+    private String surveyInfo_folder;
     
     @GetMapping("host-center")
-    public String hostCentter(){
+    public String hostCentter(Model model){
+        Lecture lec = new Lecture(dbConfig);
+        List<LectureDto> leclist = lec.getCreateLectureList((String) session.getAttribute("host"),"start");
+        
+
+        model.addAttribute("startList",leclist);
         return "host-center/index";
     }
     
@@ -53,10 +66,37 @@ public class HostController {
         return "host-center/create_lecture";
     }
     
+    @GetMapping("host-center/lecture")
+    public String hostLecture(@RequestParam("lecture") String lecid, Model model){
+        if(!lecid.equals((String)session.getAttribute("lecture")) || session.getAttribute("lecture") == null ){
+            session.setAttribute("lecture", lecid);
+        }
+        Lecture lec = new Lecture(dbConfig);
+        LectureDto lecDto = lec.getHostLecture(Integer.parseInt(lecid));
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("host");
+        String basePath1 = ctx.getRealPath(surveyInfo_folder);
+
+        surveyModel survey = new surveyModel();
+        String[] searchSurvey = survey.searchSurvey(basePath, (String) session.getAttribute("host"), basePath1, Integer.parseInt(lecid));
+
+        boolean[] isStart = survey.checkIfStart(searchSurvey);
+//        for (int i = 0; i < isStart.length; i++) {
+//            System.out.println("isStart =" + isStart[i]);
+//        }
+        String[] surveyList = survey.surveyList(basePath);
+
+        model.addAttribute("surveyList", surveyList);
+        model.addAttribute("searchSurvey", searchSurvey);
+        model.addAttribute("isStart", isStart);
+        model.addAttribute("lecture",lecDto);
+        return "host-center/lecture";
+    }
+    
     //신규 강의 입력
     @PostMapping("host-center/insert_lecture.do")
     public String insertLecture(MultipartHttpServletRequest request, RedirectAttributes attrs){
         LectureDto lecture = new LectureDto();
+        System.out.println("yes");
         //강의 객체로 정보 입력
         lecture.setTitle(request.getParameter("title"));
         lecture.setText(request.getParameter("text"));
@@ -92,6 +132,6 @@ public class HostController {
         }else{
             attrs.addFlashAttribute("msg", "강의 개설에 실패하였습니다");
         }
-        return "redirect:/host-center/host-center";
+        return "redirect:/host-center/";
     }
 }

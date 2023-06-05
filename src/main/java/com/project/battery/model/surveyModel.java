@@ -250,7 +250,7 @@ public class surveyModel {
     }
 
     // 강의에 등록된 설문이 시작기간 전인지 확인하는 함수 
-    public boolean[] checkIfStart(String[] searchSurvey, String userId) {
+    public boolean[] checkIfStart(String[] searchSurvey) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime now = LocalDateTime.now();
         int surveyCount = searchSurvey.length / 4;
@@ -340,6 +340,43 @@ public class surveyModel {
         return status;
     }
 
+    // 강의에 등록한 설문 결과 다운로드 
+    public boolean downloadSelectSurvey(String surveyTitle, String surveyContent, HttpServletResponse response, String basePath) throws FileNotFoundException, IOException {
+        boolean status = false;
+        
+        String filePath = basePath + File.separator + surveyTitle.substring(0, surveyTitle.lastIndexOf('.')) + "-" + surveyContent + ".xlsx";
+
+        File file = new File(filePath);
+        
+        if (!file.exists()) {
+           // System.err.println("File not found: " + filePath);
+            return false;
+        }
+        
+        // 파일 다운로드 설정
+        response.reset();
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=" + surveyTitle);
+       try (InputStream inputStream = new FileInputStream(file)) {
+
+        // 파일 데이터를 읽어서 클라이언트로 전송
+        byte[] buffer = new byte[4096];
+        int bytesRead;
+        try (OutputStream outputStream = response.getOutputStream()) {
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.flush();
+        }
+
+        status = true;
+       } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        
+        return status;
+    }
     
     
     // 설문지 생성

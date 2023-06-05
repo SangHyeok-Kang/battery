@@ -18,9 +18,7 @@
 
         <form action="createResult.do" method='POST'>
             
-            <!-- 수정!! -->
-            <% //String[] searchSurvey = (String[]) request.getAttribute("searchSurvey");
-                 // String title = (searchSurvey != null && searchSurvey.length > 1) ? searchSurvey[1] : null;
+            <% 
                 String surveyTitle = (String) request.getAttribute("surveyTitle"); 
                 String surveyContent = (String) request.getAttribute("surveyContent");      
             %>
@@ -35,12 +33,12 @@
             이름 : <input type="text" name="name" required >
             
             <%
-                String[] a = (String[]) request.getAttribute("a");
+                String[] survey = (String[]) request.getAttribute("survey");
 
-                if (a != null) {
-                    for (int i = 0; i < a.length; i += 6) {
-                        String question = a[i];
-                        boolean isType = !a[i + 1].equals("N/A");
+                if (survey != null) {
+                    for (int i = 0; i < survey.length; i += 6) {
+                        String question = survey[i];
+                        boolean isType = !survey[i + 1].equals("N/A");
             %>
             
             <div>
@@ -48,7 +46,7 @@
                 <% if (isType) { %>
                 <p>답변:
                     <% for (int j = 1; j <= 5; j++) {%>
-                     <label><input type="radio" name="answer<%=i / 6%>" value="<%=a[i + j]%>" required><%=a[i + j]%></label> 
+                     <label><input type="radio" name="answer<%=i / 6%>" value="<%=survey[i + j]%>" required><%=survey[i + j]%></label> 
                         <% } %>
                 </p>
                 <% } else {%>

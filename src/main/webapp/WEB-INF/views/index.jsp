@@ -121,17 +121,14 @@
                     <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
                          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Second slide"
                          preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#666"></rect><text x="50%" y="50%" fill="#444" dy=".3em">
-                    2</text>
+                    <image href="resource\banner\UX,UI교육.png" height="100%" width="100%" alt="UX,UI교육.png"></image>
                     </svg>
                 </div>
                 <div class="carousel-item">
                     <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
                          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Third slide"
                          preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#555"></rect><text x="50%" y="50%" fill="#333" dy=".3em">
+                    <image href="resource\banner\리뷰이벤트.png" height="100%" width="100%" alt="리뷰이벤트.png"></image>
                     </svg>
                 </div>
             </div>
@@ -224,7 +221,7 @@
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
             <div class="swiper-pagination"></div>
-        </div>
+        </div> 
     </div>
 
     <!--End header-->

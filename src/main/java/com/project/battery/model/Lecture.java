@@ -5,6 +5,7 @@
 package com.project.battery.model;
 
 import com.project.battery.dto.LectureDto;
+import com.project.battery.dto.MateriaDto;
 import com.project.battery.service.FileService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,6 +48,7 @@ public class Lecture {
 
     public Boolean insertLecture(HikariConfiguration dbConfig, LectureDto lecture, MultipartFile thumnail, MultipartFile text_image, MultipartFile resume, String[] path) {
         boolean success = false;
+
         String sql = "INSERT INTO lecture values (default,default,?,?,default,?,?,?,?,?,?,?,?,?,?,?,?,default,?,default,0,default)";
         String addressSQL = "INSERT INTO address values (default,?,?,?,?,?,1)";
         String updateFileFathSql = "update lecture set thumbnail=?, text_image=?, resume=? where lectureid=?";
@@ -128,9 +130,85 @@ public class Lecture {
         }
         return success;
     }
-
+  
+    //비즈니스 아이디로 개설한 모든 강의 헤더 정보 가져오기
+    public List<LectureDto> getCreateLectureList(String id, String state){
+        List<LectureDto> list = new ArrayList<>();
+        String sql = "SELECT lectureid, thumbnail, l_title, l_date FROM lecture where host=? and l_state=?";
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString( 1, id);
+            pstmt.setString(2, state);
+            rs = pstmt.executeQuery();
+            while(rs.next()){
+                String thumbnail = rs.getString("thumbnail");
+                if(thumbnail.equals("")){
+                    thumbnail = "none.png";
+                }
+                list.add(new LectureDto(rs.getInt("lectureid"),thumbnail, rs.getString("l_title"),rs.getString("l_date")));
+            }
+            if(conn!=null){conn.close();}
+            if(pstmt!=null){pstmt.close();}
+            if(rs!=null){rs.close();}
+        } catch (SQLException ex) {
+            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
+    }
+    //호스트 센터 강의 정보 불러오기
+    public LectureDto getHostLecture(int lecid){
+        LectureDto lec = new LectureDto();
+        String sql = "select * from lecture where lectureid = ?";
+        
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,lecid);
+            rs = pstmt.executeQuery();
+            if(rs.next()){
+                lec.setLectureid(rs.getInt("lectureid"));
+                String thumbnail = rs.getString("thumbnail");
+                if(thumbnail.equals("")){
+                    thumbnail = "none.png";
+                }
+                lec.setThumbnail(thumbnail);
+                lec.setTitle(rs.getString("l_title"));
+                lec.setText(rs.getString("l_text"));
+                lec.setText_image(rs.getString("text_image"));
+                lec.setRec_dt(rs.getString("rec_dt"));
+                lec.setRec_target(rs.getString("rec_target"));
+                lec.setRec_num(rs.getInt("rec_num"));
+                lec.setDate(rs.getString("l_date"));
+                lec.setKeyword(rs.getString("l_keyword"));
+                lec.setPrice(rs.getString("price"));
+                lec.setAgree(rs.getInt("agree"));
+                lec.setTeacher(rs.getInt("teacher"));
+                lec.setTeacher_num(rs.getInt("teacher_num"));
+                lec.setStaffe(rs.getInt("staffe"));
+                lec.setStaffe_num(rs.getInt("staffe_num"));
+                lec.setQual(rs.getString("qualification"));
+                lec.setHost(rs.getString("host"));
+                lec.setState(rs.getString("l_state"));
+                lec.setGrade(rs.getDouble("l_grade"));
+            }else{
+                log.debug("호스트 센터 강의 정보 불러오기 실패 : 강의번호 = {}",lecid);
+            }
+            if(conn!=null){conn.close();}
+            if(pstmt!=null){pstmt.close();}
+            if(rs!=null){rs.close();}
+        } catch (SQLException ex) {
+            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
+        }
+           
+        return lec;
+    }
+    
+    // 전체 강의 리스트 가져오기
     public ArrayList<LectureDto> getViewCountList() {
-
         try {
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
@@ -336,14 +414,18 @@ public class Lecture {
                 log.debug("학습자료 입력 실패 host={}, lecture={}", id, lecid);
             }
 
+            if(conn!=null){conn.close();}
+            if(pstmt!=null){pstmt.close();}
+            if(rs!=null){rs.close();}
+
         } catch (SQLException ex) {
             Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
         }
         return success;
     }
-
-    public List<LectureDto> getMateriaList(HikariConfiguration dbConfig, int lectureid) {
-        List<LectureDto> list = new ArrayList<>();
+    
+    public List<MateriaDto> getMateriaList(HikariConfiguration dbConfig, int lectureid){
+        List<MateriaDto> list = new ArrayList<>();
         String sql = "select materiaurl, uploader, date from materia where lectureid=? order by date asc";
         int co = 1;
 
@@ -353,12 +435,16 @@ public class Lecture {
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, lectureid);
             rs = pstmt.executeQuery();
-            while (rs.next()) {
-                list.add(new LectureDto(co, rs.getString("materiaurl").substring(rs.getString("materiaurl").lastIndexOf("\\") + 1),
-                        rs.getString("uploader"), rs.getString("date")));
+
+            while(rs.next()){
+                list.add(new MateriaDto(co, rs.getString("materiaurl").substring(rs.getString("materiaurl").lastIndexOf("\\")+1),
+                        rs.getString("uploader"),rs.getString("date")));
                 co++;
             }
             Collections.reverse(list);
+            if(conn!=null){conn.close();}
+            if(pstmt!=null){pstmt.close();}
+            if(rs!=null){rs.close();}
         } catch (SQLException ex) {
             Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -383,6 +469,9 @@ public class Lecture {
             } else {
                 log.debug("파일 삭제 실패");
             }
+            if(conn!=null){conn.close();}
+            if(pstmt!=null){pstmt.close();}
+            if(rs!=null){rs.close();}
         } catch (SQLException ex) {
             Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
         }

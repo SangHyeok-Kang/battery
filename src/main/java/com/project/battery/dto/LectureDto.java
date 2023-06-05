@@ -39,7 +39,7 @@ public class LectureDto {
     private int staffe_num = 0;//15. 스탭 인원 수
     private String qual = null; //16.모집 조건 작성
     private String resume = null; //18. 지원서 양식
-    private String host = null; // 19. 강의자
+    private String host = null; // 19. 개설자
     private Double grade = 0.0; // 20. 별점
     private String state = null; //강의 진행상태
     private int matCo;
@@ -56,5 +56,13 @@ public class LectureDto {
         this.filename = filename;
         this.fileuploader = fileuploader;
         this.filedate = filedate;
+    }
+  
+    public LectureDto(int lectureid, String thumbnail, String title, String date) {
+        this.lectureid = lectureid;
+        this.thumbnail = thumbnail;
+        this.title = title;
+        this.date = date;
+
     }
 }

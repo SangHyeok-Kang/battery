@@ -1,0 +1,69 @@
+<%-- 
+    Document   : surveySelectList
+    Created on : 2023. 5. 30., 오전 5:57:43
+    Author     : parkchaebin
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<div class="justify-content-center">
+<button class="btn btn-outline-info center" data-toggle="modal" data-target="#selectSurveyModal">설문 등록</button>
+</div>
+
+<%
+    String[] searchSurvey = (String[]) request.getAttribute("searchSurvey");
+    boolean[] isStart = (boolean[]) request.getAttribute("isStart");
+    if (searchSurvey == null || searchSurvey.length == 0) {
+%>
+<p>등록된 설문이 없습니다.</p>
+<% } else { %>
+<table>
+    <thead>
+        <tr>
+            <th>설문 엑셀 파일명</th>
+            <th>설문 제목</th>
+            <th>시작 기간</th>
+            <th>마감 기간</th>
+            <th class="text-center">삭제</th>
+            <th class="text-center">다운로드</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%
+            for (int i = 0; i < searchSurvey.length; i += 4) {
+                String surveyTitle = searchSurvey[i];
+                String surveyContent = searchSurvey[i + 1];
+                String startDate = searchSurvey[i + 2];
+                String endDate = searchSurvey[i + 3];
+                boolean currentStart = isStart[i / 4];
+        %>
+        <tr>
+            <td><%= surveyTitle%></td>
+            <td><%= surveyContent%></td>
+            <td><%= startDate%></td>
+            <td><%= endDate%></td>
+            <td class="text-center">
+                <% if (currentStart) { %>
+                <button disabled>삭제</button>
+                <% } else {%>
+                <form action="deleteSelectSurvey" method="POST">
+                    <input type="hidden" name="surveyTitle" value="<%= surveyTitle%>">
+                    <input type="hidden" name="surveyContent" value="<%= surveyContent%>">
+                    <button type="submit">삭제</button>
+                </form>
+                <% } %>
+            </td>
+            <td class="text-center">
+                <!--다운로드 버튼-->
+                <form action="downloadSelectSurvey" method="POST">
+                    <input type="hidden" name="surveyTitle" value="<%= surveyTitle%>">
+                    <input type="hidden" name="surveyContent" value="<%= surveyContent%>">
+                    <button type="submit">다운로드</button>
+                </form>
+            </td>
+        </tr>
+        <% } %>
+    </tbody>
+</table>
+<% }%>
+
+

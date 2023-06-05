@@ -11283,3 +11283,78 @@ footer.sticky-footer .copyright {
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
 }
+
+.swiper {
+  width: 100%;
+  height: 20rem;
+}
+
+.swiper-slide {
+  background: #fff;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 10rem;
+  object-fit: cover;
+}
+.swiper-slide img {
+  border-radius: 5%;
+}
+
+.thumbnail{
+  border: 0.5px solid rgb(233, 233, 233);
+}
+
+.thumnail-explain {
+  color:black;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.thumnail-date:hover{
+  color:var(--bs-gray-600);
+}
+
+.thumbnail-pirce{
+  color:var(--bs-primary);
+  text-align: start;
+  padding-left: 0;
+}
+
+.thumbnail-view{
+  color:var(--bs-gray-500);
+  font-weight: normal;
+  font-size: 13px;
+  padding-top: 2px;
+}
+
+.thumnail-date{
+  color:var(--bs-gray-600);
+  font-weight: normal;
+}
+
+.thumbnail >a{
+  overflow: hidden;
+}
+
+.thumbnail:hover img { /*마우스 올리면 이미지 약간 커짐*/
+  transform: scale(1.05);
+}
+
+.col-lg-4 {
+  position: relative;
+}
+
+.vertical-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 1px;
+  background-color: var(--bs-gray-600);
+  transform: translateX(100%);
+}
