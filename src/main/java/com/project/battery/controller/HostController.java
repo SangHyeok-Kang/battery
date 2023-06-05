@@ -92,6 +92,6 @@ public class HostController {
         }else{
             attrs.addFlashAttribute("msg", "강의 개설에 실패하였습니다");
         }
-        return "redirect:/host-center/host-center";
+        return "redirect:/";
     }
 }
