@@ -25,17 +25,14 @@ public class AddUserManager {
     //일반 사용자 아이디 체크 메소드
     public boolean checkId(String userid) {
         javax.sql.DataSource ds = dbConfig.dataSource();
-        System.out.println("sadffff");
         try {
             Connection conn = ds.getConnection();
             Statement stmt = conn.createStatement();
             stmt = conn.createStatement();
             String sql = "SELECT userid FROM userinfo WHERE userid= '" + userid + "'";
             ResultSet rs = stmt.executeQuery(sql);
-            System.out.println(sql);
             if (rs.next()) {
                 String user = rs.getString("userid");
-                System.out.println(user);
                 return false;
             }
             rs.close();
@@ -51,17 +48,14 @@ public class AddUserManager {
     //비지니스 사용자 아이디 체크 메소드
     public boolean check_bId(String userid) {
         javax.sql.DataSource ds = dbConfig.dataSource();
-        System.out.println("sadffff");
         try {
             Connection conn = ds.getConnection();
             Statement stmt = conn.createStatement();
             stmt = conn.createStatement();
             String sql = "SELECT business_id FROM business_info WHERE business_id= '" + userid + "'";
             ResultSet rs = stmt.executeQuery(sql);
-            System.out.println(sql);
             if (rs.next()) {
                 String user = rs.getString("business_id");
-                System.out.println(user);
                 return false;
             }
             rs.close();

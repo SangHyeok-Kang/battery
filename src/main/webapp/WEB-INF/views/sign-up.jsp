@@ -83,7 +83,7 @@
                                                 <div class="col-md-6">
                                                     <div class="input-group input-group-outline">
                                                         <input type="text" id="userid" name="userid" class="form-control"
-                                                               value ="${userid}" required>
+                                                               value ="${user}" required>
                                                     </div>
                                                     <small>아이디 관련 설명 여기에 적어야 함</small>
                                                 </div>

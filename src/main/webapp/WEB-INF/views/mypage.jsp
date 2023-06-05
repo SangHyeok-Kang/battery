@@ -54,8 +54,7 @@
                     if (regExp.test(del.value)) {
                         del.value = del.value.replace(regExp, '');
                     }
-                }
-                ;
+                };
             </script>
     </body>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/info.js" ></script>
