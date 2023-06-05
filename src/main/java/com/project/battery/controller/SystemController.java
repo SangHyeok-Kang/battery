@@ -98,9 +98,18 @@ public class SystemController {
         loginModel lm_model = new loginModel(dbConfig);
         result = lm_model.loginResult(chk_state, userid, password);
         if (result == true) {
+            String phone = lm_model.getPhone();
+            String[] strAry = phone.split("-");
             session.setAttribute("host", lm_model.getUser());
             session.setAttribute("state", lm_model.getState()); //일반회원(0) 로그인 상태 세션 저장
             session.setAttribute("name",lm_model.getName());
+            session.setAttribute("phone1",strAry[0]);
+            session.setAttribute("phone2",strAry[1]);
+            session.setAttribute("phone3",strAry[2]);
+            session.setAttribute("address", lm_model.getAddress());
+            session.setAttribute("detail", lm_model.getDetail());
+            session.setAttribute("postcode", lm_model.getPostcode());
+            session.setAttribute("extra", lm_model.getExtra());
 
             urls = "redirect:/";
         } else {
@@ -268,26 +277,30 @@ public class SystemController {
     }
 
     // 비밀번호 변경
-    @RequestMapping("/changePw.do")
-    public String changePw(@RequestParam String userid, @RequestParam String pass1, @RequestParam String pass2, Model model) {
-
-        log.info(userid);
-        log.info(pass1);
-        log.info(pass2);
-
-        if (!pass1.equals(pass2)) {
-            // 오류띄우고
-            model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
-            return "changepw";
-
-        } else {
-
-            loginModel lm_model = new loginModel(dbConfig);
-            lm_model.changePw(userid, pass1);
-
-            //변경 완료 알림
-            model.addAttribute("msg", "비밀번호가 정상적으로 변경되었습니다.");
-            return "test"; // 결과를 보여줄 view의 이름
+    @PostMapping("/changeInfo.do")
+    public String changeInfo(@RequestParam String currentPassword, @RequestParam String newPassword, @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, 
+                            @RequestParam String postcode, @RequestParam String address, @RequestParam String detail, @RequestParam String extra, RedirectAttributes attrs) {
+        
+        userid = (String)session.getAttribute("host");
+        loginModel lm_model = new loginModel(dbConfig);
+        result = lm_model.loginResult("user", userid, currentPassword);
+        if(result == true){
+            String phone = phone1 + "-" + phone2 + "-" + phone3;
+            if(newPassword.isEmpty()){
+                lm_model.changeInfo(userid, currentPassword, phone, postcode, address, detail, extra);
+            }else{
+                lm_model.changeInfo(userid, newPassword, phone, postcode, address, detail, extra);
+            }
+            
+            
+            attrs.addFlashAttribute("msg", "회원정보 수정이 완료되었습니다.");
+        }else{
+            attrs.addFlashAttribute("msg", "현재 비밀번호가 일치하지 않습니다.");
+            
+            return "redirect:/mypage";
         }
+        
+        return "redirect:/";
+        
     }
 }
