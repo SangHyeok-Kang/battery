@@ -50,13 +50,6 @@ public class LectureDto {
     private String comname; //회사명
     private int enroll_count =0; //신청 인원
     
-    //학습자료 정보 관리를 위한 생성자
-    public LectureDto(int matCo, String filename, String fileuploader, String filedate) {
-        this.matCo = matCo;
-        this.filename = filename;
-        this.fileuploader = fileuploader;
-        this.filedate = filedate;
-    }
   
     public LectureDto(int lectureid, String thumbnail, String title, String date) {
         this.lectureid = lectureid;
