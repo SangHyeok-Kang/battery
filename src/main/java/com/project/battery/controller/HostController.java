@@ -83,9 +83,7 @@ public class HostController {
 //            System.out.println("isStart =" + isStart[i]);
 //        }
         String[] surveyList = survey.surveyList(basePath);
-        for(String a : surveyList){
-            System.out.println(a);
-        }
+
         model.addAttribute("surveyList", surveyList);
         model.addAttribute("searchSurvey", searchSurvey);
         model.addAttribute("isStart", isStart);
