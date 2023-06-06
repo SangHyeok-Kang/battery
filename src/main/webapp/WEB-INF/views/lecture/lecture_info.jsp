@@ -317,7 +317,7 @@
                                         <label class="text-black">주소</label>
                                     </th>
                                     <td>
-                                        <label class="text-black">${juso[0]}</label>
+                                        <label class="text-black" for="address">${juso[0]} ${juso[2]}</label>
                                     </td>
                                 </tr>
                                 <tr>
@@ -325,7 +325,7 @@
                                         <label class="text-black">상세주소</label>
                                     </th>
                                     <td>
-                                        <label class="text-black">${juso[1]}</label>
+                                        <label class="text-black" for="addressdetail">${juso[1]}</label>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -407,6 +407,12 @@
                     window.location.href = link; // 이동할 URL
                 }
             });
+      
+            document.addEventListener('click', function (event) {
+                if (!selectBox.contains(event.target)) {
+                    selectBox.blur();
+                }
+            });
 
             window.addEventListener('DOMContentLoaded', function () {
                 const optionCount = selectBox2.options.length;
@@ -423,13 +429,22 @@
             });
 
 
-            //주소 받기
+            /*//주소 받기
             var address = '${juso}';
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                     mapOption = {
                         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
                         level: 3 // 지도의 확대 레벨
                     };
+            */
+        //주소 받기
+        var address = `${juso[0]} ${juso[1]}${juso[2]}`;
+       
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                mapOption = {
+                    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };
 
             // 지도를 생성합니다    
             var map = new kakao.maps.Map(mapContainer, mapOption);

@@ -113,7 +113,7 @@ public class SystemController {
             session.setAttribute("postcode", lm_model.getPostcode());
             session.setAttribute("extra", lm_model.getExtra());
             session.setAttribute("com_name",lm_model.getCom_name());
-
+          
             urls = "redirect:/";
         } else {
             attrs.addFlashAttribute("msg", "로그인에 실패하였습니다.");
