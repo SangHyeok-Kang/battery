@@ -31,27 +31,19 @@
                 <label for="newPassword">변경할 비밀번호:</label>
                 <input type="password" id="newPassword" name="newPassword" style="width:auto"; ><br>                 
 
-                <c:choose>
-                    <c:when test="${sessionScope.state eq 1}">
-                        <label for="name">기업명:</label>
-                        <input type="text" id="name" name="name" value="${com_name}" required style="width:auto" readonly><br><br>
-                        <label for="name">대표자명:</label>
-                        <input type="text" id="name" name="name" value="${name}" required style="width:auto" readonly><br><br>
-                    </c:when>
-                    <c:otherwise>
-                        <label for="name">이름:</label>
-                        <input type="text" id="name" name="name" value="${name}" required style="width:auto" readonly><br><br>
-                    </c:otherwise>
-                </c:choose>
+                
+                <label for="name">기업명:</label>
+                <input type="text" id="name" name="name" value="${com_name}" required style="width:auto" readonly><br><br>
+                <label for="name">대표자명:</label>
+                <input type="text" id="name" name="name" value="${name}" required style="width:auto" readonly><br><br>
 
                 <label for="phone">전화번호:</label>
                 <select id="phone1" name="phone1" class="form-select ps-md-2" value = "${phone1} required>
-                        <option value="">식별번호</option>
+                    <option value="">식별번호</option>
                     <option value="010">010</option>
                     <option value="011">011</option>
                     <!-- 옵션 추가 더 할거 있나?-->
                 </select>
-                <!--<input type="tel" id="phone1" name="phone1" maxlength="3" value="${phone1}" required onkeyup="checkReg(event)">-->
                 -
                 <input type="tel" id="phone2" name="phone2" maxlength="4" value="${phone2}" required onkeydown="checkReg(event)">
                 -
@@ -99,21 +91,9 @@
                 <br>
 
                 <input type="submit" value = "수정하기">
+                <button type="submit" formaction="${pageContext.request.contextPath }/delUser.do">탈퇴하기</button>
+                <button onclick="history.back()">뒤로가기</button>
             </form>
-            <button type="button" onclick="doAction(0)">탈퇴하기</button>
-            <button type="button" onclick="doAction(1)">뒤로가기</button>
-            <script>
-                function doAction(event) {
-                    if (event == 1) {
-                        const link = '${pageContext.request.contextPath}';
-                        location.href = link;
-                    } else {
-                        const link = '${pageContext.request.contextPath}/delUser.do?userid ='+ ${host};
-                        location.href = link;
-                    }
-                }
-            </script>
-
         </div>
         <script>
             function checkReg(event) {

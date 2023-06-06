@@ -39,10 +39,17 @@
         <link id="pagestyle" href="${pageContext.request.contextPath}/assets/css/material-kit.css" rel="stylesheet" />
         <!-- Link Swiper's CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+        <script>
+            <c:if test="${!empty msg}">
+            alert("${msg}");
+            </c:if>
+        </script>
     </head>
 
     <!-- Navbar-->
+
     <%@include file="../header.jspf" %>
+
     <!-- End Navbar -->
 
     <body>
@@ -299,87 +306,102 @@
     </body>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5385b2bd1d614d808c86f0bb4257bc4&libraries=services"></script>
     <script>
-        //창 줄였을 때
-        const showSelectButton = document.getElementById('showSelectButton');
-        const selectBox = document.getElementById('selectBox');
-        const cardContainer = document.getElementById('cardContainer');
-        const selectOption = document.getElementById('selectOption');
+            //창 줄였을 때
+            const showSelectButton = document.getElementById('showSelectButton');
+            const selectBox = document.getElementById('selectBox');
+            const cardContainer = document.getElementById('cardContainer');
+            const selectOption = document.getElementById('selectOption');
 
-        if (selectBox.options.length <= 2) { //option이 2개 이하면
-            cardContainer.style.display = 'block'; //보이게
+            if (selectBox.options.length <= 2) { //option이 2개 이하면
+                cardContainer.style.display = 'block'; //보이게
 
-            showSelectButton.addEventListener('click', function () {
-                window.location.href = '#'; //이동할 페이지 링크 걸면 됨
-            });
-        } else { //option이 3개 이상인 경우
-            showSelectButton.addEventListener('click', function () {
-                selectBox.style.display = 'block'; //안보이게
-            });
-
-            selectBox.addEventListener('change', function () {
-                if (selectBox.value !== 'none') { //option 선택하면
-                    cardContainer.style.display = 'block'; //보이게
-                    selectOption.innerHTML = selectBox.value;
-                } else { //option 선택 안하면
-                    cardContainer.style.display = 'none'; //안보이게
-                }
-            });
-
-            showSelectButton.addEventListener('click', function () {
-                if (selectBox.value !== 'none') { //option 선택하면
+                showSelectButton.addEventListener('click', function () {
                     window.location.href = '#'; //이동할 페이지 링크 걸면 됨
+                });
+            } else { //option이 3개 이상인 경우
+                showSelectButton.addEventListener('click', function () {
+                    selectBox.style.display = 'block'; //안보이게
+                });
+
+                selectBox.addEventListener('change', function () {
+                    if (selectBox.value !== 'none') { //option 선택하면
+                        cardContainer.style.display = 'block'; //보이게
+                        selectOption.innerHTML = selectBox.value;
+                    } else { //option 선택 안하면
+                        cardContainer.style.display = 'none'; //안보이게
+                    }
+                });
+
+                showSelectButton.addEventListener('click', function () {
+                    if (selectBox.value !== 'none') { //option 선택하면
+                        window.location.href = '${pageContext.request.contextPath}/lecture/insert_staff.do?date=' + selectBox.value; //이동할 페이지 링크 걸면 됨
+                    }
+                });
+            }
+
+            document.addEventListener('click', function (event) {
+                if (!selectBox.contains(event.target)) {
+                    selectBox.blur();
                 }
             });
-        }
 
-        document.addEventListener('click', function (event) {
-            if (!selectBox.contains(event.target)) {
-                selectBox.blur();
-            }
-        });
+            //창 크기가 클 때(위랑 로직은 비슷)
+            const selectBox2 = document.getElementById('selectBox2');
+            const cardContainer2 = document.getElementById('cardContainer2');
+            const selectOption2 = document.getElementById('selectOption2');
+            const submitButton2 = document.getElementById('submitButton2');
 
-        //창 크기가 클 때(위랑 로직은 비슷)
-        const selectBox2 = document.getElementById('selectBox2');
-        const cardContainer2 = document.getElementById('cardContainer2');
-        const selectOption2 = document.getElementById('selectOption2');
-        const submitButton2 = document.getElementById('submitButton2');
+            selectBox2.addEventListener('change', function () {
+                const selectedValue = selectBox2.value;
+                if (selectedValue !== 'none') {
+                    submitButton2.removeAttribute('disabled');
+                    cardContainer2.style.display = 'block';
+                    selectOption2.innerHTML = selectBox2.value;
 
-        selectBox2.addEventListener('change', function () {
-            const selectedValue = selectBox2.value;
-            if (selectedValue !== 'none') {
-                submitButton2.removeAttribute('disabled');
-                cardContainer2.style.display = 'block';
-                selectOption2.innerHTML = selectBox2.value;
+                } else {
+                    submitButton2.setAttribute('disabled', 'disabled');
+                    cardContainer2.style.display = 'none';
 
-            } else {
-                submitButton2.setAttribute('disabled', 'disabled');
-                cardContainer2.style.display = 'none';
+                }
+            });
 
-            }
-        });
+            submitButton2.addEventListener('click', function () {
+                const selectedValue = selectBox2.value;
+                if (selectedValue !== 'none') {
+                    const link = '${pageContext.request.contextPath}/lecture/insert_staff.do?date=' + selectedValue;
+                    window.location.href = link; // 이동할 URL
+                }
+            });
+      
+            document.addEventListener('click', function (event) {
+                if (!selectBox.contains(event.target)) {
+                    selectBox.blur();
+                }
+            });
 
-        submitButton2.addEventListener('click', function () {
-            const selectedValue = selectBox2.value;
-            if (selectedValue !== 'none') {
-                window.location.href = '#'; // 이동할 URL
-            }
-        });
-
-        window.addEventListener('DOMContentLoaded', function () {
-            const optionCount = selectBox2.options.length;
-            if (optionCount <= 2) {
-                cardContainer2.style.display = 'block';
-                selectBox2.style.display = 'none';
-                submitButton2.addEventListener('click', function () {
-                    window.location.href = '#'; // 이동할 URL
-                });
-            } else {
-                cardContainer2.style.display = 'none';
-                selectBox2.style.display = 'block';
-            }
-        });
+            window.addEventListener('DOMContentLoaded', function () {
+                const optionCount = selectBox2.options.length;
+                if (optionCount <= 2) {
+                    cardContainer2.style.display = 'block';
+                    selectBox2.style.display = 'none';
+                    submitButton2.addEventListener('click', function () {
+                        window.location.href = '#'; // 이동할 URL
+                    });
+                } else {
+                    cardContainer2.style.display = 'none';
+                    selectBox2.style.display = 'block';
+                }
+            });
 
 
+            /*//주소 받기
+            var address = '${juso}';
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                    mapOption = {
+                        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                        level: 3 // 지도의 확대 레벨
+                    };
+            */
         //주소 받기
         var address = `${juso[0]} ${juso[1]}${juso[2]}`;
        
@@ -389,37 +411,37 @@
                     level: 3 // 지도의 확대 레벨
                 };
 
-        // 지도를 생성합니다    
-        var map = new kakao.maps.Map(mapContainer, mapOption);
+            // 지도를 생성합니다    
+            var map = new kakao.maps.Map(mapContainer, mapOption);
 
-        // 주소-좌표 변환 객체를 생성합니다
-        var geocoder = new kakao.maps.services.Geocoder();
+            // 주소-좌표 변환 객체를 생성합니다
+            var geocoder = new kakao.maps.services.Geocoder();
 
-        // 주소로 좌표를 검색합니다
-        geocoder.addressSearch(
-                address,
-                function (result, status) {
+            // 주소로 좌표를 검색합니다
+            geocoder.addressSearch(
+                    address,
+                    function (result, status) {
 
-                    // 정상적으로 검색이 완료됐으면 
-                    if (status === kakao.maps.services.Status.OK) {
+                        // 정상적으로 검색이 완료됐으면 
+                        if (status === kakao.maps.services.Status.OK) {
 
-                        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-                        // 결과값으로 받은 위치를 마커로 표시합니다
-                        var marker = new kakao.maps.Marker({
-                            map: map,
-                            position: coords
-                        });
+                            // 결과값으로 받은 위치를 마커로 표시합니다
+                            var marker = new kakao.maps.Marker({
+                                map: map,
+                                position: coords
+                            });
 
-                        // 인포윈도우로 장소에 대한 설명을 표시합니다
-                        var infowindow = new kakao.maps.InfoWindow();
-                        infowindow.open(map);
+                            // 인포윈도우로 장소에 대한 설명을 표시합니다
+                            var infowindow = new kakao.maps.InfoWindow();
+                            infowindow.open(map);
 
-                        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                        map.setCenter(coords);
+                            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                            map.setCenter(coords);
+                        }
                     }
-                }
-        );
+            );
     </script>
     <!--bootstrap-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
