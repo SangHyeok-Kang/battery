@@ -39,16 +39,7 @@
             alert("${msg}");
             </c:if>
         </script>
-        <script>
-    window.addEventListener('scroll', function() {
-      var navbar = document.querySelector('.infonavbar');
-      if (window.pageYOffset > 0) {
-        navbar.classList.add('fixed-top');
-      } else {
-        navbar.classList.remove('fixed-top');
-      }
-    });
-  </script>
+
     </head>
 
     <body id="page-top">
@@ -76,69 +67,189 @@
                         <!-- Page Heading -->
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800">${lecture.getTitle()}</h1>
-                            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                            <a href="../lecture/lecture_notice?lecture=${lecture.getLectureid()}&page=1" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                강의실 입장</a>
                         </div>
 
                         <div class="card shadow mb-4">
-                            <div class="card-body">
-                                <nav class="navbar infonavbar navbar-expand-lg navbar-light bg-light  fixed-top">
-                                    <ul class="navbar-nav d-flex justify-content-between">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#info">강의정보</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#survey">설문</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="#people">참가 인원</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="../lecture/lecture_notice?lecture=${lecture.getLectureid()}&page=1">강의실로 이동하기</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                                <div class="table-responsive">
-                                    <table class="table" id="dataTable" width="100%" cellspacing="0">
-                                        <colgroup>
-                                            <col style="width: 20%;">
-                                            <col style="width: 80%;">
-                                        </colgroup>
-                                        <tbody>
-                                            <tr id="info">
-                                                <th scope="row">
-                                                    <label class="text-black">썸네일</label>
-                                                </th>
-                                                <td>
-                                                    <div class="row">
-                                                        <div class="card thumbnail-view">
-                                                            <img src='${pageContext.request.contextPath}/resource/thumbnail/${lecture.getThumbnail()}' alt="${list.getThumbnail()}">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr id="survey" >
-                                                <th scope="row">
-                                                    <label class="text-black">등록된 설문</label>
-                                                </th>
-                                                <td>
-                                                    <div class="row">
-                                                        <%@include file="survey/surveySelectList.jspf"%>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr id="people">
-                                                <th scope="row">
-                                                    <label class="text-black">신청 명단</label>
-                                                </th>
-                                                <td>
-                                                    <div class="row">
-                                                        
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                            <div class="card-body ">
+                                <div class="row">
+                                    <!--nav & tab-->
+                                    <div class="col-auto">
+                                        <ul class="nav nav-tabs " id="hostLectureTab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="info-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#info-tab-pane" type="button" role="tab" aria-controls="info-tab-pane"
+                                                        aria-selected="true">
+                                                    강의
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="applicants-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#applicants-tab-pane" type="button" role="tab"
+                                                        aria-controls="applicants-tab-pane" aria-selected="false">
+                                                    명단
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="survey-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#survey-tab-pane" type="button" role="tab"
+                                                        aria-controls="survey-tab-pane" aria-selected="false">
+                                                    설문
+                                                </button>
+                                            </li>
+                                        </ul>
+                                        <!--탭 안에 콘텐츠-->
+                                        <div class="tab-content w-100" id="lectureTabContent">
+                                            <!--강의 정보 탭-->
+                                            <div class="tab-pane fade show active mt-3 " id="info-tab-pane" role="tabpanel" aria-labelledby="info-tab"
+                                                 tabindex="0">
+                                                <div class="table-responsive">
+                                                    <table class="table " width="100%"  cellspacing="0">
+                                                        <colgroup>
+                                                            <col style="width: 20%;">
+                                                            <col style="width: 80%;">
+                                                        </colgroup>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row" >
+                                                                    <label class="text-black">썸네일</label>
+                                                                </th>
+                                                                <td>
+                                                                    <div class="col-md-3 col-sm-8"> <!--강의 썸네일-->
+                                                                        <div class="card thumbnail">
+                                                                            <img src='${pageContext.request.contextPath}/resource/thumbnail/${lecture.getThumbnail()}' alt="${list.getThumbnail()}">
+                                                                        </div>
+                                                                    </div>
+
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <label class="text-black">모집기간</label>
+                                                                </th>
+                                                                <td>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <label class="text-black">${rec_date}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <label class="text-black">모집유형</label>
+                                                                </th>
+                                                                <td>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <label class="text-black">${lecture.getAgree()}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <label class="text-black">강의기간</label>
+                                                                </th>
+                                                                <td>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <c:forEach items="${lec_date}" var="date" varStatus="co">
+                                                                                <label class="text-black">${date}</label>
+                                                                                <c:if test="${not co.end}">
+                                                                                    <br>
+                                                                                </c:if>
+                                                                            </c:forEach>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <label class="text-black">강의대상</label>
+                                                                </th>
+                                                                <td>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <label class="text-black">${lecture.getRec_target()}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <label class="text-black">Keyword</label>
+                                                                </th>
+                                                                <td>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <label class="text-black">${lecture.getKeyword()}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <label class="text-black">강의내용</label>
+                                                                </th>
+                                                                <td>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            <label class="text-black">${lecture.getText()}</label>
+                                                                        </div>
+                                                                        <c:if test="${not result.getText_image() eq null}">
+                                                                            <img class="w-100" src = "${pageContext.request.contextPath}/resource/text_image/${result.getText_image()}"/>
+                                                                        </c:if>
+                                                                    </div>
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">
+                                                                    <label class="text-black">주소</label>
+                                                                </th>
+                                                                <td>
+                                                                    <div class="row">
+                                                                        <div class="col-md-6">
+                                                                            기본 주소 : <label class="text-black" for="address">${juso[0]} ${juso[2]}</label><br>
+                                                                            상세 주소 : <label class="text-black" for="addressdetail">${juso[1]}</label>
+                                                                        </div>
+                                                                        <div class="w-100 height-500">
+                                                                            <div id="map" class="w-100 h-100" ></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr></tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- 명단 관리 탭-->
+                                                <div class="tab-pane fade mt-3 w-100 h-100 " id="applicants-tab-pane" role="tabpanel" aria-labelledby="applicants-tab"
+                                                     tabindex="0">
+                                                    <table class="table"  width="100%" cellspacing="0">
+                                                        <colgroup>
+                                                            <col style="width: 20%;">
+                                                            <col style="width: 80%;">
+                                                        </colgroup>
+                                                        <tbody>
+                                                            <tr id="people">
+                                                                <th scope="row">
+                                                                    <label class="text-black">신청 명단</label>
+                                                                </th>
+                                                                <td>
+                                                                    <div class="row">
+
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -152,31 +263,77 @@
         </div>
         <%@include file="host-center-footer.jspf"%>
         <!-- End of Footer -->
-        
+
         <!--강의실에 설문 설정 모달-->
         <%@include file="survey/selectSurvey.jspf"%>
         <!--강의실에 설문 설정 모달 끝-->
 
-
+        <%--
         <!-- Bootstrap core JavaScript-->
-        <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>-->
+        <!--<script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
 
         <!-- Core plugin JavaScript-->
-        <script src="${pageContext.request.contextPath}/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/vendor/jquery-easing/jquery.easing.min.js"></script>-->
 
         <!-- Custom scripts for all pages-->
-        <script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>-->
 
         <!-- Page level plugins -->
-        <script src="${pageContext.request.contextPath}/vendor/chart.js/Chart.min.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/vendor/chart.js/Chart.min.js"></script>-->
 
         <!-- Page level custom scripts -->
-        <script src="${pageContext.request.contextPath}/js/demo/chart-area-demo.js"></script>
-        <script src="${pageContext.request.contextPath}/js/demo/chart-pie-demo.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/js/demo/chart-area-demo.js"></script>-->
+        <!--<script src="${pageContext.request.contextPath}/js/demo/chart-pie-demo.js"></script>-->
         <!-- Swiper JS -->
-        <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-        <!-- Initialize Swiper -->
-    </body>
+        <!--<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>-->
+        --%>
 
+    </body>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5385b2bd1d614d808c86f0bb4257bc4&libraries=services"></script>
+    <script>
+        //주소 받기
+        var address = `${juso[0]} ${juso[1]}${juso[2]}`;
+
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                    mapOption = {
+                        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                        level: 3 // 지도의 확대 레벨
+                    };
+
+            // 지도를 생성합니다    
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+
+            // 주소-좌표 변환 객체를 생성합니다
+            var geocoder = new kakao.maps.services.Geocoder();
+
+            // 주소로 좌표를 검색합니다
+            geocoder.addressSearch(
+                    address,
+                    function (result, status) {
+
+                        // 정상적으로 검색이 완료됐으면 
+                        if (status === kakao.maps.services.Status.OK) {
+
+                            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                            // 결과값으로 받은 위치를 마커로 표시합니다
+                            var marker = new kakao.maps.Marker({
+                                map: map,
+                                position: coords
+                            });
+
+                            // 인포윈도우로 장소에 대한 설명을 표시합니다
+                            var infowindow = new kakao.maps.InfoWindow();
+                            infowindow.open(map);
+
+                            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                            map.setCenter(coords);
+                        }
+                    }
+            );
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
 </html>

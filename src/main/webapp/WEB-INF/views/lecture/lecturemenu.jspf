@@ -6,5 +6,6 @@
         <li><a href="lecture_materia?lecture=<%= session.getAttribute("lecture") %>&page=1">학습자료</a></li>
         <li><a href="#">출석확인</a></li>
         <li><a href="lecture_survey?lecture=<%= session.getAttribute("lecture") %>&page=1">설문하기</a></li>
+        <li><a href="lecture_review?lecture=<%= session.getAttribute("lecture") %>">설문하기</a></li>
     </ul>
 </nav>
