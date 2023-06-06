@@ -106,53 +106,60 @@ public class Lecture {
                 log.debug("강의 정보 입력 실패 host={}, titlt={}", lecture.getHost(), lecture.getTitle());
             }
             if (success) {
-                    conn.commit();
-                } else {
-                    conn.rollback();
-                }
-                conn.setAutoCommit(true);
-                if (conn != null) {
-                    conn.close();
-                }
-                if (pstmt != null) {
-                    pstmt.close();
-                }
-                if (rs != null) {
-                    rs.close();
-                }
+                conn.commit();
+            } else {
+                conn.rollback();
+            }
+            conn.setAutoCommit(true);
+            if (conn != null) {
+                conn.close();
+            }
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
         } catch (SQLException ex) {
             log.debug("강의 입력 실패 SqlError = {}", ex.getMessage());
         }
         return success;
     }
-  
+
     //비즈니스 아이디로 개설한 모든 강의 헤더 정보 가져오기
-    public List<LectureDto> getCreateLectureList(String id, String state){
+    public List<LectureDto> getCreateLectureList(String id, String state) {
         List<LectureDto> list = new ArrayList<>();
         String sql = "SELECT lectureid, thumbnail, l_title, l_date FROM lecture where host=? and l_state=?";
         try {
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString( 1, id);
+            pstmt.setString(1, id);
             pstmt.setString(2, state);
             rs = pstmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 String thumbnail = rs.getString("thumbnail");
-                if(thumbnail.equals("")){
+                if (thumbnail.equals("")) {
                     thumbnail = "none.png";
                 }
-                list.add(new LectureDto(rs.getInt("lectureid"),thumbnail, rs.getString("l_title"),rs.getString("l_date")));
+                list.add(new LectureDto(rs.getInt("lectureid"), thumbnail, rs.getString("l_title"), rs.getString("l_date")));
             }
-            if(conn!=null){conn.close();}
-            if(pstmt!=null){pstmt.close();}
-            if(rs!=null){rs.close();}
+            if (conn != null) {
+                conn.close();
+            }
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return list;
     }
+
     //강의 정보 불러오기
     /*
     public LectureDto getLecture(int lecid){
@@ -202,10 +209,9 @@ public class Lecture {
            
         return lec;
     }
-*/
-    
-    // 전체 강의 리스트 가져오기
+     */
 
+    // 전체 강의 리스트 가져오기
     public ArrayList<LectureDto> getViewCountList() {
         try {
             ds = dbConfig.dataSource();
@@ -244,15 +250,15 @@ public class Lecture {
         try {
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
-            
+
             String local_sql = "select * from lecture lec join address ad on lec.lectureid = ad.id where ad.address like '?%' and l_state = 'start' and lec.l_keyword = '%?%"; //지역별 검색          
             pstmt = conn.prepareStatement(local_sql);
-            
-            pstmt.setString(1,local);
-            pstmt.setString(2,keyword);
-            
+
+            pstmt.setString(1, local);
+            pstmt.setString(2, keyword);
+
             rs = pstmt.executeQuery();
-            
+
             while (rs.next()) {
                 LectureDto lec = new LectureDto();
                 lec.setLectureid(rs.getInt("lectureid"));
@@ -416,17 +422,23 @@ public class Lecture {
                 log.debug("학습자료 입력 실패 host={}, lecture={}", id, lecid);
             }
 
-            if(conn!=null){conn.close();}
-            if(pstmt!=null){pstmt.close();}
-            if(rs!=null){rs.close();}
+            if (conn != null) {
+                conn.close();
+            }
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
 
         } catch (SQLException ex) {
             Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
         }
         return success;
     }
-    
-    public List<MateriaDto> getMateriaList(HikariConfiguration dbConfig, int lectureid){
+
+    public List<MateriaDto> getMateriaList(HikariConfiguration dbConfig, int lectureid) {
         List<MateriaDto> list = new ArrayList<>();
         String sql = "select materiaurl, uploader, date from materia where lectureid=? order by date asc";
         int co = 1;
@@ -438,15 +450,21 @@ public class Lecture {
             pstmt.setInt(1, lectureid);
             rs = pstmt.executeQuery();
 
-            while(rs.next()){
-                list.add(new MateriaDto(co, rs.getString("materiaurl").substring(rs.getString("materiaurl").lastIndexOf("\\")+1),
-                        rs.getString("uploader"),rs.getString("date")));
+            while (rs.next()) {
+                list.add(new MateriaDto(co, rs.getString("materiaurl").substring(rs.getString("materiaurl").lastIndexOf("\\") + 1),
+                        rs.getString("uploader"), rs.getString("date")));
                 co++;
             }
             Collections.reverse(list);
-            if(conn!=null){conn.close();}
-            if(pstmt!=null){pstmt.close();}
-            if(rs!=null){rs.close();}
+            if (conn != null) {
+                conn.close();
+            }
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -471,9 +489,15 @@ public class Lecture {
             } else {
                 log.debug("파일 삭제 실패");
             }
-            if(conn!=null){conn.close();}
-            if(pstmt!=null){pstmt.close();}
-            if(rs!=null){rs.close();}
+            if (conn != null) {
+                conn.close();
+            }
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -481,40 +505,40 @@ public class Lecture {
         return success;
 
     }
-    
+
     //강의 상세 정보 조회
     public LectureDto SearchlecInfo(int id) {
         LectureDto lec = new LectureDto();
         try {
-            
+
             int count = 0;
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
             Statement stmt = conn.createStatement();
             //신청자 수
-            String sql = "select count(*) as enroll_count from staffe where lectureid = "+id+" and enroll_state !=2  group by lectureid ";
+            String sql = "select count(*) as enroll_count from staffe where lectureid = " + id + " and enroll_state !=2  group by lectureid ";
             rs = stmt.executeQuery(sql);
-            if(rs.next()){
+            if (rs.next()) {
                 count = rs.getInt("enroll_count");
             }
-            
-            sql = "select * from lecture lec join business_info b on lec.host = b.business_id where lec.lectureid ="+id;
+
+            sql = "select * from lecture lec join business_info b on lec.host = b.business_id where lec.lectureid =" + id;
 
             rs = stmt.executeQuery(sql);
 
             if (rs.next()) {
                 lec.setLectureid(rs.getInt("lectureid"));
-                if(rs.getString("thumbnail").equals("")){
+                if (rs.getString("thumbnail").equals("")) {
                     lec.setThumbnail("none.png");
-                }else{
+                } else {
                     lec.setThumbnail(rs.getString("thumbnail"));
                 }
                 lec.setTitle(rs.getString("l_title"));
                 lec.setText(rs.getString("l_text"));
-                
-                if(rs.getString("text_image").equals("")){
+
+                if (rs.getString("text_image").equals("")) {
                     lec.setText_image(null);
-                }else{
+                } else {
                     lec.setText_image(rs.getString("text_image"));
                 }
                 lec.setRec_dt(rs.getString("rec_dt"));
@@ -522,17 +546,17 @@ public class Lecture {
                 lec.setRec_num(rs.getInt("rec_num"));
                 lec.setDate(rs.getString("l_date"));
                 lec.setKeyword(rs.getString("l_keyword"));
-                if(!rs.getString("price").equals("")){
+                if (!rs.getString("price").equals("")) {
                     lec.setPrice(rs.getString("price") + " 원");
-                }else{
+                } else {
                     lec.setPrice("무료 강의");
                 }
-                if(rs.getString("agree").equals("0")){
+                if (rs.getString("agree").equals("0")) {
                     lec.setAgree("선착순 모집");
-                }else{
+                } else {
                     lec.setAgree("확인 후 모집");
                 }
-                
+
                 lec.setTeacher(rs.getInt("teacher"));
                 lec.setTeacher_num(rs.getInt("teacher_num"));
                 lec.setStaffe(rs.getInt("staffe"));
@@ -543,18 +567,59 @@ public class Lecture {
                 lec.setGrade(rs.getDouble("l_grade"));
                 lec.setComname(rs.getString("business_name")); //회사명
                 lec.setSel_count(rs.getInt("view_count")); //조회수
-                
+
             }
-           
+
             stmt.close();
             conn.close();
-             rs.close();
+            rs.close();
         } catch (Exception ex) {
             log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
 
         }
 
-
         return lec;
+    }
+
+    //중복 신청 조회 메소드
+    public boolean duplicate(String userid, String date, int lectureid) {
+        javax.sql.DataSource ds = dbConfig.dataSource();
+        try {
+            Connection conn = ds.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt = conn.createStatement();
+            String sql = "select * from staffe where userid = '" + userid + "' and date = '" + date + "' and lectureid = " + lectureid;
+            log.info(sql);
+            ResultSet rs = stmt.executeQuery(sql);
+
+            if (rs.next()) {
+                return false;
+            }
+
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
+        }
+        return true;
+    }
+
+    //강의 신청 메소드
+    public void ApplyLecutre(String userid, int lectureid, String date, int user_state) {
+        javax.sql.DataSource ds = dbConfig.dataSource();
+
+        try {
+            Connection conn = ds.getConnection();
+            String sql = "INSERT INTO staffe VALUES(default,?,?,?,?,default)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setInt(1, lectureid);
+            pstmt.setString(2, userid);
+            //pstmt.setInt(2,class_round);
+            pstmt.setString(3, date);
+            pstmt.setInt(4, user_state);
+            pstmt.executeUpdate();
+
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
+        }
     }
 }
