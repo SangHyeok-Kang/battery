@@ -45,6 +45,41 @@
                 </c:when>
 
             </c:choose>
+
+            function validate() {
+                var re1 = /^[A-Za-z0-9]{8,16}$/;
+                var re2 = /^[0-9]{4,4}$/;
+                var re3 = /^[가-힣]*$/;
+
+
+                var pass = document.getElementById("password");
+                var phone1 = document.getElementById("phone2");
+                var phone2 = document.getElementById("phone3");
+                var name = document.getElementById("name");
+
+                if (!check(re1, pass, "비밀번호는 8~16자의 영문 대소문자와 숫자로만 입력")) {
+                    return false;
+                }
+                if (!check(re2, phone1, "전화번호는 숫자로만 입력할 수 있으며 4자리를 입력")) {
+                    return false;
+                }
+                if (!check(re2, phone2, "전화번호는 숫자로만 입력할 수 있으며 4자리를 입력")) {
+                    return false;
+                }
+                if (!check(re3, name, "대표자 명은 한글만 입력")) {
+                    return false;
+                }
+                document.getElementById('keyword').value = document.getElementById('selectedSubcategories').innerText;
+                sessionStorage.removeItem("user");
+                function check(re, what, message) {
+                    if (re.test(what.value)) {
+                        return true;
+                    }
+                    alert(message);
+                    what.value = "";
+                    what.focus();
+                }
+            }
         </script>
         <!-- Navbar-->
         <nav class="navbar navbar-light py-3">
@@ -67,7 +102,7 @@
                 <div class="container">
                     <div class="row align-items-center justify-content-start">
                         <p class="font-weight-bold text-2xl text-gradient-dark">비즈니스 회원가입</p>
-                        <form id="contact-form" method="post" autocomplete="off" action="${pageContext.request.contextPath}/ceo_signup.do" onsubmit="subcatergory()">
+                        <form id="contact-form" method="post" onsubmit="return validate();" autocomplete="off" action="${pageContext.request.contextPath}/ceo_signup.do">                           
                             <table class="table">
                                 <colgroup>
                                     <col style="width: 20%;">
@@ -86,7 +121,7 @@
                                                         <input type="text" id="userid" name="userid" class="form-control"
                                                                value ="${user}" onkeyup="checkReg(event)" required >
                                                     </div>
-                                                    <small>아이디 관련 설명 여기에 적어야 함</small>
+                                                    <small>4~12자의 영문 대소문자와 숫자로만 입력</small>
                                                 </div>
                                                 <div class="col-auto">
                                                     <button type="button" class="btn btn-outline-info" onclick ="check_bId()">중복 확인</button>
@@ -94,11 +129,24 @@
                                                     <script>
                                                         function check_bId() {
                                                             var userid = document.getElementById("userid").value;
-                                                            if (!userid)
+                                                            var re = /^[a-zA-Z0-9]{4,12}$/
+                                                            var id = document.getElementById("userid");
+
+                                                            if (!userid) {
                                                                 alert("아이디를 입력해주세요");
-                                                            else {
+                                                            } else if (!check(re, id, "아이디는 4~12자의 영문 대소문자와 숫자로만 입력")) {
+                                                                return false;
+                                                            } else {
                                                                 const link = 'check_bId.do?userid=' + userid;
                                                                 location.replace(link);
+                                                            }
+                                                            function check(re, what, message) {
+                                                                if (re.test(what.value)) {
+                                                                    return true;
+                                                                }
+                                                                alert(message);
+                                                                what.value = "";
+                                                                what.focus();
                                                             }
                                                         }
                                                     </script>
@@ -118,7 +166,7 @@
                                                         <input type="password" id="password" name="password"
                                                                class="form-control" required>
                                                     </div>
-                                                    <small>비밀번호 규칙 여기에 적어야 함</small>
+                                                    <small>8~16자의 영문 대소문자와 숫자로만 입력</small>
                                                 </div>
                                             </div>
                                         </td>
@@ -174,14 +222,14 @@
                                                 <div class="col-4 col-md-2">
                                                     <!--전화번호 중간 4자리-->
                                                     <div class="input-group input-group-outline">
-                                                        <input type="text" id="phone2" name="phone2" class="form-control"
+                                                        <input type="text" id="phone2" name="phone2" class="form-control" maxlength="4" onKeydown="this.value = this.value.replace(/[^0-9]/g, '');"
                                                                required>
                                                     </div>
                                                 </div>
                                                 <div class="col-4 col-md-2">
                                                     <!--전화번호 끝 4자리-->
                                                     <div class="input-group input-group-outline">
-                                                        <input type="text" id="phone3" name="phone3" class="form-control"
+                                                        <input type="text" id="phone3" name="phone3" class="form-control" maxlength="4" onKeydown="this.value = this.value.replace(/[^0-9]/g, '');"
                                                                required>
                                                     </div>
                                                 </div>
@@ -277,7 +325,8 @@
             if (regExp.test(del.value)) {
                 del.value = del.value.replace(regExp, '');
             }
-        };
+        }
+        ;
     </script>
 </body>
 
