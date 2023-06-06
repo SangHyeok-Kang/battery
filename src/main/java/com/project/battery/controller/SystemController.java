@@ -98,11 +98,13 @@ public class SystemController {
         loginModel lm_model = new loginModel(dbConfig);
         result = lm_model.loginResult(chk_state, userid, password);
         if (result == true) {
-            String phone = lm_model.getPhone();
-            String[] strAry = phone.split("-");
+            //System.out.println(lm_model.getPhone());
+            
+            //String[] strAry = lm_model.getPhone().split("-");
             session.setAttribute("host", lm_model.getUser());
             session.setAttribute("state", lm_model.getState()); //일반회원(0) 로그인 상태 세션 저장
             session.setAttribute("name",lm_model.getName());
+            /*
             session.setAttribute("phone1",strAry[0]);
             session.setAttribute("phone2",strAry[1]);
             session.setAttribute("phone3",strAry[2]);
@@ -110,7 +112,7 @@ public class SystemController {
             session.setAttribute("detail", lm_model.getDetail());
             session.setAttribute("postcode", lm_model.getPostcode());
             session.setAttribute("extra", lm_model.getExtra());
-
+            */
             urls = "redirect:/";
         } else {
             attrs.addFlashAttribute("msg", "로그인에 실패하였습니다.");

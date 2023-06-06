@@ -7,8 +7,10 @@ package com.project.battery.controller;
 import com.project.battery.dto.LectureDto;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
+import com.project.battery.model.SearchAddress;
 import com.project.battery.model.surveyModel;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -84,9 +86,31 @@ public class HostController {
 //            System.out.println("isStart =" + isStart[i]);
 //        }
         String[] surveyList = survey.surveyList(basePath);
-
+        
+        String[] aryREC = lecDto.getRec_dt().split("%");
+        String[] strAryDT;
+        List<String> aryDT = new ArrayList<>();
+        // 모집기간 포맷
+        String rec = String.format("%s(%s) ~ %s(%s)", aryREC[0],aryREC[1],aryREC[2],aryREC[3]);
+        
+        // 강의 기간 포맷
+        if(lecDto.getDate().contains("@")){
+            strAryDT = lecDto.getDate().split("@");
+            for(String str : strAryDT){
+                String[] strSplit = str.split("%");
+                aryDT.add(String.format("%s ~ %s(%s ~ %s)",strSplit[0],strSplit[1],strSplit[2],strSplit[3]));
+            }
+        }else{
+            strAryDT = lecDto.getDate().split("%");
+            aryDT.add(String.format("%s ~ %s(%s ~ %s)",strAryDT[0],strAryDT[1],strAryDT[2],strAryDT[3]));
+        }
+        SearchAddress manager = new SearchAddress(dbConfig);
+        String[] juso = manager.checkAddress(Integer.parseInt(lecid));
+        model.addAttribute("juso",juso);
         model.addAttribute("surveyList", surveyList);
         model.addAttribute("searchSurvey", searchSurvey);
+        model.addAttribute("rec_date", rec);
+        model.addAttribute("lec_date", aryDT);
         model.addAttribute("isStart", isStart);
         model.addAttribute("lecture",lecDto);
         return "host-center/lecture";

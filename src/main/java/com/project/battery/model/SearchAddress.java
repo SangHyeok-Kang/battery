@@ -34,7 +34,7 @@ public class SearchAddress {
 
     public String[] checkAddress(int id) {
 
-        String[] addressFormat = {null,null};
+        String[] addressFormat = {null,null,null};
         try {
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
@@ -43,8 +43,9 @@ public class SearchAddress {
             rs = stmt.executeQuery(sql);
 
             if (rs.next()) {
-                addressFormat[0]=String.format("%s %s", rs.getString("address"), rs.getString("extra"));
-                addressFormat[1]=rs.getString("detail");
+                addressFormat[0]= rs.getString("address");
+                addressFormat[1]= rs.getString("detail");
+                addressFormat[2]=rs.getString("extra");
             }
 
            rs.close();
