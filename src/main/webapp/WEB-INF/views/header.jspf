@@ -35,6 +35,16 @@
     </div>
     <div class="w-100 d-none d-md-block"></div>
     <div class="container">
-        카테고리 뭐 들어가야 했더랑 까묵쓰
+        <ul class="navbar-nav  d-flex flex-row">
+            <li class="nav-item">
+                <a class="nav-link" href="#">강의 신청</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">강사 신청</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">스태프 신청</a>
+            </li>
+        </ul>
     </div>
 </nav>

@@ -62,6 +62,7 @@
     <%@include file="header.jspf"%>
     <!-- End Navbar -->
     <!--start 캐러셀-->
+    <%--
     <header class="header-2">
         <div id="carouselExampleAutoplaying" class="carousel slide shadow-blur" data-bs-ride="carousel">
             <div class="carousel-indicators">
@@ -108,6 +109,8 @@
 
         </div>
     </header>
+    --%>
+    <%@include file="banner.jspf" %>
     <!--end 캐러셀-->
     <div class="row text-center mt-7 ms-5 me-auto">
         <div class="col-4 mx-auto">

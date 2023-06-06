@@ -1,0 +1,48 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<header class="header-2">
+        <div id="carouselExampleAutoplaying" class="carousel slide shadow-blur" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
+                         xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide"
+                         preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <image href="${pageContext.request.contextPath}\resource\banner\힙합교실.png" height="100%" width="100%" alt="힙합교실.png"></image>
+                    </svg>
+                </div>
+                <div class="carousel-item">
+                    <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
+                         xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Second slide"
+                         preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <image href="${pageContext.request.contextPath}\resource\banner\UX,UI교육.png" height="100%" width="100%" alt="UX,UI교육.png"></image>
+                    </svg>
+                </div>
+                <div class="carousel-item">
+                    <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
+                         xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Third slide"
+                         preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <image href="${pageContext.request.contextPath}\resource\banner\리뷰이벤트.png" height="100%" width="100%" alt="리뷰이벤트.png"></image>
+                    </svg>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+
+        </div>
+    </header>
