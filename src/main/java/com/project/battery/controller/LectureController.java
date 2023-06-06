@@ -89,7 +89,6 @@ public class LectureController {
             strAryDT = result.getDate().split("%");
             aryDT.add(String.format("%s ~ %s(%s ~ %s)",strAryDT[0],strAryDT[1],strAryDT[2],strAryDT[3]));
         }
-                            System.out.println(result.getPrice());
         SearchAddress manager = new SearchAddress(dbConfig);
         String[] juso = manager.checkAddress(id);
         model.addAttribute("result",result);

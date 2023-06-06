@@ -31,12 +31,12 @@ public class ReviewController {
     @Autowired
     private HttpSession session;
     
-    @GetMapping("/review")
+    @GetMapping("lecture/lecture_review")
     public String review() {
 
         log.debug("review called...");
 
-        return "review";
+        return "lecture/lecture_review";
     }
     
     @PostMapping("/insertReview")

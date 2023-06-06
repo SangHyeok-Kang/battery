@@ -96,7 +96,7 @@ public class HostController {
     @PostMapping("host-center/insert_lecture.do")
     public String insertLecture(MultipartHttpServletRequest request, RedirectAttributes attrs){
         LectureDto lecture = new LectureDto();
-        System.out.println("yes");
+        
         //강의 객체로 정보 입력
         lecture.setTitle(request.getParameter("title"));
         lecture.setText(request.getParameter("text"));
