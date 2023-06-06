@@ -67,7 +67,7 @@ public class LectureController {
 
     @GetMapping("lecture/select_lecture")
     public String ShowLecInfo(@RequestParam("lecture") int id, Model model) {
-
+        String url = "";
         Lecture lec = new Lecture(dbConfig);
         lec.updateViews(id);
         LectureDto result = lec.SearchlecInfo(id);

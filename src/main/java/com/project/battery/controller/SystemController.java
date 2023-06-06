@@ -69,6 +69,25 @@ public class SystemController {
 
         return "/index";
     }
+    
+    @GetMapping("/mento")
+    public String mentoMain(Model model) {
+        Lecture lec = new Lecture(dbConfig);
+
+        view_list = lec.getViewCountList();
+        nopri_list = lec.getNoPriceList();
+        pri_list = lec.getPriceList();
+        //loc_list = lec.getLocalList();
+        String view_count = lec.getLectureTable(view_list);
+        String nopri = lec.getLectureTable(nopri_list);
+        String pri = lec.getLectureTable(pri_list);
+
+        model.addAttribute("viewcount_list", view_count);
+        model.addAttribute("noprice_list", nopri);
+        model.addAttribute("price_list", pri);
+
+        return "mento/index";
+    }
 
     @GetMapping("/sign-in")
     public String signIn() {
