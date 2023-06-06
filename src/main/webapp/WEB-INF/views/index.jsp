@@ -53,7 +53,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
         <script>
             <c:if test="${!empty msg}">
-                alert("${msg}");
+            alert("${msg}");
             </c:if>
         </script>
     </head>
@@ -79,9 +79,9 @@
                         </c:choose>
                     </li>
                     <c:if test="${sessionScope.state eq 1}">
-                      <li class="nav-item mx-2 flex-grow-1">
-                          <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="host-center/" id="hostCenter">호스트센터</a>
-                      </li>
+                        <li class="nav-item mx-2 flex-grow-1">
+                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="host-center/" id="hostCenter">호스트센터</a>
+                        </li>
                     </c:if>
                     <c:if test="${host ne null}">
                         <li class="nav-item mx-2 flex-grow-1">
@@ -114,24 +114,21 @@
                     <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
                          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: First slide"
                          preserveAspectRatio="xMidYMid slice" focusable="false">
-                        <image href="resource\banner\힙합교실.png" height="100%" width="100%" alt="힙합교실.png"></image>
+                    <image href="resource\banner\힙합교실.png" height="100%" width="100%" alt="힙합교실.png"></image>
                     </svg>
                 </div>
                 <div class="carousel-item">
                     <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
                          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Second slide"
                          preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#666"></rect><text x="50%" y="50%" fill="#444" dy=".3em">
-                    2</text>
+                    <image href="resource\banner\UX,UI교육.png" height="100%" width="100%" alt="UX,UI교육.png"></image>
                     </svg>
                 </div>
                 <div class="carousel-item">
                     <svg class="bd-placeholder-img bd-placeholder-img-lg d-block w-100" width="800" height="400"
                          xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Third slide"
                          preserveAspectRatio="xMidYMid slice" focusable="false">
-                    <title>Placeholder</title>
-                    <rect width="100%" height="100%" fill="#555"></rect><text x="50%" y="50%" fill="#333" dy=".3em">
+                    <image href="resource\banner\리뷰이벤트.png" height="100%" width="100%" alt="리뷰이벤트.png"></image>
                     </svg>
                 </div>
             </div>
@@ -175,12 +172,56 @@
         <!-- Swiper -->
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-                    ${lecturelist}
+                ${viewcount_list}
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
             <div class="swiper-pagination"></div>
         </div>
+    </div>
+    <div class="container mt-6">
+        <div class="row mb-3">
+            <div class="col-auto">
+                <h5>🔥무료 강의🔥</h5>
+            </div>
+            <div class="col-auto ms-auto">
+                <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                    전체보기
+                    <i class="bi bi-arrow-right mb-1"></i>
+                </a>
+            </div>
+        </div>
+        <!-- Swiper -->
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                ${noprice_list}
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+    <div class="container mt-6">
+        <div class="row mb-3">
+            <div class="col-auto">
+                <h5>🔥유료 강의🔥</h5>
+            </div>
+            <div class="col-auto ms-auto">
+                <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                    전체보기
+                    <i class="bi bi-arrow-right mb-1"></i>
+                </a>
+            </div>
+        </div>
+        <!-- Swiper -->
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                ${price_list}
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div> 
     </div>
 
     <!--End header-->

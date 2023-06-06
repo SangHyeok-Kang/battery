@@ -25,6 +25,22 @@ public class loginModel {
     @Getter
     @Setter
     private String name;
+    @Getter
+    @Setter
+    private String phone;
+    @Getter
+    @Setter
+    private String postcode;
+    @Getter
+    @Setter
+    private String address;
+    @Getter
+    @Setter
+    private String detail;
+    @Getter
+    @Setter
+    private String extra;
+    
     private HikariConfiguration dbConfig;
 
     public loginModel(HikariConfiguration dbConfig) {
@@ -40,14 +56,20 @@ public class loginModel {
             Statement stmt = conn.createStatement();
             stmt = conn.createStatement();
             if (chkstate.equals("user")) {
-                sql = "SELECT userid, password, username FROM userinfo WHERE userid= '" + userid + "' and password = '" + password + "'";
+                sql = "SELECT * FROM userinfo u join address a on u.userid = a.id WHERE userid= '" + userid + "' and password = '" + password + "' and state = 0";
 
                 ResultSet rs = stmt.executeQuery(sql);
 
                 if (rs.next()) {
-                    this.setUser(rs.getString("userid"));
-                    this.setState(0);
-                    this.setName(rs.getString("username"));
+                    setUser(rs.getString("u.userid"));
+                    setState(rs.getInt("a.state"));
+                    setName(rs.getString("u.username"));
+                    setPhone(rs.getString("u.phone"));
+                    setPostcode(rs.getString("a.postcode"));
+                    setAddress(rs.getString("a.address"));
+                    setDetail(rs.getString("a.detail"));
+                    setExtra(rs.getString("a.extra"));
+                     
                     return true;
                 }
                 rs.close();
@@ -143,20 +165,37 @@ public class loginModel {
         return null;
     }
 
-    // 비밀번호 변경
-    public void changePw(String userid, String password) {
+    // 회원정보 변경
+    public void changeInfo(String userid, String password, String phone, String postcode, String address, String detail, String extra) {
 
         javax.sql.DataSource ds = dbConfig.dataSource();
+        log.info(phone);
+        log.info(password);
 
         try {
             Connection conn = ds.getConnection();
-            Statement stmt = conn.createStatement();
-            stmt = conn.createStatement();
-            String sql = "UPDATE userinfo SET password = '" + password + "' WHERE (userid = '" + userid + "')";
+            String sql = "UPDATE userinfo SET password = ?, phone = ? WHERE userid = ?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            
+            pstmt.setString(1,password);
+            pstmt.setString(2,phone);
+            pstmt.setString(3,userid);
             log.info(sql);
-            stmt.executeUpdate(sql);
+            pstmt.executeUpdate();
 
-            stmt.close();
+            pstmt.close();
+            
+            sql = "UPDATE address SET postcode = ?, address = ?, detail= ?, extra = ? WHERE id = ? ";
+            pstmt = conn.prepareStatement(sql);
+            log.info(sql);
+            pstmt.setString(1,postcode);
+            pstmt.setString(2,address);
+            pstmt.setString(3, detail);
+            pstmt.setString(4,extra);
+            pstmt.setString(5,userid);
+            
+            pstmt.executeUpdate();
+            pstmt.close();
             conn.close();
 
         } catch (Exception ex) {
@@ -164,21 +203,5 @@ public class loginModel {
         }
 
     }
-
-    public void setState(int state) {
-        this.state = state;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public int getState() {
-        return state;
-    }
-
+    
 }

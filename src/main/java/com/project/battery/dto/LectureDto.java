@@ -39,20 +39,23 @@ public class LectureDto {
     private int staffe_num = 0;//15. 스탭 인원 수
     private String qual = null; //16.모집 조건 작성
     private String resume = null; //18. 지원서 양식
-    private String host = null; // 19. 강의자
+    private String host = null; // 19. 개설자
     private Double grade = 0.0; // 20. 별점
     private String state = null; //강의 진행상태
     private int matCo;
     private String filename;
     private String fileuploader;
     private String filedate;
-    private int sel_count = 0;
+    private int sel_count = 0; //조회수
+    private String comname; //회사명
+    private int enroll_count =0; //신청 인원
     
-    //학습자료 정보 관리를 위한 생성자
-    public LectureDto(int matCo, String filename, String fileuploader, String filedate) {
-        this.matCo = matCo;
-        this.filename = filename;
-        this.fileuploader = fileuploader;
-        this.filedate = filedate;
+
+    public LectureDto(int lectureid, String thumbnail, String title, String date) {
+        this.lectureid = lectureid;
+        this.thumbnail = thumbnail;
+        this.title = title;
+        this.date = date;
+
     }
 }

@@ -46,20 +46,33 @@ public class SystemController {
     @Autowired
     private HikariConfiguration dbConfig;
 
-    ArrayList<LectureDto> list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> view_list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> nopri_list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> pri_list = new ArrayList<LectureDto>();
+    ArrayList<LectureDto> loc_list = new ArrayList<LectureDto>();
 
     @GetMapping("/")
     public String projectMain(Model model) {
         Lecture lec = new Lecture(dbConfig);
-        list = lec.getLecture();
-        String result = lec.getLectureTable(list);
 
-        model.addAttribute("lecturelist", result);
+        view_list = lec.getViewCountList();
+        nopri_list = lec.getNoPriceList();
+        pri_list = lec.getPriceList();
+        //loc_list = lec.getLocalList();
+        String view_count = lec.getLectureTable(view_list);
+        String nopri = lec.getLectureTable(nopri_list);
+        String pri = lec.getLectureTable(pri_list);
+
+        model.addAttribute("viewcount_list", view_count);
+        model.addAttribute("noprice_list", nopri);
+        model.addAttribute("price_list", pri);
+
         return "/index";
     }
 
     @GetMapping("/sign-in")
     public String signIn() {
+        session.invalidate();
         return "/sign-in";
     }
 
@@ -85,9 +98,19 @@ public class SystemController {
         loginModel lm_model = new loginModel(dbConfig);
         result = lm_model.loginResult(chk_state, userid, password);
         if (result == true) {
+            String phone = lm_model.getPhone();
+            String[] strAry = phone.split("-");
             session.setAttribute("host", lm_model.getUser());
             session.setAttribute("state", lm_model.getState()); //일반회원(0) 로그인 상태 세션 저장
-            session.setAttribute("name", lm_model.getName());
+            session.setAttribute("name",lm_model.getName());
+            session.setAttribute("phone1",strAry[0]);
+            session.setAttribute("phone2",strAry[1]);
+            session.setAttribute("phone3",strAry[2]);
+            session.setAttribute("address", lm_model.getAddress());
+            session.setAttribute("detail", lm_model.getDetail());
+            session.setAttribute("postcode", lm_model.getPostcode());
+            session.setAttribute("extra", lm_model.getExtra());
+
             urls = "redirect:/";
         } else {
             attrs.addFlashAttribute("msg", "로그인에 실패하였습니다.");
@@ -116,7 +139,7 @@ public class SystemController {
         session.setAttribute("user", userid);
         attrs.addFlashAttribute("result", result);
         attrs.addFlashAttribute("user", session.getAttribute("user"));
-        
+
         return "redirect:/business-sign-up";
     }
 
@@ -124,12 +147,11 @@ public class SystemController {
     @PostMapping("/normal_signup.do")
     public String insertNormalUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
             @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String birthdate, @RequestParam String school,
-            @RequestParam String major, @RequestParam String grade, @RequestParam String status, @RequestParam List<String> subcategory,
+            @RequestParam String major, @RequestParam String grade, @RequestParam String status, @RequestParam String keyword,
             @RequestParam String postcode, @RequestParam String detail, @RequestParam String extra, @RequestParam String address, @RequestParam String gender, Model model) {
         String schoolinfo = "";
         String phone = phone1 + "-" + phone2 + "-" + phone3;
-        String interest = subcategory.get(0) + "/" + subcategory.get(1) + "/" + subcategory.get(2) + "/";
-        
+        session.invalidate();
         if (major.isEmpty() && status.isEmpty()) {
             schoolinfo = school + " " + grade;
         } else {
@@ -139,7 +161,7 @@ public class SystemController {
         AddUserManager manager = new AddUserManager(dbConfig);
         result = manager.checkId(userid);
         if (result == true) {
-            manager.addRow(userid, name, password, phone, birthdate, schoolinfo, interest, postcode, detail, extra, address, gender);
+            manager.addRow(userid, name, password, phone, birthdate, schoolinfo, keyword, postcode, detail, extra, address, gender);
 
             model.addAttribute("msg", "회원가입 완료되었습니다.");
             model.addAttribute("url", "/");
@@ -154,16 +176,15 @@ public class SystemController {
     @PostMapping("/ceo_signup.do")
     public String insertBusinessUserInfo(@RequestParam String userid, @RequestParam String password, @RequestParam String name,
             @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, @RequestParam String com_name,
-            @RequestParam List<String> subcategory, @RequestParam String postcode, @RequestParam String detail,
+            @RequestParam String keyword, @RequestParam String postcode, @RequestParam String detail,
             @RequestParam String extra, @RequestParam String address, Model model) {
+        session.invalidate();
         String phone = phone1 + "-" + phone2 + "-" + phone3;
-        String interest = subcategory.get(0) + "/" + subcategory.get(1) + "/" + subcategory.get(2) + "/";
-
 
         AddUserManager manager = new AddUserManager(dbConfig);
         result = manager.check_bId(userid);
         if (result == true) {
-            manager.b_addRow(userid, password, com_name, phone, name, interest, postcode, detail, address, extra);
+            manager.b_addRow(userid, password, com_name, phone, name, keyword, postcode, detail, address, extra);
 
             model.addAttribute("msg", "회원가입 완료되었습니다.");
             model.addAttribute("url", "/");
@@ -256,26 +277,30 @@ public class SystemController {
     }
 
     // 비밀번호 변경
-    @RequestMapping("/changePw.do")
-    public String changePw(@RequestParam String userid, @RequestParam String pass1, @RequestParam String pass2, Model model) {
-
-        log.info(userid);
-        log.info(pass1);
-        log.info(pass2);
-
-        if (!pass1.equals(pass2)) {
-            // 오류띄우고
-            model.addAttribute("msg", "비밀번호가 일치하지 않습니다.");
-            return "changepw";
-
-        } else {
-
-            loginModel lm_model = new loginModel(dbConfig);
-            lm_model.changePw(userid, pass1);
-
-            //변경 완료 알림
-            model.addAttribute("msg", "비밀번호가 정상적으로 변경되었습니다.");
-            return "test"; // 결과를 보여줄 view의 이름
+    @PostMapping("/changeInfo.do")
+    public String changeInfo(@RequestParam String currentPassword, @RequestParam String newPassword, @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3, 
+                            @RequestParam String postcode, @RequestParam String address, @RequestParam String detail, @RequestParam String extra, RedirectAttributes attrs) {
+        
+        userid = (String)session.getAttribute("host");
+        loginModel lm_model = new loginModel(dbConfig);
+        result = lm_model.loginResult("user", userid, currentPassword);
+        if(result == true){
+            String phone = phone1 + "-" + phone2 + "-" + phone3;
+            if(newPassword.isEmpty()){
+                lm_model.changeInfo(userid, currentPassword, phone, postcode, address, detail, extra);
+            }else{
+                lm_model.changeInfo(userid, newPassword, phone, postcode, address, detail, extra);
+            }
+            
+            
+            attrs.addFlashAttribute("msg", "회원정보 수정이 완료되었습니다.");
+        }else{
+            attrs.addFlashAttribute("msg", "현재 비밀번호가 일치하지 않습니다.");
+            
+            return "redirect:/mypage";
         }
+        
+        return "redirect:/";
+        
     }
 }

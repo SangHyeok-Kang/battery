@@ -57,12 +57,9 @@
                         <div class="card shadow mb-4">
                             <div class="card-body">
                                 <button type="button" class="btn btn-outline-info" onclick="location.href = 'createSurvey'">등록 하기</button>
-                                <button type="button" class="btn btn-outline-info" onclick="delServey(13)">삭제 하기</button>
                                 <hr class="sidebar-divider">
-                                <div class="sidebar-heading">
-                                    <label class="h5 mb-4 text-gray-800">설문지 목록</label>
-                                </div>
-                                <div class="row">
+                                <label class="h5 mb-4 text-gray-800">설문지 목록</label>
+                                
                                     <%
                                         String[] surveyList = (String[]) request.getAttribute("surveyList");
                                         boolean[] isDelChecked = (boolean[]) request.getAttribute("isChecked");
@@ -72,12 +69,12 @@
                                     <%
                                     } else {
                                     %>
-                                    <table>
+                                    <table class="table" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
                                                 <th>설문명</th>
-                                                <th>삭제</th>
-                                                <th>다운로드</th>
+                                                <th class="text-center">삭제</th>
+                                                <th class="text-center">다운로드</th>
                                             </tr>
                                         </thead>
                                         <tbody> 
@@ -89,16 +86,15 @@
                                             <tr>
                                                 <td><%= surveyName%></td>
                                                 <td>
-                                                    <form action="deleteSurvey" method="POST">
+                                                    <form action="deleteSurvey" method="POST" class="text-center">
                                                         <input type="hidden" name="surveyName" value="<%= surveyName%>">
-                                                        <input type="submit" name="delete" value="삭제" <%= currentDelCheck ? "disabled" : ""%>>
-
+                                                        <input type="submit" class="btn btn-outline-info" name="delete" value="삭제" <%= currentDelCheck ? "disabled" : ""%>>
                                                     </form>
                                                 </td>
                                                 <td>
-                                                    <form action="downloadSurvey" method="POST">
+                                                    <form action="downloadSurvey" method="POST" class="text-center">
                                                         <input type="hidden" name="surveyName" value="<%= surveyName%>">
-                                                        <input type="submit" name="download" value="다운로드">
+                                                        <input type="submit" class="btn btn-outline-info" name="download" value="다운로드">
                                                     </form>
                                                 </td>
                                             </tr>
@@ -108,7 +104,6 @@
                                             %>
                                         </tbody>
                                     </table>
-                                </div>
                             </div>
                         </div>
                     </div>

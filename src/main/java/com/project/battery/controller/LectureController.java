@@ -5,10 +5,12 @@
 package com.project.battery.controller;
 
 import com.project.battery.dto.LectureDto;
+import com.project.battery.dto.MateriaDto;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
 import com.project.battery.model.Notice;
 import com.project.battery.model.SearchAddress;
+import com.project.battery.model.surveyModel;
 import com.project.battery.service.FileService;
 import com.project.battery.service.PagingService;
 import java.io.File;
@@ -40,6 +42,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @PropertySource("classpath:/system.properties")
 public class LectureController {
+
     @Autowired
     private HttpServletRequest request;
     @Autowired
@@ -53,15 +56,44 @@ public class LectureController {
     private String notice_folder;
     @Value("${file.materia_folder}")
     private String materia_folder;
+    @Value("${file.survey_folder}")
+    private String survey_folder;
+    @Value("${file.surveyResult_folder}")
+    private String surveyResult_folder;
+    @Value("${file.surveyInfo_folder}")
+    private String surveyInfo_folder;
+
+    ArrayList<LectureDto> result = new ArrayList<LectureDto>();
 
     @GetMapping("lecture/select_lecture")
     public String ShowLecInfo(@RequestParam("lecture") int id, Model model) {
+
         Lecture lec = new Lecture(dbConfig);
         lec.updateViews(id);
+        result = lec.SearchlecInfo(id);
+        
+        String str2 = result.get(0).getRec_dt();
+        String str = result.get(0).getDate();
+        
+        String[] strAry = str.split("%");
+        String[] strAry2 = str2.split("%");
+        System.out.println(str2);
+        System.out.println(strAry2[2]);
+        
         
         SearchAddress manager = new SearchAddress(dbConfig);
-        
         String juso = manager.checkAddress(id);
+
+        model.addAttribute("thumbnail", result.get(0).getThumbnail());
+        model.addAttribute("com_name", result.get(0).getComname());
+        model.addAttribute("category", result.get(0).getKeyword());
+        model.addAttribute("view_count", result.get(0).getSel_count());
+        model.addAttribute("enroll_count", result.get(0).getEnroll_count());
+        model.addAttribute("lecture_name", result.get(0).getTitle());
+        model.addAttribute("rec_date", strAry2[0] + " - " + strAry2[2]);
+        model.addAttribute("lec_date", strAry[0] + " - " + strAry[1]);
+        model.addAttribute("text_image", result.get(0).getText_image());
+        model.addAttribute("price", result.get(0).getPrice());
         model.addAttribute("juso", juso);
         return "lecture/lecture_info";
     }
@@ -70,6 +102,9 @@ public class LectureController {
     public String lecture(@RequestParam("lecture") String id, @RequestParam("page") int page, Model model) {
         if (!id.equals((String) session.getAttribute("lecture")) || session.getAttribute("lecture") == null) {
             session.setAttribute("lecture", id);
+        }
+        if(session.getAttribute("lectureinfo") == null){
+            session.setAttribute("lectureinfo", new Lecture(dbConfig).getLecture(Integer.parseInt(id)));
         }
 
         //강의실에 해당하는 공지사항 목록가져온다
@@ -89,8 +124,32 @@ public class LectureController {
     }
 
     @GetMapping("lecture/create_notice")
-    public String createLectureMotice() {
+    public String createLectureNotice() {
         return "lecture/create_notice";
+
+    }
+    
+    @GetMapping("lecture/lecture_survey")
+    public String lectureSurvey(Model model, @RequestParam("lecture") String id) {
+        if(session.getAttribute("lectureinfo") == null){
+            session.setAttribute("lectureinfo", new Lecture(dbConfig).getLecture(Integer.parseInt(id)));
+        }
+        LectureDto lec = (LectureDto) session.getAttribute("lectureinfo");
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + lec.getHost();
+        String basePath1 = ctx.getRealPath(surveyInfo_folder);
+        String basePath2 = ctx.getRealPath(surveyResult_folder) + File.separator + lec.getHost() + File.separator + (String) session.getAttribute("lecture");
+
+        surveyModel survey = new surveyModel();
+        String[] searchSurvey = survey.searchSurvey(basePath, lec.getHost(), basePath1, Integer.parseInt((String)session.getAttribute("lecture")) );
+
+        boolean[] isExpired = survey.checkIfExpired(searchSurvey, basePath2, (String) session.getAttribute("host"));
+//        for (int i = 0; i < isExpired.length; i++) {
+//            System.out.println("isExpired =" + isExpired[i]);
+//        }
+        model.addAttribute("searchSurvey", searchSurvey);
+        model.addAttribute("isExpired", isExpired);
+        
+        return "lecture/lecture_survey";
 
     }
 
@@ -136,10 +195,13 @@ public class LectureController {
     }
 
     @GetMapping("/lecture/lecture_materia")
-    public String lecturemateria(Model model, @RequestParam("page") int page, @RequestParam("lecture") int lecid) {
-        List<LectureDto> materia = new Lecture().getMateriaList(dbConfig, lecid);
-        if (!materia.isEmpty()) {
-            List<LectureDto> pagingMateria = new ArrayList<>();
+    public String lecturemateria(Model model, @RequestParam("page") int page,@RequestParam("lecture") String lecid){
+        if(session.getAttribute("lectureinfo") == null){
+            session.setAttribute("lectureinfo", new Lecture(dbConfig).getLecture(Integer.parseInt(lecid)));
+        }
+        List<MateriaDto> materia = new Lecture().getMateriaList(dbConfig,Integer.parseInt(lecid));
+        if(!materia.isEmpty()){
+            List<MateriaDto> pagingMateria = new ArrayList<>();
             PagingService paging = new PagingService(page, materia.size());
             for (int i = paging.getStartlist(); i < paging.getEndlist() + 1; i++) {
                 pagingMateria.add(materia.get(i - 1));

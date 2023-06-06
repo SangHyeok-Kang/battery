@@ -50,12 +50,12 @@
                 var re2 = /^[0-9]{4,4}$/;
                 var re3 = /^[가-힣]*$/;
                 var re4 = /^[A-Za-z0-9]{8,16}$/;
-            
+
                 var pw = document.getElementById("password");
                 var ph1 = document.getElementById("phone2");
                 var ph2 = document.getElementById("phone3");
                 var name = document.getElementById("name");
-                
+
                 if (!check(re4, pw, "비밀번호는 8~16자의 영문 대소문자와 숫자로만 입력")) {
                     return false;
                 }
@@ -68,6 +68,8 @@
                 if (!check(re3, name, "이름은 한글만 입력")) {
                     return false;
                 }
+                document.getElementById('keyword').value = document.getElementById('selectedSubcategories').innerText;
+                sessionStorage.removeItem("user");
                 function check(re, what, message) {
                     if (re.test(what.value)) {
                         return true;
@@ -128,14 +130,14 @@
                                                             var re = /^[a-zA-Z0-9]{4,12}$/
                                                             var id = document.getElementById("userid");
 
-                                                            if (!userid){
+                                                            if (!userid) {
                                                                 alert("아이디를 입력해주세요");
-                                                            } else if (!check(re, id, "아이디는 4~12자의 영문 대소문자와 숫자로만 입력")){
-                                                                  return false;
+                                                            } else if (!check(re, id, "아이디는 4~12자의 영문 대소문자와 숫자로만 입력")) {
+                                                                return false;
                                                             } else {
                                                                 const link = 'checkId.do?userid=' + userid;
                                                                 location.href = link;
-                                                            }                                                           
+                                                            }
                                                             function check(re, what, message) {
                                                                 if (re.test(what.value)) {
                                                                     return true;
@@ -330,7 +332,8 @@
 
                                                 </div>
                                                 <div id="selectedSubcategories"></div>
-                                            </div>
+                                                <input type="hidden" id="keyword" name="keyword">
+                                            </div> 
                                         </td>
                                     </tr>
                                     <tr>
