@@ -212,7 +212,7 @@
                                                                 <td>
                                                                     <div class="row">
                                                                         <div class="col-md-6">
-                                                                            기본 주소 : <label class="text-black" for="address">${juso[0]}</label><br>
+                                                                            기본 주소 : <label class="text-black" for="address">${juso[0]} ${juso[2]}</label><br>
                                                                             상세 주소 : <label class="text-black" for="addressdetail">${juso[1]}</label>
                                                                         </div>
                                                                         <div class="w-100 height-500">
@@ -268,33 +268,33 @@
         <%@include file="survey/selectSurvey.jspf"%>
         <!--강의실에 설문 설정 모달 끝-->
 
-
+        <%--
         <!-- Bootstrap core JavaScript-->
-        <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
-        <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>-->
+        <!--<script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
 
         <!-- Core plugin JavaScript-->
-        <script src="${pageContext.request.contextPath}/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/vendor/jquery-easing/jquery.easing.min.js"></script>-->
 
         <!-- Custom scripts for all pages-->
-        <script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>-->
 
         <!-- Page level plugins -->
-        <script src="${pageContext.request.contextPath}/vendor/chart.js/Chart.min.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/vendor/chart.js/Chart.min.js"></script>-->
 
         <!-- Page level custom scripts -->
-        <script src="${pageContext.request.contextPath}/js/demo/chart-area-demo.js"></script>
-        <script src="${pageContext.request.contextPath}/js/demo/chart-pie-demo.js"></script>
+        <!--<script src="${pageContext.request.contextPath}/js/demo/chart-area-demo.js"></script>-->
+        <!--<script src="${pageContext.request.contextPath}/js/demo/chart-pie-demo.js"></script>-->
         <!-- Swiper JS -->
-        <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
-        crossorigin="anonymous"></script>
-        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5385b2bd1d614d808c86f0bb4257bc4&libraries=services"></script>
-        <script>
-            //주소 받기
-            var address = `${juso}`;//$("label[for='address']").text()+ ' ' + $("label[for='addressdetail']").text();
-            
+        <!--<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>-->
+        --%>
+
+    </body>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5385b2bd1d614d808c86f0bb4257bc4&libraries=services"></script>
+    <script>
+        //주소 받기
+        var address = `${juso[0]} ${juso[1]}${juso[2]}`;
+
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                     mapOption = {
                         center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -332,7 +332,8 @@
                         }
                     }
             );
-        </script>
-    </body>
-
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
 </html>

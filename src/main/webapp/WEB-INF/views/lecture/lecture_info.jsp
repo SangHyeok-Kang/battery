@@ -295,7 +295,7 @@
                                         <label class="text-black">주소</label>
                                     </th>
                                     <td>
-                                        <label class="text-black">${juso[0]}</label>
+                                        <label class="text-black" for="address">${juso[0]} ${juso[2]}</label>
                                     </td>
                                 </tr>
                                 <tr>
@@ -303,7 +303,7 @@
                                         <label class="text-black">상세주소</label>
                                     </th>
                                     <td>
-                                        <label class="text-black">${juso[1]}</label>
+                                        <label class="text-black" for="addressdetail">${juso[1]}</label>
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -324,7 +324,7 @@
         const selectBox = document.getElementById('selectBox');
         const cardContainer = document.getElementById('cardContainer');
         const selectOption = document.getElementById('selectOption');
-        
+
         if (selectBox.options.length <= 2) { //option이 2개 이하면
             cardContainer.style.display = 'block'; //보이게
 
@@ -339,7 +339,7 @@
             selectBox.addEventListener('change', function () {
                 if (selectBox.value !== 'none') { //option 선택하면
                     cardContainer.style.display = 'block'; //보이게
-                    selectOption.innerHTML= selectBox.value;
+                    selectOption.innerHTML = selectBox.value;
                 } else { //option 선택 안하면
                     cardContainer.style.display = 'none'; //안보이게
                 }
@@ -369,12 +369,12 @@
             if (selectedValue !== 'none') {
                 submitButton2.removeAttribute('disabled');
                 cardContainer2.style.display = 'block';
-                selectOption2.innerHTML= selectBox2.value;
-                
+                selectOption2.innerHTML = selectBox2.value;
+
             } else {
                 submitButton2.setAttribute('disabled', 'disabled');
                 cardContainer2.style.display = 'none';
-                
+
             }
         });
 
@@ -401,7 +401,8 @@
 
 
         //주소 받기
-        var address = '${juso}';
+        var address = `${juso[0]} ${juso[1]}${juso[2]}`;
+       
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
                 mapOption = {
                     center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
