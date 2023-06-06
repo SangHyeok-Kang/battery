@@ -44,14 +44,14 @@
     <!-- Navbar-->
     <nav class="navbar navbar-light py-3">
         <div class="container">
-            <a class="navbar-brand" href="index.html" rel="tooltip" title="WeUs" data-placement="bottom">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}" rel="tooltip" title="WeUs" data-placement="bottom">
                 <h4>보조배터리</h4>
             </a>
 
             <div class="pt-3 pb-2" id="navigation">
                 <ul class="navbar-nav ms-auto d-flex flex-row">
                     <li class="nav-item mx-2 flex-grow-1">
-                        <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="sign-in.html"
+                        <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="${pageContext.request.contextPath}/sign-in"
                            id="signIn">로그인</a>
                     </li>
                 </ul>
