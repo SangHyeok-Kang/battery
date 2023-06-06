@@ -75,7 +75,7 @@
                             <div class="card-body ">
                                 <div class="row">
                                     <!--nav & tab-->
-                                    <div class="col-auto">
+                                    <div class="w-100">
                                         <ul class="nav nav-tabs " id="hostLectureTab" role="tablist">
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link active" id="info-tab" data-bs-toggle="tab"
@@ -225,27 +225,48 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <!-- 명단 관리 탭-->
-                                                <div class="tab-pane fade mt-3 w-100 h-100 " id="applicants-tab-pane" role="tabpanel" aria-labelledby="applicants-tab"
-                                                     tabindex="0">
-                                                    <table class="table"  width="100%" cellspacing="0">
-                                                        <colgroup>
-                                                            <col style="width: 20%;">
-                                                            <col style="width: 80%;">
-                                                        </colgroup>
-                                                        <tbody>
-                                                            <tr id="people">
-                                                                <th scope="row">
-                                                                    <label class="text-black">신청 명단</label>
-                                                                </th>
-                                                                <td>
-                                                                    <div class="row">
-
-                                                                    </div>
-                                                                </td>
+                                            </div>
+                                            <!-- 명단 관리 탭-->
+                                            <div class="tab-pane fade mt-3 " id="applicants-tab-pane" role="tabpanel" aria-labelledby="applicants-tab"
+                                                 tabindex="0">
+                                                <div class="row">
+                                                    <div class="d-flex justify-content-between w-100">
+                                                        <label class="h5 text-black">참여 명단</label>
+                                                        <select class="text-sm rounded-2 mb-2" style="border-color:#d1d1d1;">
+                                                            <option value="mente">수강자</option>
+                                                            <option value="mento">강사</option>
+                                                            <option value="staff">스태프</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="table-responsive ">
+                                                        <table class="table" width="100%"  cellspacing="0">
+                                                            <colgroup>
+                                                                <col style="width: 10%;">
+                                                                <col style="width: 20%;">
+                                                                <col style="width: 30%;">
+                                                                <col style="width: 30%;">
+                                                                <col style="width: 10%;">
+                                                            </colgroup>
+                                                            <tr>
+                                                                <th>No.</th>
+                                                                <th class="text-center">이름</th>
+                                                                <th class="text-center">전화번호</th>
+                                                                <th class="text-center">생년월일</th>
+                                                                <th class="text-center">비고</th>
                                                             </tr>
-                                                        </tbody>
-                                                    </table>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade mt-3 " id="survey-tab-pane" role="tabpanel" aria-labelledby="survey-tab"
+                                                 tabindex="0">
+                                                <div class="row">
+                                                    <div class="w-100">
+                                                        <div class="justify-content-center">
+                                                            <button class="btn btn-outline-info center" data-toggle="modal" data-target="#selectSurveyModal">설문 등록</button>
+                                                        </div>
+                                                        <%@include file="survey/surveySelectList.jspf"%>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -254,13 +275,14 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End of Main Content -->
                 </div>
-                <!-- End of Content Wrapper -->
+                <!-- End of Main Content -->
             </div>
-            <!-- End of Page Wrapper -->
-            <!-- Footer -->
+            <!-- End of Content Wrapper -->
         </div>
+        <!-- End of Page Wrapper -->
+        <!-- Footer -->
+
         <%@include file="host-center-footer.jspf"%>
         <!-- End of Footer -->
 
@@ -292,48 +314,48 @@
     </body>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5385b2bd1d614d808c86f0bb4257bc4&libraries=services"></script>
     <script>
-        //주소 받기
-        var address = `${juso[0]} ${juso[1]}${juso[2]}`;
+                //주소 받기
+                var address = `${juso[0]} ${juso[1]}${juso[2]}`;
 
-            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-                    mapOption = {
-                        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-                        level: 3 // 지도의 확대 레벨
-                    };
+                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                            mapOption = {
+                                center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                                level: 3 // 지도의 확대 레벨
+                            };
 
-            // 지도를 생성합니다    
-            var map = new kakao.maps.Map(mapContainer, mapOption);
+                    // 지도를 생성합니다    
+                    var map = new kakao.maps.Map(mapContainer, mapOption);
 
-            // 주소-좌표 변환 객체를 생성합니다
-            var geocoder = new kakao.maps.services.Geocoder();
+                    // 주소-좌표 변환 객체를 생성합니다
+                    var geocoder = new kakao.maps.services.Geocoder();
 
-            // 주소로 좌표를 검색합니다
-            geocoder.addressSearch(
-                    address,
-                    function (result, status) {
+                    // 주소로 좌표를 검색합니다
+                    geocoder.addressSearch(
+                            address,
+                            function (result, status) {
 
-                        // 정상적으로 검색이 완료됐으면 
-                        if (status === kakao.maps.services.Status.OK) {
+                                // 정상적으로 검색이 완료됐으면 
+                                if (status === kakao.maps.services.Status.OK) {
 
-                            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-                            // 결과값으로 받은 위치를 마커로 표시합니다
-                            var marker = new kakao.maps.Marker({
-                                map: map,
-                                position: coords
-                            });
+                                    // 결과값으로 받은 위치를 마커로 표시합니다
+                                    var marker = new kakao.maps.Marker({
+                                        map: map,
+                                        position: coords
+                                    });
 
-                            // 인포윈도우로 장소에 대한 설명을 표시합니다
-                            var infowindow = new kakao.maps.InfoWindow();
-                            infowindow.open(map);
+                                    // 인포윈도우로 장소에 대한 설명을 표시합니다
+                                    var infowindow = new kakao.maps.InfoWindow();
+                                    infowindow.open(map);
 
-                            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                            map.setCenter(coords);
-                        }
-                    }
-            );
+                                    // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                                    map.setCenter(coords);
+                                }
+                            }
+                    );
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
-        crossorigin="anonymous"></script>
+            integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+    crossorigin="anonymous"></script>
 </html>
