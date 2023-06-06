@@ -1,0 +1,87 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<nav class="navbar navbar-light py-3">
+        <div class="container">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}?state=0" rel="tooltip" title="WeUs"
+                data-placement="bottom">
+                <h4>보조배터리</h4>
+            </a>
+
+            <div class="pt-3 pb-2 d-none d-md-block" id="navigation">
+                <ul class="navbar-nav ms-auto d-flex flex-row">
+                    <li class="nav-item mx-2 flex-grow-1">
+                        <c:set var="host" value="${sessionScope.host}" />
+                        <c:choose>
+                            <c:when test="${host eq null}">
+                                <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="sign-in"
+                                    id="signIn">로그인</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="mypage"
+                                    id="mypage">마이페이지</a>
+                            </c:otherwise>
+                        </c:choose>
+                    </li>
+                    <c:if test="${sessionScope.state eq 1}">
+                        <li class="nav-item mx-2 flex-grow-1">
+                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="host-center/"
+                                id="hostCenter">호스트센터</a>
+                        </li>
+                    </c:if>
+                    <c:if test="${host ne null}">
+                        <li class="nav-item mx-2 flex-grow-1">
+                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="logout.do"
+                                id="logout">로그아웃</a>
+                        </li>
+                    </c:if>
+                </ul>
+            </div>
+
+            <div class="pt-3 pb-2 d-block d-md-none">
+                <div class="dropdown">
+                    <button class="navbar-toggler dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="bi bi-list"></i>
+                    </button>
+                
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <c:set var="host" value="${sessionScope.host}" />
+                        <c:choose>
+                            <c:when test="${host eq null}">
+                                <li><a class="dropdown-item mb-2" href="sign-in" id="signIn">로그인</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li><a class="dropdown-item mb-2" href="mypage" id="mypage">마이페이지</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                        <c:if test="${sessionScope.state eq 1}">
+                            <li>
+                                <a class="dropdown-item mb-2" href="host-center/" id="hostCenter">호스트센터</a>
+                            </li>
+                        </c:if>
+                        <c:if test="${host ne null}">
+                            <li>
+                                <a class="dropdown-item" href="logout.do" id="logout">로그아웃</a>
+                            </li>
+                        </c:if>
+                    </ul>
+                </div>
+                
+            </div>
+
+            <div class="container">
+                <div class="overflow-auto" style="white-space:nowrap;">
+                    <ul class="navbar-nav d-flex flex-row">
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}">강의 신청</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/mento?state=0">강사 신청</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="${pageContext.request.contextPath}/mento?state=1">스태프 신청</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+    </nav>
