@@ -67,7 +67,7 @@ public class Lecture {
             pstmt.setString(6, lecture.getDate());
             pstmt.setString(7, lecture.getKeyword());
             pstmt.setString(8, lecture.getPrice());
-            pstmt.setInt(9, lecture.getAgree());
+            pstmt.setInt(9, Integer.parseInt(lecture.getAgree()));
             pstmt.setInt(10, lecture.getTeacher());
             pstmt.setInt(11, lecture.getTeacher_num());
             pstmt.setInt(12, lecture.getStaffe());
@@ -105,11 +105,7 @@ public class Lecture {
             } else {
                 log.debug("강의 정보 입력 실패 host={}, titlt={}", lecture.getHost(), lecture.getTitle());
             }
-        } catch (SQLException ex) {
-            log.debug("강의 입력 실패 SqlError = {}", ex.getMessage());
-        } finally {
-            try {
-                if (success) {
+            if (success) {
                     conn.commit();
                 } else {
                     conn.rollback();
@@ -124,9 +120,8 @@ public class Lecture {
                 if (rs != null) {
                     rs.close();
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } catch (SQLException ex) {
+            log.debug("강의 입력 실패 SqlError = {}", ex.getMessage());
         }
         return success;
     }
@@ -158,7 +153,8 @@ public class Lecture {
         
         return list;
     }
-    //호스트 센터 강의 정보 불러오기
+    //강의 정보 불러오기
+    /*
     public LectureDto getLecture(int lecid){
         LectureDto lec = new LectureDto();
         String sql = "select * from lecture where lectureid = ?";
@@ -206,6 +202,7 @@ public class Lecture {
            
         return lec;
     }
+*/
     
     // 전체 강의 리스트 가져오기
 
@@ -482,48 +479,78 @@ public class Lecture {
     }
     
     //강의 상세 정보 조회
-    public ArrayList<LectureDto> SearchlecInfo(int id) {
+    public LectureDto SearchlecInfo(int id) {
+        LectureDto lec = new LectureDto();
         try {
+            
             int count = 0;
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
             Statement stmt = conn.createStatement();
+            //신청자 수
             String sql = "select count(*) as enroll_count from staffe where lectureid = "+id+" and enroll_state !=2  group by lectureid ";
             rs = stmt.executeQuery(sql);
             if(rs.next()){
                 count = rs.getInt("enroll_count");
             }
-            rs.close();
             
             sql = "select * from lecture lec join business_info b on lec.host = b.business_id where lec.lectureid ="+id;
 
             rs = stmt.executeQuery(sql);
 
             if (rs.next()) {
-                LectureDto lec = new LectureDto();
-                lec.setThumbnail(rs.getString("lec.thumbnail")); //썸네일
-                lec.setComname(rs.getString("b.business_name")); //회사명
-                lec.setKeyword(rs.getString("lec.l_keyword")); //키워드
-                lec.setSel_count(rs.getInt("lec.view_count")); //조회수
-                lec.setEnroll_count(count); //신청자 수
-                lec.setTitle(rs.getString("lec.l_title")); //강의명
-                lec.setRec_dt(rs.getString("lec.rec_dt")); //모집기간
-                lec.setDate(rs.getString("lec.l_date")); //신청기간
-                lec.setText_image(rs.getString("lec.text_image"));
-                lec.setPrice(rs.getString("lec.price"));
+                lec.setLectureid(rs.getInt("lectureid"));
+                if(rs.getString("thumbnail").equals("")){
+                    lec.setThumbnail("none.png");
+                }else{
+                    lec.setThumbnail(rs.getString("thumbnail"));
+                }
+                lec.setTitle(rs.getString("l_title"));
+                lec.setText(rs.getString("l_text"));
                 
-                detail_list.add(lec);
-
+                if(rs.getString("text_image").equals("")){
+                    lec.setText_image(null);
+                }else{
+                    lec.setText_image(rs.getString("text_image"));
+                }
+                lec.setRec_dt(rs.getString("rec_dt"));
+                lec.setRec_target(rs.getString("rec_target"));
+                lec.setRec_num(rs.getInt("rec_num"));
+                lec.setDate(rs.getString("l_date"));
+                lec.setKeyword(rs.getString("l_keyword"));
+                if(!rs.getString("price").equals("")){
+                    lec.setPrice(rs.getString("price") + " 원");
+                }else{
+                    lec.setPrice("무료 강의");
+                }
+                if(rs.getString("agree").equals("0")){
+                    lec.setAgree("선착순 모집");
+                }else{
+                    lec.setAgree("확인 후 모집");
+                }
+                
+                lec.setTeacher(rs.getInt("teacher"));
+                lec.setTeacher_num(rs.getInt("teacher_num"));
+                lec.setStaffe(rs.getInt("staffe"));
+                lec.setStaffe_num(rs.getInt("staffe_num"));
+                lec.setQual(rs.getString("qualification"));
+                lec.setHost(rs.getString("host"));
+                lec.setState(rs.getString("l_state"));
+                lec.setGrade(rs.getDouble("l_grade"));
+                lec.setComname(rs.getString("business_name")); //회사명
+                lec.setSel_count(rs.getInt("view_count")); //조회수
+                
             }
-            rs.close();
+           
             stmt.close();
             conn.close();
-
+             rs.close();
         } catch (Exception ex) {
             log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
 
         }
 
-        return detail_list;
+
+        return lec;
     }
 }

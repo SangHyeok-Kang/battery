@@ -32,7 +32,7 @@ public class LectureDto {
     private String date = null; // 8. 교육 기간
     private String keyword = null; // 9. 키워드
     private String price = null; // 10. 가격
-    private int agree = 0; // 11. 자동 수락 동의(선착순)
+    private String agree = "0"; // 11. 자동 수락 동의(선착순)
     private int teacher = 0; // 12. 강사 모집
     private int teacher_num = 0;//13. 강사 인원 수
     private int staffe = 0; // 14. 스탭 모집

@@ -72,7 +72,7 @@ public class HostController {
             session.setAttribute("lecture", lecid);
         }
         Lecture lec = new Lecture(dbConfig);
-        LectureDto lecDto = lec.getLecture(Integer.parseInt(lecid));
+        LectureDto lecDto = lec.SearchlecInfo(Integer.parseInt(lecid));
         String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("host");
         String basePath1 = ctx.getRealPath(surveyInfo_folder);
 
@@ -111,7 +111,7 @@ public class HostController {
         lecture.setKeyword(request.getParameter("keyword"));
         lecture.setPrice(request.getParameter("price"));
         if(request.getParameter("acceptance").equals("manual")){
-            lecture.setAgree(1);
+            lecture.setAgree("1");
         }
         if(request.getParameter("recruit").equals("yes")){
             if(request.getParameter("recruit_t").equals("t_yes")){

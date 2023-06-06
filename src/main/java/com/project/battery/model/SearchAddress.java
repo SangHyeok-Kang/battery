@@ -32,13 +32,9 @@ public class SearchAddress {
         this.dbConfig = dbConfig;
     }
 
-    public String checkAddress(int id) {
+    public String[] checkAddress(int id) {
 
-        String postcode = "";
-        String address = "";
-        String detail = "";
-        String extra = "";
-
+        String[] addressFormat = {null,null};
         try {
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
@@ -47,20 +43,17 @@ public class SearchAddress {
             rs = stmt.executeQuery(sql);
 
             if (rs.next()) {
-                address = rs.getString("address");
-                detail = rs.getString("detail");
-                extra = rs.getString("extra");
+                addressFormat[0]=String.format("%s %s", rs.getString("address"), rs.getString("extra"));
+                addressFormat[1]=rs.getString("detail");
             }
 
-            juso = address + " " + detail + extra;
-
-            rs.close();
+           rs.close();
             stmt.close();
             conn.close();
 
         } catch (Exception ex) {
             log.error("오류가 발생했습니다. (발생 오류: {})", ex.getMessage());
         }
-        return juso;
+        return addressFormat;
     }
 }
