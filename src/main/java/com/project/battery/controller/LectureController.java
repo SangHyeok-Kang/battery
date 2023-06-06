@@ -15,6 +15,7 @@ import com.project.battery.service.FileService;
 import com.project.battery.service.PagingService;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -63,37 +64,37 @@ public class LectureController {
     @Value("${file.surveyInfo_folder}")
     private String surveyInfo_folder;
 
-    ArrayList<LectureDto> result = new ArrayList<LectureDto>();
 
     @GetMapping("lecture/select_lecture")
     public String ShowLecInfo(@RequestParam("lecture") int id, Model model) {
 
         Lecture lec = new Lecture(dbConfig);
         lec.updateViews(id);
-        result = lec.SearchlecInfo(id);
+        LectureDto result = lec.SearchlecInfo(id);
+ 
+        String[] aryREC = result.getRec_dt().split("%");
+        String[] strAryDT;
+        List<String> aryDT = new ArrayList<>();
+        // 모집기간 포맷
+        String rec = String.format("%s(%s) ~ %s(%s)", aryREC[0],aryREC[1],aryREC[2],aryREC[3]);
         
-        String str2 = result.get(0).getRec_dt();
-        String str = result.get(0).getDate();
-        
-        String[] strAry = str.split("%");
-        String[] strAry2 = str2.split("%");
-        System.out.println(str2);
-        System.out.println(strAry2[2]);
-        
-        
+        // 강의 기간 포맷
+        if(result.getDate().contains("@")){
+            strAryDT = result.getDate().split("@");
+            for(String str : strAryDT){
+                String[] strSplit = str.split("%");
+                aryDT.add(String.format("%s ~ %s(%s ~ %s)",strSplit[0],strSplit[1],strSplit[2],strSplit[3]));
+            }
+        }else{
+            strAryDT = result.getDate().split("%");
+            aryDT.add(String.format("%s ~ %s(%s ~ %s)",strAryDT[0],strAryDT[1],strAryDT[2],strAryDT[3]));
+        }
+                            System.out.println(result.getPrice());
         SearchAddress manager = new SearchAddress(dbConfig);
-        String juso = manager.checkAddress(id);
-
-        model.addAttribute("thumbnail", result.get(0).getThumbnail());
-        model.addAttribute("com_name", result.get(0).getComname());
-        model.addAttribute("category", result.get(0).getKeyword());
-        model.addAttribute("view_count", result.get(0).getSel_count());
-        model.addAttribute("enroll_count", result.get(0).getEnroll_count());
-        model.addAttribute("lecture_name", result.get(0).getTitle());
-        model.addAttribute("rec_date", strAry2[0] + " - " + strAry2[2]);
-        model.addAttribute("lec_date", strAry[0] + " - " + strAry[1]);
-        model.addAttribute("text_image", result.get(0).getText_image());
-        model.addAttribute("price", result.get(0).getPrice());
+        String[] juso = manager.checkAddress(id);
+        model.addAttribute("result",result);
+        model.addAttribute("rec_date", rec);
+        model.addAttribute("lec_date", aryDT);
         model.addAttribute("juso", juso);
         return "lecture/lecture_info";
     }
@@ -104,7 +105,7 @@ public class LectureController {
             session.setAttribute("lecture", id);
         }
         if(session.getAttribute("lectureinfo") == null){
-            session.setAttribute("lectureinfo", new Lecture(dbConfig).getLecture(Integer.parseInt(id)));
+            session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(id)));
         }
 
         //강의실에 해당하는 공지사항 목록가져온다
@@ -132,7 +133,7 @@ public class LectureController {
     @GetMapping("lecture/lecture_survey")
     public String lectureSurvey(Model model, @RequestParam("lecture") String id) {
         if(session.getAttribute("lectureinfo") == null){
-            session.setAttribute("lectureinfo", new Lecture(dbConfig).getLecture(Integer.parseInt(id)));
+            session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(id)));
         }
         LectureDto lec = (LectureDto) session.getAttribute("lectureinfo");
         String basePath = ctx.getRealPath(survey_folder) + File.separator + lec.getHost();
@@ -197,7 +198,7 @@ public class LectureController {
     @GetMapping("/lecture/lecture_materia")
     public String lecturemateria(Model model, @RequestParam("page") int page,@RequestParam("lecture") String lecid){
         if(session.getAttribute("lectureinfo") == null){
-            session.setAttribute("lectureinfo", new Lecture(dbConfig).getLecture(Integer.parseInt(lecid)));
+            session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(lecid)));
         }
         List<MateriaDto> materia = new Lecture().getMateriaList(dbConfig,Integer.parseInt(lecid));
         if(!materia.isEmpty()){
