@@ -59,44 +59,7 @@
     </head>
 
     <!-- Navbar-->
-    <nav class="navbar navbar-light py-3">
-        <div class="container">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}" rel="tooltip" title="WeUs" data-placement="bottom">
-                <h4>보조배터리</h4>
-            </a>
-
-            <div class="pt-3 pb-2" id="navigation">
-                <ul class="navbar-nav ms-auto d-flex flex-row">
-                    <li class="nav-item mx-2 flex-grow-1">
-                        <c:set var="host" value="${sessionScope.host}"/>
-                        <c:choose>
-                            <c:when test="${host eq null}">
-                                <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="sign-in" id="signIn">로그인</a>
-                            </c:when>
-                            <c:otherwise>
-                                <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="mypage" id="mypage">마이페이지</a>
-                            </c:otherwise>
-                        </c:choose>
-                    </li>
-                    <c:if test="${sessionScope.state eq 1}">
-                        <li class="nav-item mx-2 flex-grow-1">
-                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="host-center/" id="hostCenter">호스트센터</a>
-                        </li>
-                    </c:if>
-                    <c:if test="${host ne null}">
-                        <li class="nav-item mx-2 flex-grow-1">
-                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="logout.do" id="logout">로그아웃</a>
-                        </li>
-                    </c:if>
-                </ul>
-            </div>
-
-        </div>
-        <div class="w-100 d-none d-md-block"></div>
-        <div class="container">
-            카테고리 뭐 들어가야 했더랑 까묵쓰
-        </div>
-    </nav>
+    <%@include file="header.jspf"%>
     <!-- End Navbar -->
     <!--start 캐러셀-->
     <header class="header-2">
