@@ -136,7 +136,7 @@
 
                     <div class="row">
                         <!--버튼 페이지 하단에 고정-->
-                        <div class="position-fixed bottom-0 start-50 translate-middle-x bg-white">
+                        <div class="position-fixed bottom-0 start-50 translate-middle-x bg-white z-index-2">
                             <hr>
                             <select id="selectBox" class="col-12 my-3 px-2 text-sm rounded-2"
                                     style="height: 45px; border-color:#d1d1d1; display: none;">
@@ -309,10 +309,8 @@
                                 <tr></tr>
                             </table>
                             <div class="w-100 height-500">
-                                <div id="map" class="w-100 h-100" ></div>
+                                <div id="map" class="w-100 h-100 z-index-1" ></div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
