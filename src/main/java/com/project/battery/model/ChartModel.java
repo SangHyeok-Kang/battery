@@ -40,14 +40,20 @@ public class ChartModel {
     ResultSet rs = null;
 
     // 날짜별 신청 인원 
-    public List<Object[]> chart(HikariConfiguration dbConfig, int lecture) throws SQLException {
+    public List<Object[]> chart(HikariConfiguration dbConfig, int lecture, List<String> aryDT) throws SQLException {
 
         List<Object[]> chartDataList = new ArrayList<>();
 
         String sql = "SELECT date, COUNT(*) AS count FROM regiclass where lectureid = ? and user_state = ? GROUP BY date";
 
         try {
-
+            // 기본 count값 0으로 설정
+            for(String ary : aryDT){
+                Object[] obj = new Object[2];
+                obj[0] = ary;
+                obj[1]= 0;
+                chartDataList.add(obj);
+            }
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
 
@@ -56,14 +62,12 @@ public class ChartModel {
             pstmt.setInt(2, 2);  
             rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                String date = rs.getString("date");
-                int count = rs.getInt("count");
-                Object[] chartData = new Object[2];
-                chartData[0] = date;
-                chartData[1] = count;
-
-                chartDataList.add(chartData);
+            while (rs.next()) {  // 일치하는 값 있는 경우 count값 설정 
+                for(Object[] a : chartDataList){
+                    if(a[0].equals(rs.getString("date"))){
+                        a[1]=rs.getInt("count");
+                    }
+                }
             }
 
         } catch (Exception ex) {
