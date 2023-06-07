@@ -313,4 +313,11 @@ public class LectureController {
 
         return "redirect:/lecture/select_lecture?lecture="+id;
     }
+    
+    @GetMapping("/lecture/lecture_check_mento")
+    public String checkMento(){
+        
+        return "lecture/lecture_check_mento";
+    }
+    
 }

@@ -64,14 +64,14 @@ public class loginModel {
                 ResultSet rs = stmt.executeQuery(sql);
 
                 if (rs.next()) {
-                    setUser(rs.getString("u.userid"));
-                    setState(rs.getInt("a.state"));
-                    setName(rs.getString("u.username"));
-                    setPhone(rs.getString("u.phone"));
-                    setPostcode(rs.getString("a.postcode"));
-                    setAddress(rs.getString("a.address"));
-                    setDetail(rs.getString("a.detail"));
-                    setExtra(rs.getString("a.extra"));
+                    this.setUser(rs.getString("u.userid"));
+                    this.setState(rs.getInt("a.state"));
+                    this.setName(rs.getString("u.username"));
+                    this.setPhone(rs.getString("u.phone"));
+                   this.setPostcode(rs.getString("a.postcode"));
+                    this.setAddress(rs.getString("a.address"));
+                    this.setDetail(rs.getString("a.detail"));
+                    this.setExtra(rs.getString("a.extra"));
 
                     return true;
                 }

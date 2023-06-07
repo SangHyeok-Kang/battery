@@ -22,7 +22,7 @@
     <body>
             <%@include file="lecturemenu.jspf"%> 
             <div>
-                <c:if test="${sessionScope.hostState eq 'business'}">
+                <c:if test="${sessionScope.state == 1}">
                     <a href="create_notice">공지사항 등록</a>
                 </c:if>
                 <table border="1">

@@ -59,5 +59,5 @@ public class LectureDto {
         this.date = date;        
 
     }
-    
+
 }

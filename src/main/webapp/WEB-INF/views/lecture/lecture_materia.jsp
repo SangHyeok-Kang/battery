@@ -24,7 +24,7 @@
     <body>
         <%@include file="lecturemenu.jspf"%> 
         <div>
-            <c:if test="${sessionScope.hostState eq 'business'}">
+            <c:if test="${sessionScope.state == 1}">
                 <a onclick="insertFile()" id="upload">학습자료 업로드하기</a>
                 <div id="uploadMateria"></div>
             </c:if>
