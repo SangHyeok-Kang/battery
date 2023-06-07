@@ -229,7 +229,7 @@ public class HostController {
         }else{
             accept = "거절";
         }
-        if(new Lecture().accept(dbConfig,str.split("-")[0],str.split("-")[1])){
+        if(new Lecture(dbConfig).accept(str.split("-")[0],str.split("-")[1])){
             attrs.addFlashAttribute("msg",String.format("강의 신청에 %s하였습니다.", accept));
         }else{
             attrs.addFlashAttribute("msg","강의 신청 확인에 실패하였습니다.");
