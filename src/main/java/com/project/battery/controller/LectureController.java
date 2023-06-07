@@ -190,7 +190,7 @@ public class LectureController {
         String basePath2 = ctx.getRealPath(surveyResult_folder) + File.separator + lec.getHost() + File.separator + (String) session.getAttribute("lecture");
 
         surveyModel survey = new surveyModel();
-        String[] searchSurvey = survey.searchSurvey(basePath, lec.getHost(), basePath1, Integer.parseInt((String) session.getAttribute("lecture")) );
+        String[] searchSurvey = survey.searchSurvey(lec.getHost(), basePath1, Integer.parseInt((String) session.getAttribute("lecture")) );
 
         boolean[] isExpired = survey.checkIfExpired(searchSurvey, basePath2, (String) session.getAttribute("host"));
 //        for (int i = 0; i < isExpired.length; i++) {
@@ -295,7 +295,7 @@ public class LectureController {
         }
         return String.format("redirect:/lecture/lecture_materia?lecture=%s&page=1", (String) session.getAttribute("lecture"));
     }
-
+    
     @GetMapping("/lecture/insert_staff.do")
     public String AddStaff(@RequestParam String date, RedirectAttributes attrs) {
         int id = (int) session.getAttribute("lectureId");

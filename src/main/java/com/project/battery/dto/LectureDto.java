@@ -49,13 +49,22 @@ public class LectureDto {
     private int sel_count = 0; //조회수
     private String comname; //회사명
     private int enroll_count =0; //신청 인원
-    
+    private String user_state; // 참여구분(멘토, 멘티)
+    private String enroll_state; // 신청 상태 (대기, 확정, 반려)
 
     public LectureDto(int lectureid, String thumbnail, String title, String date) {
         this.lectureid = lectureid;
         this.thumbnail = thumbnail;
         this.title = title;
-        this.date = date;
+        this.date = date;        
 
+    }
+
+    public LectureDto(String title, String host, String date, String user_state, String enroll_state) {
+       this.title = title;
+       this.host = host;
+       this.date = date;
+       this.user_state = user_state;
+       this.enroll_state = enroll_state;
     }
 }

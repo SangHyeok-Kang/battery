@@ -13,24 +13,24 @@
                         <c:set var="host" value="${sessionScope.host}" />
                         <c:choose>
                             <c:when test="${host eq null}">
-                                <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="sign-in"
+                                <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="${pageContext.request.contextPath}/sign-in"
                                     id="signIn">로그인</a>
                             </c:when>
                             <c:otherwise>
-                                <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="mypage"
+                                <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="${pageContext.request.contextPath}/mypage"
                                     id="mypage">마이페이지</a>
                             </c:otherwise>
                         </c:choose>
                     </li>
                     <c:if test="${sessionScope.state eq 1}">
                         <li class="nav-item mx-2 flex-grow-1">
-                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="host-center/"
+                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="${pageContext.request.contextPath}/host-center/"
                                 id="hostCenter">호스트센터</a>
                         </li>
                     </c:if>
                     <c:if test="${host ne null}">
                         <li class="nav-item mx-2 flex-grow-1">
-                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="logout.do"
+                            <a class="nav-link ps-2 cursor-pointer d-flex align-items-end" href="${pageContext.request.contextPath}/logout.do"
                                 id="logout">로그아웃</a>
                         </li>
                     </c:if>
@@ -47,20 +47,20 @@
                         <c:set var="host" value="${sessionScope.host}" />
                         <c:choose>
                             <c:when test="${host eq null}">
-                                <li><a class="dropdown-item mb-2" href="sign-in" id="signIn">로그인</a></li>
+                                <li><a class="dropdown-item mb-2" href="${pageContext.request.contextPath}/sign-in" id="signIn">로그인</a></li>
                             </c:when>
                             <c:otherwise>
-                                <li><a class="dropdown-item mb-2" href="mypage" id="mypage">마이페이지</a></li>
+                                <li><a class="dropdown-item mb-2" href="${pageContext.request.contextPath}/mypage" id="mypage">마이페이지</a></li>
                             </c:otherwise>
                         </c:choose>
                         <c:if test="${sessionScope.state eq 1}">
                             <li>
-                                <a class="dropdown-item mb-2" href="host-center/" id="hostCenter">호스트센터</a>
+                                <a class="dropdown-item mb-2" href="${pageContext.request.contextPath}/host-center/" id="hostCenter">호스트센터</a>
                             </li>
                         </c:if>
                         <c:if test="${host ne null}">
                             <li>
-                                <a class="dropdown-item" href="logout.do" id="logout">로그아웃</a>
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/logout.do" id="logout">로그아웃</a>
                             </li>
                         </c:if>
                     </ul>
