@@ -14,6 +14,8 @@ import com.project.battery.model.surveyModel;
 import com.project.battery.service.FileService;
 import com.project.battery.service.PagingService;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,9 +67,56 @@ public class LectureController {
     private String surveyInfo_folder;
 
 
+/*
+=======
+>>>>>>> bb951a485d9c049a5af850e244fe72089b39d0a6
     @GetMapping("lecture/select_lecture")
     public String ShowLecInfo(@RequestParam("lecture") int id, Model model) {
 
+        String url = "";
+
+        session.setAttribute("lectureId", id);
+
+        Lecture lec = new Lecture(dbConfig);
+        lec.updateViews(id);
+        LectureDto result = lec.SearchlecInfo(id);
+
+        String[] aryREC = result.getRec_dt().split("%");
+        String[] strAryDT;
+        List<String> aryDT = new ArrayList<>();
+        // 모집기간 포맷
+        String rec = String.format("%s(%s) ~ %s(%s)", aryREC[0], aryREC[1], aryREC[2], aryREC[3]);
+
+        // 강의 기간 포맷
+        if (result.getDate().contains("@")) {
+            strAryDT = result.getDate().split("@");
+            for (String str : strAryDT) {
+                String[] strSplit = str.split("%");
+                aryDT.add(String.format("%s ~ %s(%s ~ %s)", strSplit[0], strSplit[1], strSplit[2], strSplit[3]));
+            }
+        } else {
+            strAryDT = result.getDate().split("%");
+            aryDT.add(String.format("%s ~ %s(%s ~ %s)", strAryDT[0], strAryDT[1], strAryDT[2], strAryDT[3]));
+        }
+        SearchAddress manager = new SearchAddress(dbConfig);
+        String[] juso = manager.checkAddress(id);
+        model.addAttribute("result", result);
+        model.addAttribute("rec_date", rec);
+        model.addAttribute("lec_date", aryDT);
+        model.addAttribute("juso", juso);
+        return "lecture/lecture_info";
+    }
+  */  
+    @GetMapping("lecture/select_lecture")
+    public String ShowLecInfo(@RequestParam("lecture") int id,@RequestParam(name="state", required=false, defaultValue="2") int state, Model model) {
+        String url = "lecture/lecture_info";
+        //강의선택했을 때 url 변경해서 여기랑 연결해야할 듯
+        //일단 대충 적었긴했는데 강의에 연결된 url을 안고쳐서 안됨
+        if(state==0){//강사, 멘토 모집 페이지
+            url="lecture/lecture_info_mento?state=0";
+        }else if(state==1){
+            url="lecture/lecture_info_mento?state=1";
+        }
         Lecture lec = new Lecture(dbConfig);
         lec.updateViews(id);
         LectureDto result = lec.SearchlecInfo(id);
@@ -89,14 +138,13 @@ public class LectureController {
             strAryDT = result.getDate().split("%");
             aryDT.add(String.format("%s ~ %s(%s ~ %s)",strAryDT[0],strAryDT[1],strAryDT[2],strAryDT[3]));
         }
-                            System.out.println(result.getPrice());
         SearchAddress manager = new SearchAddress(dbConfig);
         String[] juso = manager.checkAddress(id);
         model.addAttribute("result",result);
         model.addAttribute("rec_date", rec);
         model.addAttribute("lec_date", aryDT);
         model.addAttribute("juso", juso);
-        return "lecture/lecture_info";
+        return url;
     }
 
     @GetMapping("lecture/lecture_notice")
@@ -104,7 +152,7 @@ public class LectureController {
         if (!id.equals((String) session.getAttribute("lecture")) || session.getAttribute("lecture") == null) {
             session.setAttribute("lecture", id);
         }
-        if(session.getAttribute("lectureinfo") == null){
+        if (session.getAttribute("lectureinfo") == null) {
             session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(id)));
         }
 
@@ -129,19 +177,20 @@ public class LectureController {
         return "lecture/create_notice";
 
     }
-    
+
     @GetMapping("lecture/lecture_survey")
     public String lectureSurvey(Model model, @RequestParam("lecture") String id) {
-        if(session.getAttribute("lectureinfo") == null){
+        if (session.getAttribute("lectureinfo") == null) {
             session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(id)));
         }
         LectureDto lec = (LectureDto) session.getAttribute("lectureinfo");
-        String basePath = ctx.getRealPath(survey_folder) + File.separator + lec.getHost();
+        
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + lec.getHost() ;
         String basePath1 = ctx.getRealPath(surveyInfo_folder);
         String basePath2 = ctx.getRealPath(surveyResult_folder) + File.separator + lec.getHost() + File.separator + (String) session.getAttribute("lecture");
 
         surveyModel survey = new surveyModel();
-        String[] searchSurvey = survey.searchSurvey(basePath, lec.getHost(), basePath1, Integer.parseInt((String)session.getAttribute("lecture")) );
+        String[] searchSurvey = survey.searchSurvey(lec.getHost(), basePath1, Integer.parseInt((String) session.getAttribute("lecture")) );
 
         boolean[] isExpired = survey.checkIfExpired(searchSurvey, basePath2, (String) session.getAttribute("host"));
 //        for (int i = 0; i < isExpired.length; i++) {
@@ -149,7 +198,7 @@ public class LectureController {
 //        }
         model.addAttribute("searchSurvey", searchSurvey);
         model.addAttribute("isExpired", isExpired);
-        
+
         return "lecture/lecture_survey";
 
     }
@@ -196,12 +245,12 @@ public class LectureController {
     }
 
     @GetMapping("/lecture/lecture_materia")
-    public String lecturemateria(Model model, @RequestParam("page") int page,@RequestParam("lecture") String lecid){
-        if(session.getAttribute("lectureinfo") == null){
+    public String lecturemateria(Model model, @RequestParam("page") int page, @RequestParam("lecture") String lecid) {
+        if (session.getAttribute("lectureinfo") == null) {
             session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(lecid)));
         }
-        List<MateriaDto> materia = new Lecture().getMateriaList(dbConfig,Integer.parseInt(lecid));
-        if(!materia.isEmpty()){
+        List<MateriaDto> materia = new Lecture().getMateriaList(dbConfig, Integer.parseInt(lecid));
+        if (!materia.isEmpty()) {
             List<MateriaDto> pagingMateria = new ArrayList<>();
             PagingService paging = new PagingService(page, materia.size());
             for (int i = paging.getStartlist(); i < paging.getEndlist() + 1; i++) {
@@ -247,4 +296,21 @@ public class LectureController {
         return String.format("redirect:/lecture/lecture_materia?lecture=%s&page=1", (String) session.getAttribute("lecture"));
     }
     
+    @GetMapping("/lecture/insert_staff.do")
+    public String AddStaff(@RequestParam String date, RedirectAttributes attrs) {
+        int id = (int) session.getAttribute("lectureId");
+        String userid = (String) session.getAttribute("host");
+        Lecture lec = new Lecture(dbConfig);
+        boolean result = lec.duplicate(userid, date, id);
+        if (result == true) {
+            lec.ApplyLecutre(userid, id, date, 0);
+
+            attrs.addFlashAttribute("msg", "강의 신청되었습니다.");
+        }
+        else{
+            attrs.addFlashAttribute("msg", "이미 신청한 강의입니다.");
+        }
+
+        return "redirect:/lecture/select_lecture?lecture="+id;
+    }
 }

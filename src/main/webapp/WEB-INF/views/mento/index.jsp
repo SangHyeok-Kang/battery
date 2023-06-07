@@ -64,11 +64,11 @@
 
 
 
-<%@include file="header.jspf" %>
+<%@include file="../header.jspf" %>
 
     <!-- End Navbar -->
     <!--start 캐러셀-->
-    <%@include file="banner.jspf" %>
+    <%@include file="../banner.jspf" %>
     <!--end 캐러셀-->
     <div class="row text-center mt-7 ms-5 me-auto">
         <div class="col-4 mx-auto">

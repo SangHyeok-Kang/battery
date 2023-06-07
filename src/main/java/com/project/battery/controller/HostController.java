@@ -5,10 +5,16 @@
 package com.project.battery.controller;
 
 import com.project.battery.dto.LectureDto;
+import com.project.battery.dto.ReviewDto;
+import com.project.battery.model.ChartModel;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
+import com.project.battery.model.ReviewModel;
+import com.project.battery.model.SearchAddress;
 import com.project.battery.model.surveyModel;
 import java.io.File;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -50,6 +56,8 @@ public class HostController {
     private String survey_folder;
     @Value("${file.surveyInfo_folder}")
     private String surveyInfo_folder;
+    @Value("${file.surveyResult_folder}")
+    private String surveyResult_folder;
     
     @GetMapping("host-center")
     public String hostCentter(Model model){
@@ -67,28 +75,97 @@ public class HostController {
     }
     
     @GetMapping("host-center/lecture")
-    public String hostLecture(@RequestParam("lecture") String lecid, Model model){
+    public String hostLecture(@RequestParam("lecture") String lecid, Model model) throws SQLException{
         if(!lecid.equals((String)session.getAttribute("lecture")) || session.getAttribute("lecture") == null ){
             session.setAttribute("lecture", lecid);
         }
+        
+        /*리뷰 정보 불러오기*/
+        ReviewModel review = new ReviewModel();
+        List<ReviewDto> reviewList = review.getReviewList(dbConfig,lecid);
+        
+        /*강의 정보 불러오기*/
         Lecture lec = new Lecture(dbConfig);
         LectureDto lecDto = lec.SearchlecInfo(Integer.parseInt(lecid));
+        String[] aryREC = lecDto.getRec_dt().split("%");
+        String[] strAryDT;
+        List<String> aryDT = new ArrayList<>();
+        // 모집기간 포맷
+        String rec = String.format("%s(%s) ~ %s(%s)", aryREC[0],aryREC[1],aryREC[2],aryREC[3]);
+        
+        // 강의 기간 포맷
+        if(lecDto.getDate().contains("@")){
+            strAryDT = lecDto.getDate().split("@");
+            for(String str : strAryDT){
+                String[] strSplit = str.split("%");
+                aryDT.add(String.format("%s ~ %s(%s ~ %s)",strSplit[0],strSplit[1],strSplit[2],strSplit[3]));
+            }
+        }else{
+            strAryDT = lecDto.getDate().split("%");
+            aryDT.add(String.format("%s ~ %s(%s ~ %s)",strAryDT[0],strAryDT[1],strAryDT[2],strAryDT[3]));
+        }
+        SearchAddress manager = new SearchAddress(dbConfig);
+        String[] juso = manager.checkAddress(Integer.parseInt(lecid));
+        
+        /*설문지 불러오기*/
         String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("host");
         String basePath1 = ctx.getRealPath(surveyInfo_folder);
 
         surveyModel survey = new surveyModel();
-        String[] searchSurvey = survey.searchSurvey(basePath, (String) session.getAttribute("host"), basePath1, Integer.parseInt(lecid));
+        String[] searchSurvey = survey.searchSurvey((String) session.getAttribute("host"), basePath1, Integer.parseInt(lecid));
 
         boolean[] isStart = survey.checkIfStart(searchSurvey);
 //        for (int i = 0; i < isStart.length; i++) {
 //            System.out.println("isStart =" + isStart[i]);
 //        }
         String[] surveyList = survey.surveyList(basePath);
-
+        
+         
+        /*그래프 불러오기*/
+        // 날짜별 신청 인원 
+        ChartModel chart = new ChartModel();
+        List<Object[]> chartDataList = chart.chart(dbConfig, Integer.parseInt((String) session.getAttribute("lecture")));
+        
+        List<String> dates = new ArrayList<>();
+        List<String> counts = new ArrayList<>();
+        for (Object[] chartData : chartDataList) {
+            String date = (String) chartData[0];
+            int count = (int) chartData[1];
+            dates.add("'" + date + "'"); 
+            counts.add("'" + count + "'");
+        }
+        int rec_num =  lecDto.getRec_num();
+        
+        // 설문별 설문 참여 인원 
+        String basePath2 = ctx.getRealPath(surveyResult_folder) + File.separator + (String) session.getAttribute("host") + File.separator + (String) session.getAttribute("lecture");
+        // 해당 강의실에 등록된 설문 정보 가져옴
+        String[] searchSurveyList = survey.searchSurvey((String) session.getAttribute("host"), basePath1, Integer.parseInt((String) session.getAttribute("lecture")));
+        
+        List<Object[]> surveyDataList = chart.surveyChart(basePath2, searchSurveyList);
+        
+        List<String> surveynames = new ArrayList<>();
+        List<String> rowcounts = new ArrayList<>();
+    
+        for (Object[] chartData : surveyDataList) {
+            String surveyname = (String) chartData[0];
+            int rowcount = (int) chartData[1];
+            surveynames.add("'" + surveyname + "'"); 
+            rowcounts.add("'" + rowcount + "'");
+        }
+        
+        model.addAttribute("reviewList",reviewList);
+        model.addAttribute("juso",juso);
         model.addAttribute("surveyList", surveyList);
         model.addAttribute("searchSurvey", searchSurvey);
+        model.addAttribute("rec_date", rec);
+        model.addAttribute("lec_date", aryDT);
         model.addAttribute("isStart", isStart);
         model.addAttribute("lecture",lecDto);
+        model.addAttribute("dates", dates);
+        model.addAttribute("counts", counts);
+        model.addAttribute("rec_num", rec_num);
+        model.addAttribute("surveynames", surveynames);
+        model.addAttribute("rowcounts", rowcounts);
         return "host-center/lecture";
     }
     
@@ -96,7 +173,7 @@ public class HostController {
     @PostMapping("host-center/insert_lecture.do")
     public String insertLecture(MultipartHttpServletRequest request, RedirectAttributes attrs){
         LectureDto lecture = new LectureDto();
-        System.out.println("yes");
+        
         //강의 객체로 정보 입력
         lecture.setTitle(request.getParameter("title"));
         lecture.setText(request.getParameter("text"));

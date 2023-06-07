@@ -41,7 +41,6 @@ public class Lecture {
     ArrayList<LectureDto> pri_list = new ArrayList<LectureDto>();
     ArrayList<LectureDto> local_list = new ArrayList<LectureDto>();
     ArrayList<LectureDto> detail_list = new ArrayList<LectureDto>();
-   
 
     public Lecture(HikariConfiguration dbConfig) {
         this.dbConfig = dbConfig;
@@ -192,8 +191,8 @@ public class Lecture {
                 lec.setAgree(rs.getInt("agree"));
                 lec.setTeacher(rs.getInt("teacher"));
                 lec.setTeacher_num(rs.getInt("teacher_num"));
-                lec.setStaffe(rs.getInt("staffe"));
-                lec.setStaffe_num(rs.getInt("staffe_num"));
+                lec.se regiclass(rs.getInt( regiclass"));
+                lec.se regiclass_num(rs.getInt( regiclass_num"));
                 lec.setQual(rs.getString("qualification"));
                 lec.setHost(rs.getString("host"));
                 lec.setState(rs.getString("l_state"));
@@ -211,7 +210,6 @@ public class Lecture {
         return lec;
     }
      */
-
     // 전체 강의 리스트 가져오기
     public ArrayList<LectureDto> getViewCountList() {
         try {
@@ -517,7 +515,9 @@ public class Lecture {
             conn = ds.getConnection();
             Statement stmt = conn.createStatement();
             //신청자 수
-            String sql = "select count(*) as enroll_count from staffe where lectureid = " + id + " and enroll_state !=2  group by lectureid ";
+
+            String sql = "select count(*) as enroll_count from regiclass where lectureid = " + id + " and enroll_state !=2  group by lectureid ";
+
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 count = rs.getInt("enroll_count");
@@ -582,12 +582,12 @@ public class Lecture {
         return lec;
     }
 
-    //강의내역조회
+ //강의내역조회
     public ArrayList<LectureDto> Listlec(String userid) {
-        
+
         ArrayList<LectureDto> lec_list = new ArrayList<LectureDto>();
-        
-        try {           
+
+        try {
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
             Statement stmt = conn.createStatement();
@@ -596,27 +596,68 @@ public class Lecture {
             rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-               
+
                 String title = rs.getString("l.l_title");
                 String host = rs.getString("l.host");
                 String date = rs.getString("l.l_date");
                 String u_state = rs.getString("s.user_state");
-                String e_state = rs.getString("s.enroll_state");                
-               // lec.setLectureid(rs.getInt("l.l_title"));
+                String e_state = rs.getString("s.enroll_state");
+                // lec.setLectureid(rs.getInt("l.l_title"));
 //                lec.setTitle(rs.getString("l.host"));
 //                lec.setDate(rs.getString("s.date"));
 //                lec.setUser_state(rs.getString("s.user_state"));
 //                lec.setEnroll_state(rs.getString("s.enroll_state"));
-                 LectureDto lec = new LectureDto(title,host,date,u_state,e_state);
+                LectureDto lec = new LectureDto(title, host, date, u_state, e_state);
                 lec_list.add(lec);
             }
             rs.close();
             stmt.close();
             conn.close();
-
         } catch (Exception ex) {
             log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
         }
         return lec_list;
+    }
+
+    //중복 신청 조회 메소드
+    public boolean duplicate(String userid, String date, int lectureid) {
+        javax.sql.DataSource ds = dbConfig.dataSource();
+        try {
+            Connection conn = ds.getConnection();
+            Statement stmt = conn.createStatement();
+            stmt = conn.createStatement();
+            String sql = "select * from regiclass where userid = '" + userid + "' and date = '" + date + "' and lectureid = " + lectureid;
+            log.info(sql);
+            ResultSet rs = stmt.executeQuery(sql);
+
+            if (rs.next()) {
+                return false;
+            }
+
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
+        }
+        return true;
+    }
+
+    //강의 신청 메소드
+    public void ApplyLecutre(String userid, int lectureid, String date, int user_state) {
+        javax.sql.DataSource ds = dbConfig.dataSource();
+
+        try {
+            Connection conn = ds.getConnection();
+            String sql = "INSERT INTO regiclass VALUES(default,?,?,?,?,default)";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+
+            pstmt.setInt(1, lectureid);
+            pstmt.setString(2, userid);
+            //pstmt.setInt(2,class_round);
+            pstmt.setString(3, date);
+            pstmt.setInt(4, user_state);
+            pstmt.executeUpdate();
+
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
+        }
     }
 }
