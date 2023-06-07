@@ -191,8 +191,8 @@ public class Lecture {
                 lec.setAgree(rs.getInt("agree"));
                 lec.setTeacher(rs.getInt("teacher"));
                 lec.setTeacher_num(rs.getInt("teacher_num"));
-                lec.setStaffe(rs.getInt("staffe"));
-                lec.setStaffe_num(rs.getInt("staffe_num"));
+                lec.se regiclass(rs.getInt( regiclass"));
+                lec.se regiclass_num(rs.getInt( regiclass_num"));
                 lec.setQual(rs.getString("qualification"));
                 lec.setHost(rs.getString("host"));
                 lec.setState(rs.getString("l_state"));
@@ -516,7 +516,7 @@ public class Lecture {
             conn = ds.getConnection();
             Statement stmt = conn.createStatement();
             //신청자 수
-            String sql = "select count(*) as enroll_count from staffe where lectureid = " + id + " and enroll_state !=2  group by lectureid ";
+            String sql = "select count(*) as enroll_count from regiclass where lectureid = " + id + " and enroll_state !=2  group by lectureid ";
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 count = rs.getInt("enroll_count");
@@ -559,8 +559,8 @@ public class Lecture {
 
                 lec.setTeacher(rs.getInt("teacher"));
                 lec.setTeacher_num(rs.getInt("teacher_num"));
-                lec.setStaffe(rs.getInt("staffe"));
-                lec.setStaffe_num(rs.getInt("staffe_num"));
+                lec.setStaffe(rs.getInt( "staffe"));
+                lec.setStaffe_num(rs.getInt( "staffe_num"));
                 lec.setQual(rs.getString("qualification"));
                 lec.setHost(rs.getString("host"));
                 lec.setState(rs.getString("l_state"));

@@ -237,13 +237,13 @@ public class surveyController {
     public String showDoList(Model model) {
         
         log.debug("showDoList called...");
-
-        String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("business_id");
+        LectureDto lec = (LectureDto) session.getAttribute("lectureinfo");
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + lec.getHost() ;
         String basePath1 = ctx.getRealPath(surveyInfo_folder);
-        String basePath2 = ctx.getRealPath(surveyResult_folder) + File.separator + (String) session.getAttribute("business_id") + File.separator + (int) session.getAttribute("lecture");
+        String basePath2 = ctx.getRealPath(surveyResult_folder) + File.separator + lec.getHost() + File.separator + (int) session.getAttribute("lecture");
 
         surveyModel survey = new surveyModel();
-        String[] searchSurvey = survey.searchSurvey(basePath, (String) session.getAttribute("business_id"), basePath1, (int) session.getAttribute("lecture"));
+        String[] searchSurvey = survey.searchSurvey(basePath, lec.getHost(), basePath1, (int) session.getAttribute("lecture"));
 
         boolean[] isExpired = survey.checkIfExpired(searchSurvey, basePath2, (String) session.getAttribute("host"));
 //        for (int i = 0; i < isExpired.length; i++) {

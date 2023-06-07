@@ -39,7 +39,34 @@
             alert("${msg}");
             </c:if>
         </script>
-
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <style>
+    .rating {
+      display: inline-block;
+      font-size: 1.5rem;
+      color: #ffd700;
+    }
+    .rating .fa-star {
+      position: relative;
+    }
+    .rating .fa-star::before {
+      content: "\f005";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      overflow: hidden;
+    }
+    .rating .fa-star::after {
+      content: "\f089";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      overflow: hidden;
+      color: #ffd700;
+    }
+  </style>
     </head>
 
     <body id="page-top">
@@ -75,7 +102,7 @@
                             <div class="card-body ">
                                 <div class="row">
                                     <!--nav & tab-->
-                                    <div class="col-auto">
+                                    <div class="w-100">
                                         <ul class="nav nav-tabs " id="hostLectureTab" role="tablist">
                                             <li class="nav-item" role="presentation">
                                                 <button class="nav-link active" id="info-tab" data-bs-toggle="tab"
@@ -96,6 +123,13 @@
                                                         data-bs-target="#survey-tab-pane" type="button" role="tab"
                                                         aria-controls="survey-tab-pane" aria-selected="false">
                                                     설문
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="review-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#review-tab-pane" type="button" role="tab"
+                                                        aria-controls="review-tab-pane" aria-selected="false">
+                                                    리뷰
                                                 </button>
                                             </li>
                                         </ul>
@@ -225,27 +259,89 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <!-- 명단 관리 탭-->
-                                                <div class="tab-pane fade mt-3 w-100 h-100 " id="applicants-tab-pane" role="tabpanel" aria-labelledby="applicants-tab"
-                                                     tabindex="0">
-                                                    <table class="table"  width="100%" cellspacing="0">
-                                                        <colgroup>
-                                                            <col style="width: 20%;">
-                                                            <col style="width: 80%;">
-                                                        </colgroup>
-                                                        <tbody>
-                                                            <tr id="people">
-                                                                <th scope="row">
-                                                                    <label class="text-black">신청 명단</label>
-                                                                </th>
-                                                                <td>
-                                                                    <div class="row">
-
-                                                                    </div>
-                                                                </td>
+                                            </div>
+                                            <!-- 명단 관리 탭-->
+                                            <div class="tab-pane fade mt-3 " id="applicants-tab-pane" role="tabpanel" aria-labelledby="applicants-tab"
+                                                 tabindex="0">
+                                                <div class="row">
+                                                    <div class="d-flex justify-content-between w-100">
+                                                        <label class="h5 text-black">참여 명단</label>
+                                                        <select class="text-sm rounded-2 mb-2" style="border-color:#d1d1d1;">
+                                                            <option value="mente">수강자</option>
+                                                            <option value="mento">강사</option>
+                                                            <option value="staff">스태프</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="table-responsive ">
+                                                        <table class="table" width="100%"  cellspacing="0">
+                                                            <colgroup>
+                                                                <col style="width: 10%;">
+                                                                <col style="width: 20%;">
+                                                                <col style="width: 30%;">
+                                                                <col style="width: 30%;">
+                                                                <col style="width: 10%;">
+                                                            </colgroup>
+                                                            <tr>
+                                                                <th>No.</th>
+                                                                <th class="text-center">이름</th>
+                                                                <th class="text-center">전화번호</th>
+                                                                <th class="text-center">생년월일</th>
+                                                                <th class="text-center">비고</th>
                                                             </tr>
-                                                        </tbody>
-                                                    </table>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--등록 설문 탭-->
+                                            <div class="tab-pane fade mt-3 " id="survey-tab-pane" role="tabpanel" aria-labelledby="survey-tab"
+                                                 tabindex="0">
+                                                <div class="row">
+                                                    <div class="w-100">
+                                                        <div class="justify-content-center">
+                                                            <button class="btn btn-outline-info center" data-toggle="modal" data-target="#selectSurveyModal">설문 등록</button>
+                                                        </div>
+                                                        <%@include file="survey/surveySelectList.jspf"%>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--강의 리뷰 탭-->
+                                            <div class="tab-pane fade mt-3 " id="review-tab-pane" role="tabpanel" aria-labelledby="review-tab"
+                                                 tabindex="0">
+                                                <div class="row">
+                                                    <div class="table-responsive ">
+                                                        <table class="table" width="100%"  cellspacing="0">
+                                                            <colgroup>
+                                                                <col style="width: 10%;">
+                                                                <col style="width: 20%;">
+                                                                <col style="width: 30%;">
+                                                                <col style="width: 30%;">
+                                                            </colgroup>
+                                                            <tr>
+                                                                <th class="text-center">No.</th>
+                                                                <th >리뷰</th>
+                                                                <th class="text-center">평점</th>
+                                                                <th class="text-center">작성 날짜</th>
+                                                            </tr>
+                                                            <c:forEach items="${reviewList}" var="review">
+                                                                <tr >
+                                                                    <td class="text-center">${review.getNo()}</td>
+                                                                    <td >${review.getReview()}</td>
+                                                                    <td class="text-center">
+                                                                        <c:forEach begin="1" end="5" var="rate">
+                                                                            <c:choose >
+                                                                                <c:when test="${rate <= review.getGrade()}">
+                                                                                    <label class="text-warning">★</label>
+                                                                                </c:when>
+                                                                                <c:otherwise>
+                                                                                     <label class="text-secondary">★</label>
+                                                                                </c:otherwise>
+                                                                            </c:choose>
+                                                                        </c:forEach>
+                                                                    <td class="text-center">${review.getDate()}</td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -254,13 +350,14 @@
                             </div>
                         </div>
                     </div>
-                    <!-- End of Main Content -->
                 </div>
-                <!-- End of Content Wrapper -->
+                <!-- End of Main Content -->
             </div>
-            <!-- End of Page Wrapper -->
-            <!-- Footer -->
+            <!-- End of Content Wrapper -->
         </div>
+        <!-- End of Page Wrapper -->
+        <!-- Footer -->
+
         <%@include file="host-center-footer.jspf"%>
         <!-- End of Footer -->
 
@@ -268,72 +365,89 @@
         <%@include file="survey/selectSurvey.jspf"%>
         <!--강의실에 설문 설정 모달 끝-->
 
-        <%--
+
         <!-- Bootstrap core JavaScript-->
-        <!--<script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>-->
-        <!--<script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+        <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
         <!-- Core plugin JavaScript-->
-        <!--<script src="${pageContext.request.contextPath}/vendor/jquery-easing/jquery.easing.min.js"></script>-->
+        <script src="${pageContext.request.contextPath}/vendor/jquery-easing/jquery.easing.min.js"></script>
 
         <!-- Custom scripts for all pages-->
-        <!--<script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>-->
 
         <!-- Page level plugins -->
-        <!--<script src="${pageContext.request.contextPath}/vendor/chart.js/Chart.min.js"></script>-->
+        <script src="${pageContext.request.contextPath}/vendor/chart.js/Chart.min.js"></script>
 
         <!-- Page level custom scripts -->
-        <!--<script src="${pageContext.request.contextPath}/js/demo/chart-area-demo.js"></script>-->
-        <!--<script src="${pageContext.request.contextPath}/js/demo/chart-pie-demo.js"></script>-->
+        <script src="${pageContext.request.contextPath}/js/demo/chart-area-demo.js"></script>
+        <script src="${pageContext.request.contextPath}/js/demo/chart-pie-demo.js"></script>
         <!-- Swiper JS -->
-        <!--<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>-->
-        --%>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 
+        <script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>
+        <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     </body>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5385b2bd1d614d808c86f0bb4257bc4&libraries=services"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script>
-        //주소 받기
-        var address = `${juso[0]} ${juso[1]}${juso[2]}`;
+  
+    function fillStars(starRating) {
+      var starsElement = document.getElementById('starRating');
+      starsElement.innerHTML = '';
 
-            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-                    mapOption = {
-                        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-                        level: 3 // 지도의 확대 레벨
-                    };
+      for (var i = 0; i < starRating; i++) {
+        var star = document.createElement('span');
+        star.className = 'star';
+        starsElement.appendChild(star);
+      }
+    }
 
-            // 지도를 생성합니다    
-            var map = new kakao.maps.Map(mapContainer, mapOption);
+    var rating = 4; // 별점 점수
+    fillStars(rating);
+         
+    
+    //주소 받기
+            var address = `${juso[0]} ${juso[1]}${juso[2]}`;
 
-            // 주소-좌표 변환 객체를 생성합니다
-            var geocoder = new kakao.maps.services.Geocoder();
+                var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                        mapOption = {
+                            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                            level: 3 // 지도의 확대 레벨
+                        };
 
-            // 주소로 좌표를 검색합니다
-            geocoder.addressSearch(
-                    address,
-                    function (result, status) {
+                // 지도를 생성합니다    
+                var map = new kakao.maps.Map(mapContainer, mapOption);
 
-                        // 정상적으로 검색이 완료됐으면 
-                        if (status === kakao.maps.services.Status.OK) {
+                // 주소-좌표 변환 객체를 생성합니다
+                var geocoder = new kakao.maps.services.Geocoder();
 
-                            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                // 주소로 좌표를 검색합니다
+                geocoder.addressSearch(
+                        address,
+                        function (result, status) {
 
-                            // 결과값으로 받은 위치를 마커로 표시합니다
-                            var marker = new kakao.maps.Marker({
-                                map: map,
-                                position: coords
-                            });
+                            // 정상적으로 검색이 완료됐으면 
+                            if (status === kakao.maps.services.Status.OK) {
 
-                            // 인포윈도우로 장소에 대한 설명을 표시합니다
-                            var infowindow = new kakao.maps.InfoWindow();
-                            infowindow.open(map);
+                                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-                            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                            map.setCenter(coords);
+                                // 결과값으로 받은 위치를 마커로 표시합니다
+                                var marker = new kakao.maps.Marker({
+                                    map: map,
+                                    position: coords
+                                });
+
+                                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                                var infowindow = new kakao.maps.InfoWindow();
+                                infowindow.open(map);
+
+                                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                                map.setCenter(coords);
+                            }
                         }
-                    }
-            );
+                );
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
-                integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
-        crossorigin="anonymous"></script>
+            integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+    crossorigin="anonymous"></script>
 </html>

@@ -5,8 +5,10 @@
 package com.project.battery.controller;
 
 import com.project.battery.dto.LectureDto;
+import com.project.battery.dto.ReviewDto;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
+import com.project.battery.model.ReviewModel;
 import com.project.battery.model.SearchAddress;
 import com.project.battery.model.surveyModel;
 import java.io.File;
@@ -73,20 +75,14 @@ public class HostController {
         if(!lecid.equals((String)session.getAttribute("lecture")) || session.getAttribute("lecture") == null ){
             session.setAttribute("lecture", lecid);
         }
+        
+        /*리뷰 정보 불러오기*/
+        ReviewModel review = new ReviewModel();
+        List<ReviewDto> reviewList = review.getReviewList(dbConfig,lecid);
+        
+        /*강의 정보 불러오기*/
         Lecture lec = new Lecture(dbConfig);
         LectureDto lecDto = lec.SearchlecInfo(Integer.parseInt(lecid));
-        String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("host");
-        String basePath1 = ctx.getRealPath(surveyInfo_folder);
-
-        surveyModel survey = new surveyModel();
-        String[] searchSurvey = survey.searchSurvey(basePath, (String) session.getAttribute("host"), basePath1, Integer.parseInt(lecid));
-
-        boolean[] isStart = survey.checkIfStart(searchSurvey);
-//        for (int i = 0; i < isStart.length; i++) {
-//            System.out.println("isStart =" + isStart[i]);
-//        }
-        String[] surveyList = survey.surveyList(basePath);
-        
         String[] aryREC = lecDto.getRec_dt().split("%");
         String[] strAryDT;
         List<String> aryDT = new ArrayList<>();
@@ -106,6 +102,21 @@ public class HostController {
         }
         SearchAddress manager = new SearchAddress(dbConfig);
         String[] juso = manager.checkAddress(Integer.parseInt(lecid));
+        
+        /*설문지 불러오기*/
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + (String) session.getAttribute("host");
+        String basePath1 = ctx.getRealPath(surveyInfo_folder);
+
+        surveyModel survey = new surveyModel();
+        String[] searchSurvey = survey.searchSurvey(basePath, (String) session.getAttribute("host"), basePath1, Integer.parseInt(lecid));
+
+        boolean[] isStart = survey.checkIfStart(searchSurvey);
+//        for (int i = 0; i < isStart.length; i++) {
+//            System.out.println("isStart =" + isStart[i]);
+//        }
+        String[] surveyList = survey.surveyList(basePath);
+        
+        model.addAttribute("reviewList",reviewList);
         model.addAttribute("juso",juso);
         model.addAttribute("surveyList", surveyList);
         model.addAttribute("searchSurvey", searchSurvey);

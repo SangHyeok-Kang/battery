@@ -184,12 +184,13 @@ public class LectureController {
             session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(id)));
         }
         LectureDto lec = (LectureDto) session.getAttribute("lectureinfo");
-        String basePath = ctx.getRealPath(survey_folder) + File.separator + lec.getHost();
+        
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + lec.getHost() ;
         String basePath1 = ctx.getRealPath(surveyInfo_folder);
         String basePath2 = ctx.getRealPath(surveyResult_folder) + File.separator + lec.getHost() + File.separator + (String) session.getAttribute("lecture");
 
         surveyModel survey = new surveyModel();
-        String[] searchSurvey = survey.searchSurvey(basePath, lec.getHost(), basePath1, Integer.parseInt((String) session.getAttribute("lecture")));
+        String[] searchSurvey = survey.searchSurvey(basePath, lec.getHost(), basePath1, Integer.parseInt((String) session.getAttribute("lecture")) );
 
         boolean[] isExpired = survey.checkIfExpired(searchSurvey, basePath2, (String) session.getAttribute("host"));
 //        for (int i = 0; i < isExpired.length; i++) {
