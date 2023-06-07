@@ -311,10 +311,12 @@ public class LectureController {
     @GetMapping("/lecture/insert_staff.do")
     public String AddStaff(@RequestParam String date, RedirectAttributes attrs) {
         int id = (int) session.getAttribute("lectureId");
-        String userid = (String) session.getAttribute("host");
-        if (userid.equals("null")) {
+        
+        if (session.getAttribute("host") == null) {
+            log.info("0");
             attrs.addFlashAttribute("msg", "로그인 후 신청해주세요");
         } else {
+            String userid = (String) session.getAttribute("host");
             Lecture lec = new Lecture(dbConfig);
             boolean result = lec.duplicate(userid, date, id);
             if (result == true) {

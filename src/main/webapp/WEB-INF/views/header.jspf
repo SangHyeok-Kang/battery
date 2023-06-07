@@ -2,7 +2,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <nav class="navbar navbar-light py-3">
         <div class="container">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}?state=0" rel="tooltip" title="WeUs"
+            <a class="navbar-brand" href="${pageContext.request.contextPath}" rel="tooltip" title="WeUs"
                 data-placement="bottom">
                 <h4>보조배터리</h4>
             </a>
