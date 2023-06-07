@@ -1,11 +1,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <nav>
     <ul>
-        <li><a href="lecture_notice?lecture=<%= session.getAttribute("lecture") %>&page=1">공지사항</a></li>
-        <li><a href="lecture_materia?lecture=<%= session.getAttribute("lecture") %>&page=1">학습자료</a></li>
-        <li><a href="#">출석확인</a></li>
-        <li><a href="lecture_survey?lecture=<%= session.getAttribute("lecture") %>&page=1">설문하기</a></li>
-        <li><a href="lecture_review?lecture=<%= session.getAttribute("lecture") %>">설문하기</a></li>
+        <li><a href="lecture_notice?lecture=<%= session.getAttribute("lecture")%>&page=1">공지사항</a></li>
+        <li><a href="lecture_materia?lecture=<%= session.getAttribute("lecture")%>&page=1">학습자료</a></li>
+        <c:choose>
+            <c:when test="${sessionScope.state == 1}">
+                <li><a href="lecture_check_mentor?lecture=<%= session.getAttribute("lecture")%>">출석확인</a></li>
+            </c:when>
+            <c:when test="${sessionScope.state == 0}">
+                <li><a href="lecture_check_mentee?lecture=<%= session.getAttribute("lecture")">출석확인</a></li>
+            </c:when>
+        </c:choose>
+        <li><a href="lecture_survey?lecture=<%= session.getAttribute("lecture")%>&page=1">설문하기</a></li>
+        <li><a href="lecture_review?lecture=<%= session.getAttribute("lecture")%>">리뷰하기</a></li>
     </ul>
 </nav>

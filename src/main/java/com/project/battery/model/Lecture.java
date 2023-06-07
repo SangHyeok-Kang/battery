@@ -160,57 +160,6 @@ public class Lecture {
         return list;
     }
 
-    //강의 정보 불러오기
-    /*
-    public LectureDto getLecture(int lecid){
-        LectureDto lec = new LectureDto();
-        String sql = "select * from lecture where lectureid = ?";
-        
-        try {
-            ds = dbConfig.dataSource();
-            conn = ds.getConnection();
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,lecid);
-            rs = pstmt.executeQuery();
-            if(rs.next()){
-                lec.setLectureid(rs.getInt("lectureid"));
-                String thumbnail = rs.getString("thumbnail");
-                if(thumbnail.equals("")){
-                    thumbnail = "none.png";
-                }
-                lec.setThumbnail(thumbnail);
-                lec.setTitle(rs.getString("l_title"));
-                lec.setText(rs.getString("l_text"));
-                lec.setText_image(rs.getString("text_image"));
-                lec.setRec_dt(rs.getString("rec_dt"));
-                lec.setRec_target(rs.getString("rec_target"));
-                lec.setRec_num(rs.getInt("rec_num"));
-                lec.setDate(rs.getString("l_date"));
-                lec.setKeyword(rs.getString("l_keyword"));
-                lec.setPrice(rs.getString("price"));
-                lec.setAgree(rs.getInt("agree"));
-                lec.setTeacher(rs.getInt("teacher"));
-                lec.setTeacher_num(rs.getInt("teacher_num"));
-                lec.se regiclass(rs.getInt( regiclass"));
-                lec.se regiclass_num(rs.getInt( regiclass_num"));
-                lec.setQual(rs.getString("qualification"));
-                lec.setHost(rs.getString("host"));
-                lec.setState(rs.getString("l_state"));
-                lec.setGrade(rs.getDouble("l_grade"));
-            }else{
-                log.debug("강의 정보 불러오기 실패 : 강의번호 = {}",lecid);
-            }
-            if(conn!=null){conn.close();}
-            if(pstmt!=null){pstmt.close();}
-            if(rs!=null){rs.close();}
-        } catch (SQLException ex) {
-            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
-        }
-           
-        return lec;
-    }
-     */
-
     // 전체 강의 리스트 가져오기
     public ArrayList<LectureDto> getViewCountList() {
         try {
