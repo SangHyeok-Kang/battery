@@ -361,19 +361,10 @@
                                                         <div>
                                                             날짜별 신청 인원 <br>
                                                             <!-- 드롭다운 메뉴 -->
-                                                            <select id="dateDropdown" onchange="updateChart()">
-                                                                <option value="">날짜 선택</option>
-                                                                <script>
-                                                                    var dateDropdown = document.getElementById('dateDropdown');
-                                                                    var dates = ${dates};
-
-                                                                    for (var i = 0; i < dates.length; i++) {
-                                                                        var option = document.createElement('option');
-                                                                        option.value = dates[i];
-                                                                        option.textContent = dates[i];
-                                                                        dateDropdown.appendChild(option);
-                                                                    }
-                                                                </script>
+                                                            <select class="text-sm rounded-2 mb-2" id="dateDropdown" style="border-color:#d1d1d1;" onchange="updateChart()">
+                                                                <c:forEach items="${lec_date}" var="date" varStatus="co">
+                                                                    <option value="${date}">${date}</option>
+                                                                </c:forEach>
                                                             </select>
                                                             <canvas id="doughnutChart" width="500" height="500"></canvas>
                                                         </div>
@@ -401,13 +392,13 @@
                                                             // ②차트의 데이터(Object)
                                                             data: {
                                                                 // ③x축에 들어갈 이름들(Array)
-                                                                // labels: dates,
+                                                                 labels: ['신청 인원', '최대 인원'],
                                                                 // ④실제 차트에 표시할 데이터들(Array), dataset객체들을 담고 있다.
                                                                 datasets: [{
                                                                         // ⑤dataset의 이름(String)
                                                                         label: '# 신청인원',
                                                                         // ⑥dataset값(Array)
-                                                                        data: dates,
+                                                                        data: [counts[0], rec_num],
                                                                         // ⑦dataset의 배경색(rgba값을 String으로 표현)
                                                                         backgroundColor: [
                                                                             'rgba(255, 99, 132, 0.2)',

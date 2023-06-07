@@ -124,7 +124,7 @@ public class HostController {
         /*그래프 불러오기*/
         // 날짜별 신청 인원 
         ChartModel chart = new ChartModel();
-        List<Object[]> chartDataList = chart.chart(dbConfig, Integer.parseInt((String) session.getAttribute("lecture")));
+        List<Object[]> chartDataList = chart.chart(dbConfig, Integer.parseInt((String) session.getAttribute("lecture")), aryDT);
         
         List<String> dates = new ArrayList<>();
         List<String> counts = new ArrayList<>();
