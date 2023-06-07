@@ -59,7 +59,7 @@ public class loginModel {
             Statement stmt = conn.createStatement();
             stmt = conn.createStatement();
             if (chkstate.equals("user")) {
-                sql = "SELECT * FROM userinfo u join address a on u.userid = a.id WHERE userid= '" + userid + "' and password = '" + password + "' and state = 0";
+                sql = "SELECT * FROM userinfo u join address a on u.userid = a.id WHERE userid= '" + userid + "' and password = '" + password + "' and a.state = 0 and u.state = 0";
                 log.info(sql);
                 ResultSet rs = stmt.executeQuery(sql);
 
@@ -79,7 +79,7 @@ public class loginModel {
                 stmt.close();
                 conn.close();
             } else {
-                sql = "SELECT * FROM business_info b join address a on b.business_id = a.id WHERE business_id= '" + userid + "' and password = '" + password + "' and a.state = 1";
+                sql = "SELECT * FROM business_info b join address a on b.business_id = a.id WHERE business_id= '" + userid + "' and password = '" + password + "' and a.state = 1 and b.state = 0";
 
                 ResultSet rs = stmt.executeQuery(sql);
 
@@ -208,12 +208,12 @@ public class loginModel {
     }
 
     //회원탈퇴 메소드
-    public void DelUser(String userid, int state) {
+    public boolean DelUser(String userid, int state) {
         javax.sql.DataSource ds = dbConfig.dataSource();
         try {
             Connection conn = ds.getConnection();
             if (state == 0) {
-                String sql = "DELETE FROM user_info where userid = ?";
+                String sql = "UPDATE userinfo SET state = 1 WHERE userid = '?'";
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, userid);
                 log.info(sql);
@@ -223,7 +223,7 @@ public class loginModel {
                 conn.close();
                 
             }else{
-                String sql = "DELETE FROM business_info where business_id = ?";
+                String sql = "UPDATE business_info SET state = 1 WHERE business_id = ?";
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, userid);
                 log.info(sql);
@@ -234,6 +234,8 @@ public class loginModel {
             }
         } catch (Exception ex) {
             log.error("오류가 발생했습니다. (발생 오류: {})", ex.getMessage());
+            return false;
         }
+        return true;
     }
 }
