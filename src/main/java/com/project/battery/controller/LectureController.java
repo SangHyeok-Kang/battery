@@ -202,11 +202,7 @@ public class LectureController {
         String basePath2 = ctx.getRealPath(surveyResult_folder) + File.separator + lec.getHost() + File.separator + (String) session.getAttribute("lecture");
 
         surveyModel survey = new surveyModel();
-<<<<<<< HEAD
-        String[] searchSurvey = survey.searchSurvey(basePath, lec.getHost(), basePath1, Integer.parseInt((String) session.getAttribute("lecture")));
-=======
         String[] searchSurvey = survey.searchSurvey(lec.getHost(), basePath1, Integer.parseInt((String) session.getAttribute("lecture")) );
->>>>>>> 5fb4128fbf25e64da9cec60e7c9931632ccaad0d
 
         boolean[] isExpired = survey.checkIfExpired(searchSurvey, basePath2, (String) session.getAttribute("host"));
 //        for (int i = 0; i < isExpired.length; i++) {
