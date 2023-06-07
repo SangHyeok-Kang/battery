@@ -271,7 +271,7 @@
                             <tr>
                     </table>
                     <div class="d-flex justify-content-center">
-                    <input type="submit" class="btn btn-sm btn-outline-info me-2" value = "수정하기">
+                    <input type="submit" class="btn btn-sm btn-outline-info me-2" value = "수정하기">                       
                     </form>
                     <button type="button" class="btn btn-sm btn-outline-danger me-2" onclick="doAction(0)">탈퇴하기</button>
                     <button type="button" class="btn btn-sm btn-outline-none" onclick="doAction(1)">뒤로가기</button>
