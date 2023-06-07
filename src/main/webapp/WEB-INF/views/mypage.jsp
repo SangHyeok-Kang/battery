@@ -247,10 +247,7 @@
                 <div class="tab-pane fade mt-3 w-100 h-100" id="location-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
                      tabindex="0">
                     sdaf
-                </div>
-            </div>
-
-            <br><br>
+                    <br><br>
              <h4> 강의내역조회 </h4>
                 <table border="1">
                     <th>과목명</th>
@@ -260,17 +257,19 @@
                     <th>신청 상태</th>
                         <c:forEach  var="lec" items="${lecList}" >
                         <tr align="center">
-                            <td>${lec.l_title}</td>
+                            <td>${lec.title}</td>
                             <td>${lec.host}</td>
                             <td>${lec.date}</td>                           
                             <td>${lec.user_state}</td> 
-                            <td>${lecenroll_state}</td>                                                                                     
+                            <td>${lec.enroll_state}</td>                                                                                     
                         </tr>
                     </c:forEach>
                     <%--
                         
                     --%>
                 </table>
+                </div>
+            </div>
         </div>
     </body>
     <script>
