@@ -40,6 +40,42 @@
     <%@include file="header.jspf" %>
     <body>
         <div class="container m-5 mx-auto">
+            <script>
+          
+            function validate() {
+                var re = /^[a-zA-Z0-9]{4,12}$/
+                var re2 = /^[0-9]{4,4}$/;               
+                var re4 = /^[A-Za-z0-9]{8,16}$/;
+
+                var pw = document.getElementById("currentPassword");
+                var pw2 = document.getElementById("newpassword");
+                var ph1 = document.getElementById("phone2");
+                var ph2 = document.getElementById("phone3");               
+
+                if (!check(re4, pw, "비밀번호는 8~16자의 영문 대소문자와 숫자로만 입력")) {
+                    return false;
+                }
+                 if (!check(re4, pw2, "비밀번호는 8~16자의 영문 대소문자와 숫자로만 입력")) {
+                    return false;
+                }
+                if (!check(re2, ph1, "전화번호는 숫자로만 입력할 수 있으며 4자리를 입력")) {
+                    return false;
+                }
+                if (!check(re2, ph2, "전화번호는 숫자로만 입력할 수 있으며 4자리를 입력")) {
+                    return false;
+                }
+                document.getElementById('keyword').value = document.getElementById('selectedSubcategories').innerText;
+                sessionStorage.removeItem("user");
+                function check(re, what, message) {
+                    if (re.test(what.value)) {
+                        return true;
+                    }
+                    alert(message);
+                    what.value = "";
+                    what.focus();
+                }
+            }
+        </script>
             <h5>마이페이지</h5>
 
 
@@ -87,7 +123,7 @@
                                     </div>
                                 </td>
                             </tr>
-                        <form method="POST" role="form" action="changeInfo.do">
+                        <form method="POST" onsubmit="return validate();" role="form" action="changeInfo.do">
                             <tr>
                                 <th scope="row">
                                     <label for="password" class="text-black">현재 비밀번호</label>
