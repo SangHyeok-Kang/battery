@@ -54,7 +54,7 @@ public class SystemController {
     @GetMapping("/")
     public String projectMain(Model model) {
         Lecture lec = new Lecture(dbConfig);
-
+        session.removeAttribute("mento_state");
         view_list = lec.getViewCountList();
         nopri_list = lec.getNoPriceList();
         pri_list = lec.getPriceList();
@@ -71,9 +71,10 @@ public class SystemController {
     }
     
     @GetMapping("/mento")
-    public String mentoMain(Model model) {
+    public String mentoMain(@RequestParam("state") String state, Model model) {
         Lecture lec = new Lecture(dbConfig);
-
+        session.setAttribute("mento_state", state);
+        
         view_list = lec.getViewCountList();
         nopri_list = lec.getNoPriceList();
         pri_list = lec.getPriceList();
@@ -88,7 +89,7 @@ public class SystemController {
 
         return "mento/index";
     }
-
+    
     @GetMapping("/sign-in")
     public String signIn() {
         session.invalidate();
