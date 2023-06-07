@@ -325,7 +325,7 @@
                 const link = '${pageContext.request.contextPath}';
                 location.href = link;
             } else {
-                const link = '${pageContext.request.contextPath}/delUser.do?userid =' + ${host};
+                const link = '${pageContext.request.contextPath}/delUser.do';
                 location.href = link;
             }
         }

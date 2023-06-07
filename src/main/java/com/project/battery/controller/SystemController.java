@@ -233,7 +233,7 @@ public class SystemController {
 
     }
     
-    @GetMapping("delUser.do")
+    /*@GetMapping("delUser.do")
     public String DelUser(@RequestParam String userid, RedirectAttributes attrs){
         loginModel lm_model = new loginModel(dbConfig);
         int state = (int)session.getAttribute("state");
@@ -244,7 +244,7 @@ public class SystemController {
         attrs.addFlashAttribute("msg", "회원탈퇴 완료되었습니다.");
         
         return "redirect:/";
-    }
+    }*/
     
     //TEST
     @GetMapping("/test")
@@ -338,6 +338,22 @@ public class SystemController {
             attrs.addFlashAttribute("msg", "현재 비밀번호가 일치하지 않습니다.");
 
             return "redirect:/mypage";
+        }
+        return "redirect:/";
+    }
+    
+    @GetMapping("/delUser.do")
+    public String delUser(RedirectAttributes attrs){
+        String userid = (String)session.getAttribute("host");
+        int state = (Integer)session.getAttribute("state");
+        
+        loginModel lm_model = new loginModel(dbConfig);
+        boolean result = lm_model.DelUser(userid, state);
+        if(result == true){
+            session.invalidate();
+            attrs.addFlashAttribute("msg", "회원탈퇴 하였습니다.");
+        }else{
+             attrs.addFlashAttribute("msg", "회원탈퇴 실패하였습니다.");
         }
         return "redirect:/";
     }
