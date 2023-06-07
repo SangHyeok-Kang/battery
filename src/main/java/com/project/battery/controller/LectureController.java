@@ -246,5 +246,5 @@ public class LectureController {
         }
         return String.format("redirect:/lecture/lecture_materia?lecture=%s&page=1", (String) session.getAttribute("lecture"));
     }
-
+    
 }

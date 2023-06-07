@@ -178,9 +178,7 @@ public class loginModel {
     public void changeInfo(String userid, String password, String phone, String postcode, String address, String detail, String extra) {
 
         javax.sql.DataSource ds = dbConfig.dataSource();
-        log.info(phone);
-        log.info(password);
-
+       
         try {
             Connection conn = ds.getConnection();
             String sql = "UPDATE userinfo SET password = ?, phone = ? WHERE userid = ?";
@@ -189,14 +187,11 @@ public class loginModel {
             pstmt.setString(1, password);
             pstmt.setString(2, phone);
             pstmt.setString(3, userid);
-            log.info(sql);
             pstmt.executeUpdate();
-
             pstmt.close();
 
             sql = "UPDATE address SET postcode = ?, address = ?, detail= ?, extra = ? WHERE id = ? ";
-            pstmt = conn.prepareStatement(sql);
-            log.info(sql);
+            pstmt = conn.prepareStatement(sql);   
             pstmt.setString(1, postcode);
             pstmt.setString(2, address);
             pstmt.setString(3, detail);
@@ -210,7 +205,6 @@ public class loginModel {
         } catch (Exception ex) {
             log.error("오류가 발생했습니다. (발생 오류: {})", ex.getMessage());
         }
-
     }
 
     //회원탈퇴 메소드
