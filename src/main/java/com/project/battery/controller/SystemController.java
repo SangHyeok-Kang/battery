@@ -117,7 +117,7 @@ public class SystemController {
         session.setAttribute("phone3", strAry[2]);
         
         Lecture lec = new Lecture(dbConfig);
-        ArrayList<LectureDto> list = lec.Listlec((String) session.getAttribute("userid"));
+        ArrayList<LectureDto> list = lec.Listlec(userid);
         model.addAttribute("lecList", list);
         return "/mypage";
     }
