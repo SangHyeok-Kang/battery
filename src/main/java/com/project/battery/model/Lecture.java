@@ -210,7 +210,6 @@ public class Lecture {
         return lec;
     }
      */
-
     // 전체 강의 리스트 가져오기
     public ArrayList<LectureDto> getViewCountList() {
         try {
@@ -516,7 +515,9 @@ public class Lecture {
             conn = ds.getConnection();
             Statement stmt = conn.createStatement();
             //신청자 수
+
             String sql = "select count(*) as enroll_count from regiclass where lectureid = " + id + " and enroll_state !=2  group by lectureid ";
+
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 count = rs.getInt("enroll_count");
@@ -559,8 +560,8 @@ public class Lecture {
 
                 lec.setTeacher(rs.getInt("teacher"));
                 lec.setTeacher_num(rs.getInt("teacher_num"));
-                lec.setStaffe(rs.getInt( "staffe"));
-                lec.setStaffe_num(rs.getInt( "staffe_num"));
+                lec.setStaffe(rs.getInt("staffe"));
+                lec.setStaffe_num(rs.getInt("staffe_num"));
                 lec.setQual(rs.getString("qualification"));
                 lec.setHost(rs.getString("host"));
                 lec.setState(rs.getString("l_state"));
@@ -579,6 +580,43 @@ public class Lecture {
         }
 
         return lec;
+    }
+
+ //강의내역조회
+    public ArrayList<LectureDto> Listlec(String userid) {
+
+        ArrayList<LectureDto> lec_list = new ArrayList<LectureDto>();
+
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            Statement stmt = conn.createStatement();
+            String sql = "select title, host, date, user_state, enroll_state from lecture l join staffe s on l.lectureid = s.lectureid where s.userid ='" + userid + "'";
+            log.info(sql);
+            rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+
+                String title = rs.getString("l.l_title");
+                String host = rs.getString("l.host");
+                String date = rs.getString("l.l_date");
+                String u_state = rs.getString("s.user_state");
+                String e_state = rs.getString("s.enroll_state");
+                // lec.setLectureid(rs.getInt("l.l_title"));
+//                lec.setTitle(rs.getString("l.host"));
+//                lec.setDate(rs.getString("s.date"));
+//                lec.setUser_state(rs.getString("s.user_state"));
+//                lec.setEnroll_state(rs.getString("s.enroll_state"));
+                LectureDto lec = new LectureDto(title, host, date, u_state, e_state);
+                lec_list.add(lec);
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (Exception ex) {
+            log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
+        }
+        return lec_list;
     }
 
     //중복 신청 조회 메소드

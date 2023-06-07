@@ -249,6 +249,28 @@
                     sdaf
                 </div>
             </div>
+
+            <br><br>
+             <h4> 강의내역조회 </h4>
+                <table border="1">
+                    <th>과목명</th>
+                    <th>개설자</th>                                         
+                    <th>수강 기간</th>
+                    <th>참여 구분</th>
+                    <th>신청 상태</th>
+                        <c:forEach  var="lec" items="${lecList}" >
+                        <tr align="center">
+                            <td>${lec.l_title}</td>
+                            <td>${lec.host}</td>
+                            <td>${lec.date}</td>                           
+                            <td>${lec.user_state}</td> 
+                            <td>${lecenroll_state}</td>                                                                                     
+                        </tr>
+                    </c:forEach>
+                    <%--
+                        
+                    --%>
+                </table>
         </div>
     </body>
     <script>
