@@ -4,17 +4,17 @@
  */
 package com.project.battery.model;
 
+import com.project.battery.dto.ReviewDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.PropertySource;
@@ -148,5 +148,33 @@ public class ReviewModel {
         }
 
         return status;
+    }
+    
+    //강의, 사용자 아이디에 할당된 리뷰를 가져오는 함수
+    public List<ReviewDto> getReviewList(HikariConfiguration dbConfig, String id){
+        List<ReviewDto> list = new ArrayList<>(); 
+        String sql = "select review, grade, date from review where id=? and userstate=1 order by date asc";
+        int co = 1;
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            rs = pstmt.executeQuery();
+            
+            while(rs.next()){
+                list.add(new ReviewDto(co, rs.getString("review"),rs.getString("date").split(" ")[0],rs.getInt("grade")));
+                co++;
+            }
+            
+            Collections.reverse(list);
+            if (conn != null) {conn.close();}
+            if (pstmt != null) {pstmt.close();}
+            if (rs != null) {rs.close();}
+        } catch (SQLException ex) {
+            Logger.getLogger(ReviewModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
     }
 }

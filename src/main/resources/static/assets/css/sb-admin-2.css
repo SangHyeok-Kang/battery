@@ -1861,6 +1861,10 @@ pre code {
   text-shadow: 0 0 0 #6e707e;
 }
 
+.text-yellow{
+    
+}
+
 .form-control:focus {
   color: #6e707e;
   background-color: #fff;
