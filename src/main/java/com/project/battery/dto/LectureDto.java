@@ -60,5 +60,11 @@ public class LectureDto {
 
     }
 
-   
+    public LectureDto(String title, String host, String date, String user_state, String enroll_state) {
+       this.title = title;
+       this.host = host;
+       this.date = date;
+       this.user_state = user_state;
+       this.enroll_state = enroll_state;
+    }
 }
