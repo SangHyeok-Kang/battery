@@ -107,13 +107,18 @@ public class SystemController {
     }
 
     @GetMapping("/mypage")
-    public String mypage() {
+    public String mypage(Model model) {
+        userid = (String) session.getAttribute("host");
         String phone = (String) session.getAttribute("phone");
         String[] strAry = phone.split("-");
 
         session.setAttribute("phone1", strAry[0]);
         session.setAttribute("phone2", strAry[1]);
         session.setAttribute("phone3", strAry[2]);
+        
+        Lecture lec = new Lecture(dbConfig);
+        ArrayList<LectureDto> list = lec.Listlec((String) session.getAttribute("userid"));
+        model.addAttribute("lecList", list);
         return "/mypage";
     }
 
@@ -312,7 +317,7 @@ public class SystemController {
         return "findpass";
     }
 
-    // 비밀번호 변경
+    // 회원정보 수정
     @PostMapping("/changeInfo.do")
     public String changeInfo(@RequestParam String currentPassword, @RequestParam String newPassword, @RequestParam String phone1, @RequestParam String phone2, @RequestParam String phone3,
             @RequestParam String postcode, @RequestParam String address, @RequestParam String detail, @RequestParam String extra, RedirectAttributes attrs) {
@@ -334,8 +339,6 @@ public class SystemController {
 
             return "redirect:/mypage";
         }
-
         return "redirect:/";
-
     }
 }
