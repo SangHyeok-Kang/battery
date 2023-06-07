@@ -5,6 +5,7 @@
 package com.project.battery.controller;
 
 import com.project.battery.dto.LectureDto;
+import com.project.battery.dto.RegiClassDto;
 import com.project.battery.dto.ReviewDto;
 import com.project.battery.model.ChartModel;
 import com.project.battery.model.HikariConfiguration;
@@ -120,6 +121,12 @@ public class HostController {
 //        }
         String[] surveyList = survey.surveyList(basePath);
         
+
+        /*신청자 정보 불러오기*/
+        List<RegiClassDto> regilist = new Lecture().getRegiList(dbConfig, Integer.parseInt(lecid));
+        
+       
+
          
         /*그래프 불러오기*/
         // 날짜별 신청 인원 
@@ -153,6 +160,7 @@ public class HostController {
             rowcounts.add("'" + rowcount + "'");
         }
         
+       model.addAttribute("regiList",regilist);
         model.addAttribute("reviewList",reviewList);
         model.addAttribute("juso",juso);
         model.addAttribute("surveyList", surveyList);
@@ -210,5 +218,21 @@ public class HostController {
             attrs.addFlashAttribute("msg", "강의 개설에 실패하였습니다");
         }
         return "redirect:/host-center/";
+    }
+    
+    @GetMapping("host-center/accept.do")
+    public String accpt(@RequestParam("str") String str, RedirectAttributes attrs){
+        String accept;
+        if(str.split("-")[0].equals("accept")){
+            accept = "동의";
+        }else{
+            accept = "거절";
+        }
+        if(new Lecture().accept(dbConfig,str.split("-")[0],str.split("-")[1])){
+            attrs.addFlashAttribute("msg",String.format("강의 신청에 %s하였습니다.", accept));
+        }else{
+            attrs.addFlashAttribute("msg","강의 신청 확인에 실패하였습니다.");
+        }
+        return String.format("redirect:/host-center/lecture?lecture=%s", (String)session.getAttribute("lecture")) ;
     }
 }

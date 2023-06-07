@@ -6,6 +6,7 @@ package com.project.battery.model;
 
 import com.project.battery.dto.LectureDto;
 import com.project.battery.dto.MateriaDto;
+import com.project.battery.dto.RegiClassDto;
 import com.project.battery.service.FileService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -105,21 +106,12 @@ public class Lecture {
             } else {
                 log.debug("강의 정보 입력 실패 host={}, titlt={}", lecture.getHost(), lecture.getTitle());
             }
-            if (success) {
-                conn.commit();
-            } else {
-                conn.rollback();
-            }
+            if (success) {conn.commit();} 
+            else {conn.rollback();}
             conn.setAutoCommit(true);
-            if (conn != null) {
-                conn.close();
-            }
-            if (pstmt != null) {
-                pstmt.close();
-            }
-            if (rs != null) {
-                rs.close();
-            }
+            if (conn != null) {conn.close();}
+            if (pstmt != null) { pstmt.close();}
+            if (rs != null) {rs.close();}
         } catch (SQLException ex) {
             log.debug("강의 입력 실패 SqlError = {}", ex.getMessage());
         }
@@ -160,56 +152,7 @@ public class Lecture {
         return list;
     }
 
-    //강의 정보 불러오기
-    /*
-    public LectureDto getLecture(int lecid){
-        LectureDto lec = new LectureDto();
-        String sql = "select * from lecture where lectureid = ?";
-        
-        try {
-            ds = dbConfig.dataSource();
-            conn = ds.getConnection();
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1,lecid);
-            rs = pstmt.executeQuery();
-            if(rs.next()){
-                lec.setLectureid(rs.getInt("lectureid"));
-                String thumbnail = rs.getString("thumbnail");
-                if(thumbnail.equals("")){
-                    thumbnail = "none.png";
-                }
-                lec.setThumbnail(thumbnail);
-                lec.setTitle(rs.getString("l_title"));
-                lec.setText(rs.getString("l_text"));
-                lec.setText_image(rs.getString("text_image"));
-                lec.setRec_dt(rs.getString("rec_dt"));
-                lec.setRec_target(rs.getString("rec_target"));
-                lec.setRec_num(rs.getInt("rec_num"));
-                lec.setDate(rs.getString("l_date"));
-                lec.setKeyword(rs.getString("l_keyword"));
-                lec.setPrice(rs.getString("price"));
-                lec.setAgree(rs.getInt("agree"));
-                lec.setTeacher(rs.getInt("teacher"));
-                lec.setTeacher_num(rs.getInt("teacher_num"));
-                lec.se regiclass(rs.getInt( regiclass"));
-                lec.se regiclass_num(rs.getInt( regiclass_num"));
-                lec.setQual(rs.getString("qualification"));
-                lec.setHost(rs.getString("host"));
-                lec.setState(rs.getString("l_state"));
-                lec.setGrade(rs.getDouble("l_grade"));
-            }else{
-                log.debug("강의 정보 불러오기 실패 : 강의번호 = {}",lecid);
-            }
-            if(conn!=null){conn.close();}
-            if(pstmt!=null){pstmt.close();}
-            if(rs!=null){rs.close();}
-        } catch (SQLException ex) {
-            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
-        }
-           
-        return lec;
-    }
-     */
+
     // 전체 강의 리스트 가져오기
     public ArrayList<LectureDto> getViewCountList() {
         try {
@@ -660,4 +603,73 @@ public class Lecture {
             log.error("오류가 발생했습니다. (발생오류: {})", ex.getMessage());
         }
     }
+    
+    public List<RegiClassDto> getRegiList(HikariConfiguration dbConfig, int lecid){
+        List<RegiClassDto> list= new ArrayList<>();
+        String sql = "select regiclassid, username, phone ,birth ,date , user_state, enroll_state from regiclass r join userinfo u on r.userid = u.userid where lectureid=?";
+        ds = dbConfig.dataSource();
+        int co=1;
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, lecid);
+            rs = pstmt.executeQuery();
+            
+            while(rs.next()){
+                String regiResult = null;
+                if(rs.getInt("enroll_state")==0){
+                    regiResult = "대기";
+                }else if(rs.getInt("enroll_state")==1){
+                    regiResult = "수락";
+                }else if(rs.getInt("enroll_state")==2){
+                    regiResult = "거절";
+                } 
+                list.add(new RegiClassDto(rs.getString("regiclassid"), rs.getString("username"),
+                        rs.getString("phone"),rs.getString("birth"), rs.getString("date"),
+                        rs.getInt("user_state"),regiResult));
+                co++;
+            }
+            Collections.reverse(list);
+            if (conn != null) {conn.close();}
+            if (pstmt != null) { pstmt.close();}
+            if (rs != null) {rs.close();}
+        } catch (SQLException ex) {
+            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+        return list;
+    } 
+    
+    //강의 신청에 대해 수락, 거절
+    public boolean accept(HikariConfiguration dbConfig,String agree, String id){
+        boolean succes = false;
+        String sql = "update regiclass set enroll_state=? where regiclassid=?";
+        
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            if(agree.equals("accept")){
+                pstmt.setInt(1, 1);
+            }else if(agree.equals("refusal")){
+                pstmt.setInt(1, 2);
+            }
+            pstmt.setInt(2,Integer.parseInt(id));
+            
+            if(pstmt.executeUpdate() == 1){
+                succes=true;
+                log.debug("신청 상태 변환 = 성공 {}", agree);
+            }
+            
+            if (conn != null) {conn.close();}
+        if (pstmt != null) { pstmt.close();}
+        } catch (SQLException ex) {
+            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        
+        return succes;
+    }
+
 }
