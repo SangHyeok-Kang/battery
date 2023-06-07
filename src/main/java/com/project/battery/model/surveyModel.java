@@ -432,7 +432,7 @@ public class surveyModel {
 
     // surveyInfo 폴더에서 강의-설문 정보 엑셀파일로 저장된 값 중 해당 강의실id(lectureId)에 해당하는 설문 제목 가져옴
     // 해당 강의실에 등록된 설문 제목 가져옴
-    public String[] searchSurvey(String basePath, String manamgerId, String basePath1, int lectureId) {
+    public String[] searchSurvey(String manamgerId, String basePath1, int lectureId) {
         List<String> resultList = new ArrayList<>(); // 결과를 저장할 동적 배열 생성
         try {
 
