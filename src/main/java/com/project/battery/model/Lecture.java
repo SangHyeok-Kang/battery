@@ -603,19 +603,19 @@ public class Lecture {
     }
 
     //강의 신청 메소드
-    public void ApplyLecutre(String userid, int lectureid, String date, int user_state) {
+    public void ApplyLecutre(String userid, int lectureid, String date, int user_state, int enroll_state) {
         javax.sql.DataSource ds = dbConfig.dataSource();
 
         try {
             Connection conn = ds.getConnection();
-            String sql = "INSERT INTO regiclass VALUES(default,?,?,?,?,default)";
+            String sql = "INSERT INTO regiclass VALUES(default,?,?,?,?,?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setInt(1, lectureid);
             pstmt.setString(2, userid);
-            //pstmt.setInt(2,class_round);
             pstmt.setString(3, date);
             pstmt.setInt(4, user_state);
+            pstmt.setInt(5, enroll_state);
             pstmt.executeUpdate();
 
         } catch (Exception ex) {
