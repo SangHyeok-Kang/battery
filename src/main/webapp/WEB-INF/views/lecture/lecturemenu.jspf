@@ -9,7 +9,7 @@
                 <li><a href="lecture_check_mentor?lecture=<%= session.getAttribute("lecture")%>">출석확인</a></li>
             </c:when>
             <c:when test="${sessionScope.state == 0}">
-                <li><a href="lecture_check_mentee?lecture=<%= session.getAttribute("lecture")">출석확인</a></li>
+                <li><a href="lecture_check_mentee?lecture=<%= session.getAttribute("lecture")%>">출석확인</a></li>
             </c:when>
         </c:choose>
         <li><a href="lecture_survey?lecture=<%= session.getAttribute("lecture")%>&page=1">설문하기</a></li>

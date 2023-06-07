@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,34 +39,34 @@
             alert("${msg}");
             </c:if>
         </script>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <style>
-    .rating {
-      display: inline-block;
-      font-size: 1.5rem;
-      color: #ffd700;
-    }
-    .rating .fa-star {
-      position: relative;
-    }
-    .rating .fa-star::before {
-      content: "\f005";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 50%;
-      overflow: hidden;
-    }
-    .rating .fa-star::after {
-      content: "\f089";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 50%;
-      overflow: hidden;
-      color: #ffd700;
-    }
-  </style>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <style>
+            .rating {
+                display: inline-block;
+                font-size: 1.5rem;
+                color: #ffd700;
+            }
+            .rating .fa-star {
+                position: relative;
+            }
+            .rating .fa-star::before {
+                content: "\f005";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 50%;
+                overflow: hidden;
+            }
+            .rating .fa-star::after {
+                content: "\f089";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 50%;
+                overflow: hidden;
+                color: #ffd700;
+            }
+        </style>
     </head>
 
     <body id="page-top">
@@ -266,29 +266,63 @@
                                                 <div class="row">
                                                     <div class="d-flex justify-content-between w-100">
                                                         <label class="h5 text-black">참여 명단</label>
-                                                        <select class="text-sm rounded-2 mb-2" style="border-color:#d1d1d1;">
-                                                            <option value="mente">수강자</option>
-                                                            <option value="mento">강사</option>
-                                                            <option value="staff">스태프</option>
-                                                        </select>
+                                                        <div>
+                                                            <select class="text-sm rounded-2 mb-2" id="stateList" onchange="regiListChange()" style="border-color:#d1d1d1;">
+                                                                <option value="2">수강자</option>
+                                                                <option value="0">강사</option>
+                                                                <option value="1">스태프</option>
+                                                            </select>
+                                                            <select class="text-sm rounded-2 mb-2" id="dateList" onchange="regiListChange()" style="border-color:#d1d1d1;">
+                                                                <c:forEach items="${lec_date}" var="date" varStatus="co">
+                                                                    <option value="${date}">${co.count}회차 - ${date}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </div>
                                                     </div>
-                                                    <div class="table-responsive ">
+
+                                                    <div class="table-responsive " id="regiList" >
+                                                        <%--
                                                         <table class="table" width="100%"  cellspacing="0">
                                                             <colgroup>
+                                                                <col style="width: 5%;">
+                                                                <col style="width: 5%;">
                                                                 <col style="width: 10%;">
                                                                 <col style="width: 20%;">
-                                                                <col style="width: 30%;">
-                                                                <col style="width: 30%;">
-                                                                <col style="width: 10%;">
+                                                                <col style="width: 20%;">
+                                                                <col style="width: 20%;">
+                                                                <col style="width: 5%;">
+                                                                <col style="width: 5%;">
                                                             </colgroup>
+                                                            <thead>
                                                             <tr>
-                                                                <th>No.</th>
+                                                                <th></th>
+                                                                <th class="text-center">No.</th>
                                                                 <th class="text-center">이름</th>
                                                                 <th class="text-center">전화번호</th>
                                                                 <th class="text-center">생년월일</th>
-                                                                <th class="text-center">비고</th>
+                                                                <th class="text-center">신청결과</th>
+                                                                <th class="text-center">수락</th>
+                                                                <th class="text-center">거절</th>
                                                             </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <c:forEach items="${regiList}" var="list" varStatus="co">
+                                                                <c:if test="${list.getState() == 2 && list.getDate() eq lec_date[0]}">
+                                                                    <tr>
+                                                                        <th class="text-center"><input type="checkbox" id="check-${list.getId()}"></th>
+                                                                        <th class="text-center">${fn:length(regiList)-co.index}</th>
+                                                                        <th class="text-center">${list.getName()}</th>
+                                                                        <th class="text-center">${list.getPhone()}</th>
+                                                                        <th class="text-center">${list.getBirth()}</th>
+                                                                        <th class="text-center">${list.getEnState()}</th>
+                                                                        <th class="text-center"><input type="button" id="accept-${list.getId()}" value="수락"></th>
+                                                                        <th class="text-center"><input type="button" id="refusal-${list.getId()}" value="거절"></th>
+                                                                    </tr>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                                    </tbody>
                                                         </table>
+                                                        --%>
                                                     </div>
                                                 </div>
                                             </div>
@@ -323,7 +357,7 @@
                                                                 <th class="text-center">작성 날짜</th>
                                                             </tr>
                                                             <c:forEach items="${reviewList}" var="review">
-                                                                <tr >
+                                                                <tr>
                                                                     <td class="text-center">${review.getNo()}</td>
                                                                     <td >${review.getReview()}</td>
                                                                     <td class="text-center">
@@ -333,7 +367,7 @@
                                                                                     <label class="text-warning">★</label>
                                                                                 </c:when>
                                                                                 <c:otherwise>
-                                                                                     <label class="text-secondary">★</label>
+                                                                                    <label class="text-secondary">★</label>
                                                                                 </c:otherwise>
                                                                             </c:choose>
                                                                         </c:forEach>
@@ -390,23 +424,98 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5385b2bd1d614d808c86f0bb4257bc4&libraries=services"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script>
-  
-    function fillStars(starRating) {
-      var starsElement = document.getElementById('starRating');
-      starsElement.innerHTML = '';
+            // ArrayList 데이터를 담을 JavaScript 변수
+            var list = [];
+            
+            var listIn = document.getElementById("regiList");
+            var statedropdown = document.getElementById("stateList");
+            var datedropdown = document.getElementById("dateList");
+            // 스프링 컨트롤러에서 전달받은 데이터를 JavaScript 변수에 할당
+            //모델로 넘겨받은 신청 리스트 옮기기
+            window.onload = function(){
+                <c:forEach items="${regiList}" var="data" varStatus="co">
+                  list.push({
+                    id : "${data.getId()}",
+                    no : "${fn:length(regiList)-co.index}",
+                    name : "${data.getName()}",
+                    phone : "${data.getPhone()}",
+                    birth : "${data.getBirth()}",
+                    date : "${data.getDate()}",
+                    state : "${data.getState()}",
+                    enstate : "${data.getEnState()}"
+                  });
+                </c:forEach>
+                statedropdown.addEventListener('change', regiListChange);
+                datedropdown.addEventListener('change', regiListChange);
+                regiListChange();
+            };
+            
+            
+            //신청 목록 변경 함수
+            function regiListChange() {
+                
+                
+                var stateselectedValue = statedropdown.value;
+                var dateselectedValue = datedropdown.value;
+                var str = `<table class="table" width="100%"  cellspacing="0">
+                        <colgroup>
+                            <col style="width: 5%;">
+                            <col style="width: 5%;">
+                            <col style="width: 10%;">
+                            <col style="width: 20%;">
+                            <col style="width: 20%;">
+                            <col style="width: 20%;">
+                            <col style="width: 10%;">
+                            <col style="width: 10%;">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-center">No.</th>
+                            <th class="text-center">이름</th>
+                            <th class="text-center">전화번호</th>
+                            <th class="text-center">생년월일</th>
+                            <th class="text-center">신청결과</th>
+                            <th class="text-center">수락</th>
+                            <th class="text-center">거절</th>
+                        </tr>
+                        </thead> 
+                        <tbody>`;
+                        var co = 1;
+                        
+                        
+                        var colist=[];
+                list.forEach(function(item) {
+                    if (item.state == stateselectedValue && item.date == dateselectedValue) {
+                        str += `<tr scope="row">
+                                <th class="text-center"><input type="checkbox" id="check-`+item.id+`"></th>
+                                <th class="text-center" id="co-`+ co +`"></th>
+                                <th class="text-center">`+item.name+`</th>
+                                <th class="text-center">`+item.phone+`</th>
+                                <th class="text-center">`+item.birth+`</th>
+                                <th class="text-center">`+item.enstate+`</th>
+                                <th class="text-center"><button class="btn btn-outline-info center" onclick="location.href='accept.do?str=accept-`+ item.id +`'" type="button">수락</th>
+                                <th class="text-center"><button class="btn btn-outline-info center" onclick="location.href='accept.do?str=refusal-`+ item.id +`'" type="button">거절</th>
+                              </tr>`;
+                              colist.push("co-"+co);
+                        co++;
+                    }
+                    
+                  });
+                  
+                  str+=`</tbody></table>`;
 
-      for (var i = 0; i < starRating; i++) {
-        var star = document.createElement('span');
-        star.className = 'star';
-        starsElement.appendChild(star);
-      }
-    }
+                listIn.innerHTML = str;
+                var count=0;
+                  var total =colist.length;
+                 colist.forEach(function(item){
+                     document.getElementById(item).innerHTML = total-count;
+                     count++;
+                 });
+            }
 
-    var rating = 4; // 별점 점수
-    fillStars(rating);
-         
-    
-    //주소 받기
+
+            //주소 받기
             var address = `${juso[0]} ${juso[1]}${juso[2]}`;
 
                 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
