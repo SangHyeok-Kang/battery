@@ -319,10 +319,10 @@ public class LectureController {
             boolean result = lec.duplicate(userid, date, id);
             if (result == true) {
                 if(agree.equals("선착순 모집")){
-                    lec.ApplyLecutre(userid, id, date, 2,0);
+                    lec.ApplyLecutre(userid, id, date, getState(),0);
                 }
                 else if(agree.equals("확인 후 모집")){
-                     lec.ApplyLecutre(userid, id, date, 2,1);
+                     lec.ApplyLecutre(userid, id, date, getState(),1);
                 }
                 
 
