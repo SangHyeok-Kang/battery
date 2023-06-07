@@ -122,10 +122,12 @@ public class HostController {
         String[] surveyList = survey.surveyList(basePath);
         
 
+
         /*신청자 정보 불러오기*/
         List<RegiClassDto> regilist = new Lecture().getRegiList(dbConfig, Integer.parseInt(lecid));
         
         model.addAttribute("regiList",regilist);
+
 
 
         /*그래프 불러오기*/
