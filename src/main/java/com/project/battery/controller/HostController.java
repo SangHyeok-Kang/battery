@@ -6,12 +6,14 @@ package com.project.battery.controller;
 
 import com.project.battery.dto.LectureDto;
 import com.project.battery.dto.ReviewDto;
+import com.project.battery.model.ChartModel;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
 import com.project.battery.model.ReviewModel;
 import com.project.battery.model.SearchAddress;
 import com.project.battery.model.surveyModel;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletContext;
@@ -54,6 +56,8 @@ public class HostController {
     private String survey_folder;
     @Value("${file.surveyInfo_folder}")
     private String surveyInfo_folder;
+    @Value("${file.surveyResult_folder}")
+    private String surveyResult_folder;
     
     @GetMapping("host-center")
     public String hostCentter(Model model){
@@ -71,7 +75,7 @@ public class HostController {
     }
     
     @GetMapping("host-center/lecture")
-    public String hostLecture(@RequestParam("lecture") String lecid, Model model){
+    public String hostLecture(@RequestParam("lecture") String lecid, Model model) throws SQLException{
         if(!lecid.equals((String)session.getAttribute("lecture")) || session.getAttribute("lecture") == null ){
             session.setAttribute("lecture", lecid);
         }
@@ -108,13 +112,46 @@ public class HostController {
         String basePath1 = ctx.getRealPath(surveyInfo_folder);
 
         surveyModel survey = new surveyModel();
-        String[] searchSurvey = survey.searchSurvey(basePath, (String) session.getAttribute("host"), basePath1, Integer.parseInt(lecid));
+        String[] searchSurvey = survey.searchSurvey((String) session.getAttribute("host"), basePath1, Integer.parseInt(lecid));
 
         boolean[] isStart = survey.checkIfStart(searchSurvey);
 //        for (int i = 0; i < isStart.length; i++) {
 //            System.out.println("isStart =" + isStart[i]);
 //        }
         String[] surveyList = survey.surveyList(basePath);
+        
+         
+        /*그래프 불러오기*/
+        // 날짜별 신청 인원 
+        ChartModel chart = new ChartModel();
+        List<Object[]> chartDataList = chart.chart(dbConfig, Integer.parseInt((String) session.getAttribute("lecture")));
+        
+        List<String> dates = new ArrayList<>();
+        List<String> counts = new ArrayList<>();
+        for (Object[] chartData : chartDataList) {
+            String date = (String) chartData[0];
+            int count = (int) chartData[1];
+            dates.add("'" + date + "'"); 
+            counts.add("'" + count + "'");
+        }
+        int rec_num =  lecDto.getRec_num();
+        
+        // 설문별 설문 참여 인원 
+        String basePath2 = ctx.getRealPath(surveyResult_folder) + File.separator + (String) session.getAttribute("host") + File.separator + (String) session.getAttribute("lecture");
+        // 해당 강의실에 등록된 설문 정보 가져옴
+        String[] searchSurveyList = survey.searchSurvey((String) session.getAttribute("host"), basePath1, Integer.parseInt((String) session.getAttribute("lecture")));
+        
+        List<Object[]> surveyDataList = chart.surveyChart(basePath2, searchSurveyList);
+        
+        List<String> surveynames = new ArrayList<>();
+        List<String> rowcounts = new ArrayList<>();
+    
+        for (Object[] chartData : surveyDataList) {
+            String surveyname = (String) chartData[0];
+            int rowcount = (int) chartData[1];
+            surveynames.add("'" + surveyname + "'"); 
+            rowcounts.add("'" + rowcount + "'");
+        }
         
         model.addAttribute("reviewList",reviewList);
         model.addAttribute("juso",juso);
@@ -124,6 +161,11 @@ public class HostController {
         model.addAttribute("lec_date", aryDT);
         model.addAttribute("isStart", isStart);
         model.addAttribute("lecture",lecDto);
+        model.addAttribute("dates", dates);
+        model.addAttribute("counts", counts);
+        model.addAttribute("rec_num", rec_num);
+        model.addAttribute("surveynames", surveynames);
+        model.addAttribute("rowcounts", rowcounts);
         return "host-center/lecture";
     }
     
