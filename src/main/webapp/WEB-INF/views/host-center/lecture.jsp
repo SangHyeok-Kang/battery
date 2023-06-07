@@ -132,6 +132,13 @@
                                                     리뷰
                                                 </button>
                                             </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="graph-tab" data-bs-toggle="tab"
+                                                        data-bs-target="#graph-tab-pane" type="button" role="tab"
+                                                        aria-controls="graph-tab-pane" aria-selected="false">
+                                                    그래프
+                                                </button>
+                                            </li>
                                         </ul>
                                         <!--탭 안에 콘텐츠-->
                                         <div class="tab-content w-100" id="lectureTabContent">
@@ -344,6 +351,219 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            
+                                            
+                                            <!--강의 그래프 탭-->
+                                            <div class="tab-pane fade mt-3 " id="graph-tab-pane" role="tabpanel" aria-labelledby="graph-tab" tabindex="0">
+                                                <div class="row">
+                                                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                                                    <div style="display: flex;">
+                                                        <div>
+                                                            날짜별 신청 인원 <br>
+                                                            <!-- 드롭다운 메뉴 -->
+                                                            <select id="dateDropdown" onchange="updateChart()">
+                                                                <option value="">날짜 선택</option>
+                                                                <script>
+                                                                    var dateDropdown = document.getElementById('dateDropdown');
+                                                                    var dates = ${dates};
+
+                                                                    for (var i = 0; i < dates.length; i++) {
+                                                                        var option = document.createElement('option');
+                                                                        option.value = dates[i];
+                                                                        option.textContent = dates[i];
+                                                                        dateDropdown.appendChild(option);
+                                                                    }
+                                                                </script>
+                                                            </select>
+                                                            <canvas id="doughnutChart" width="500" height="500"></canvas>
+                                                        </div>
+                                                        <div>
+                                                            설문별 참여 인원 <br> <br>
+                                                            <canvas id="surveyChart" width="500" height="500"></canvas>
+                                                        </div>
+                                                        <div>
+                                                            날짜별 출석 인원 <br> <br>
+                                                            <canvas id="checkChart" width="500" height="500"></canvas>
+                                                        </div>
+                                                    </div>
+                                                    <script>
+                                                        // 도넛차트 (날짜별 신청 인원) 
+                                                        var chartArea2 = document.getElementById('doughnutChart').getContext('2d');
+
+                                                        var dates = ${dates};
+                                                        var counts = ${counts};
+                                                        var rec_num = ${rec_num};
+
+                                                        // 차트를 생성한다.
+                                                        var doughnutChart = new Chart(chartArea2, {
+                                                            // ①차트의 종류(String)
+                                                            type: 'doughnut',
+                                                            // ②차트의 데이터(Object)
+                                                            data: {
+                                                                // ③x축에 들어갈 이름들(Array)
+                                                                // labels: dates,
+                                                                // ④실제 차트에 표시할 데이터들(Array), dataset객체들을 담고 있다.
+                                                                datasets: [{
+                                                                        // ⑤dataset의 이름(String)
+                                                                        label: '# 신청인원',
+                                                                        // ⑥dataset값(Array)
+                                                                        data: dates,
+                                                                        // ⑦dataset의 배경색(rgba값을 String으로 표현)
+                                                                        backgroundColor: [
+                                                                            'rgba(255, 99, 132, 0.2)',
+                                                                            'rgba(54, 162, 235, 0.2)',
+                                                                            'rgba(255, 206, 86, 0.2)',
+                                                                            'rgba(75, 192, 192, 0.2)',
+                                                                            'rgba(153, 102, 255, 0.2)',
+                                                                            'rgba(255, 159, 64, 0.2)'
+                                                                        ],
+                                                                        // ⑧dataset의 선 색(rgba값을 String으로 표현)
+                                                                        borderColor: [
+                                                                            'rgba(255, 99, 132, 1)',
+                                                                            'rgba(54, 162, 235, 1)',
+                                                                            'rgba(255, 206, 86, 1)',
+                                                                            'rgba(75, 192, 192, 1)',
+                                                                            'rgba(153, 102, 255, 1)',
+                                                                            'rgba(255, 159, 64, 1)'
+                                                                        ],
+                                                                        // ⑨dataset의 선 두께(Number)
+                                                                        borderWidth: 1
+                                                                    }]
+                                                            },
+                                                            // ⑩차트의 설정(Object)
+                                                            options: {
+                                                                // ⑪축에 관한 설정(Object)
+                                                                responsive: false,
+                                                                scales: {
+                                                                    // ⑫y축에 대한 설정(Object)
+                                                                    y: {
+                                                                        // ⑬시작을 0부터 하게끔 설정(최소값이 0보다 크더라도)(boolean)
+                                                                        beginAtZero: true,
+                                                                        ticks: {
+                                                                            stepSize: 1
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+
+                                                        // 드롭다운 메뉴에서 날짜 선택 시 차트 업데이트
+                                                        function updateChart() {
+                                                            var selectedDate = document.getElementById('dateDropdown').value;
+                                                            var index = dates.indexOf(selectedDate);
+                                                            if (index > -1) {
+                                                                doughnutChart.data.datasets[0].data = [counts[index], rec_num];
+                                                                doughnutChart.update();
+                                                            }
+                                                        }
+                                                    </script>
+
+                                                    <script>
+                                                        // 막대바 (설문별 참여 인원) 
+                                                        var chartArea = document.getElementById('surveyChart').getContext('2d');
+
+                                                        var surveynames = ${surveynames};
+                                                        var rowcounts = ${rowcounts}
+
+                                                        // 차트를 생성한다. 
+                                                        var surveyChart = new Chart(chartArea, {
+                                                            // ①차트의 종류(String)
+                                                            type: 'bar',
+                                                            // ②차트의 데이터(Object)
+                                                            data: {
+                                                                // ③x축에 들어갈 이름들(Array)
+                                                                labels: surveynames,
+                                                                // ④실제 차트에 표시할 데이터들(Array), dataset객체들을 담고 있다.
+                                                                datasets: [{
+                                                                        // ⑤dataset의 이름(String)
+                                                                        label: '# 설문 참여 인원',
+                                                                        // ⑥dataset값(Array)
+                                                                        data: rowcounts,
+                                                                        // ⑦dataset의 배경색(rgba값을 String으로 표현)
+                                                                        backgroundColor: '#F2F3F6',
+                                                                        // ⑧dataset의 선 색(rgba값을 String으로 표현)
+                                                                        borderColor: '#000000',
+                                                                        // ⑨dataset의 선 두께(Number)
+                                                                        borderWidth: 1
+                                                                    }]
+                                                            },
+                                                            // ⑩차트의 설정(Object)
+                                                            options: {
+                                                                // ⑪축에 관한 설정(Object)
+                                                                responsive: false,
+                                                                scales: {
+                                                                    // ⑫y축에 대한 설정(Object)
+                                                                    y: {
+                                                                        // ⑬시작을 0부터 하게끔 설정(최소값이 0보다 크더라도)(boolean)
+                                                                        beginAtZero: true,
+                                                                        ticks: {
+                                                                            stepSize: 1
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                                    </script>
+
+                                                    <script>
+                                                        // 도넛차트 (날짜별 출석 인원) 
+                                                        var chartArea3 = document.getElementById('checkChart').getContext('2d');
+                                                        // 차트를 생성한다.
+                                                        var checkChart = new Chart(chartArea3, {
+                                                            // ①차트의 종류(String)
+                                                            type: 'doughnut',
+                                                            // ②차트의 데이터(Object)
+                                                            data: {
+                                                                // ③x축에 들어갈 이름들(Array)
+                                                                labels: dates,
+                                                                // ④실제 차트에 표시할 데이터들(Array), dataset객체들을 담고 있다.
+                                                                datasets: [{
+                                                                        // ⑤dataset의 이름(String)
+                                                                        label: '# 출석인원',
+                                                                        // ⑥dataset값(Array)
+                                                                        data: [20, 60],
+                                                                        // ⑦dataset의 배경색(rgba값을 String으로 표현)
+                                                                        backgroundColor: [
+                                                                            'rgba(255, 99, 132, 0.2)',
+                                                                            'rgba(54, 162, 235, 0.2)',
+                                                                            'rgba(255, 206, 86, 0.2)',
+                                                                            'rgba(75, 192, 192, 0.2)',
+                                                                            'rgba(153, 102, 255, 0.2)',
+                                                                            'rgba(255, 159, 64, 0.2)'
+                                                                        ],
+                                                                        // ⑧dataset의 선 색(rgba값을 String으로 표현)
+                                                                        borderColor: [
+                                                                            'rgba(255, 99, 132, 1)',
+                                                                            'rgba(54, 162, 235, 1)',
+                                                                            'rgba(255, 206, 86, 1)',
+                                                                            'rgba(75, 192, 192, 1)',
+                                                                            'rgba(153, 102, 255, 1)',
+                                                                            'rgba(255, 159, 64, 1)'
+                                                                        ],
+                                                                        // ⑨dataset의 선 두께(Number)
+                                                                        borderWidth: 1
+                                                                    }]
+                                                            },
+                                                            // ⑩차트의 설정(Object)
+                                                            options: {
+                                                                // ⑪축에 관한 설정(Object)
+                                                                responsive: false,
+                                                                scales: {
+                                                                    // ⑫y축에 대한 설정(Object)
+                                                                    y: {
+                                                                        // ⑬시작을 0부터 하게끔 설정(최소값이 0보다 크더라도)(boolean)
+                                                                        beginAtZero: true,
+                                                                        ticks: {
+                                                                            stepSize: 1
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        });
+                                                    </script>
+                                                </div>
+                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
