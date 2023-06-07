@@ -22,6 +22,8 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,8 +68,12 @@ public class LectureController {
     @Value("${file.surveyInfo_folder}")
     private String surveyInfo_folder;
 
+    @Getter
+    @Setter
+    private int state;
 
-/*
+    private String agree;
+    /*
 =======
 >>>>>>> bb951a485d9c049a5af850e244fe72089b39d0a6
     @GetMapping("lecture/select_lecture")
@@ -106,44 +112,50 @@ public class LectureController {
         model.addAttribute("juso", juso);
         return "lecture/lecture_info";
     }
-  */  
+     */
     @GetMapping("lecture/select_lecture")
-    public String ShowLecInfo(@RequestParam("lecture") int id,@RequestParam(name="state", required=false, defaultValue="2") int state, Model model) {
+    public String ShowLecInfo(@RequestParam("lecture") int id, Model model) {
+        if (session.getAttribute("mento_state") != null) {
+            setState(Integer.parseInt((String) session.getAttribute("mento_state")));
+            //session.removeAttribute("mento_state");
+        }
         String url = "lecture/lecture_info";
         //강의선택했을 때 url 변경해서 여기랑 연결해야할 듯
         //일단 대충 적었긴했는데 강의에 연결된 url을 안고쳐서 안됨
-        if(state==0){//강사, 멘토 모집 페이지
-            url="lecture/lecture_info_mento?state=0";
-        }else if(state==1){
-            url="lecture/lecture_info_mento?state=1";
+        session.setAttribute("lectureId", id);
+        if (getState() == 0 || getState() == 1) {//강사, 멘토 모집 페이지"
+            url = "lecture/lecture_info_mentor";
+            setState(2);
         }
         Lecture lec = new Lecture(dbConfig);
         lec.updateViews(id);
         LectureDto result = lec.SearchlecInfo(id);
- 
+        agree = result.getAgree();
+        
         String[] aryREC = result.getRec_dt().split("%");
         String[] strAryDT;
         List<String> aryDT = new ArrayList<>();
         // 모집기간 포맷
-        String rec = String.format("%s(%s) ~ %s(%s)", aryREC[0],aryREC[1],aryREC[2],aryREC[3]);
-        
+        String rec = String.format("%s(%s) ~ %s(%s)", aryREC[0], aryREC[1], aryREC[2], aryREC[3]);
+
         // 강의 기간 포맷
-        if(result.getDate().contains("@")){
+        if (result.getDate().contains("@")) {
             strAryDT = result.getDate().split("@");
-            for(String str : strAryDT){
+            for (String str : strAryDT) {
                 String[] strSplit = str.split("%");
-                aryDT.add(String.format("%s ~ %s(%s ~ %s)",strSplit[0],strSplit[1],strSplit[2],strSplit[3]));
+                aryDT.add(String.format("%s ~ %s(%s ~ %s)", strSplit[0], strSplit[1], strSplit[2], strSplit[3]));
             }
-        }else{
+        } else {
             strAryDT = result.getDate().split("%");
-            aryDT.add(String.format("%s ~ %s(%s ~ %s)",strAryDT[0],strAryDT[1],strAryDT[2],strAryDT[3]));
+            aryDT.add(String.format("%s ~ %s(%s ~ %s)", strAryDT[0], strAryDT[1], strAryDT[2], strAryDT[3]));
         }
         SearchAddress manager = new SearchAddress(dbConfig);
         String[] juso = manager.checkAddress(id);
-        model.addAttribute("result",result);
+        model.addAttribute("result", result);
         model.addAttribute("rec_date", rec);
         model.addAttribute("lec_date", aryDT);
         model.addAttribute("juso", juso);
+        log.info(url);
         return url;
     }
 
@@ -184,8 +196,8 @@ public class LectureController {
             session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(id)));
         }
         LectureDto lec = (LectureDto) session.getAttribute("lectureinfo");
-        
-        String basePath = ctx.getRealPath(survey_folder) + File.separator + lec.getHost() ;
+
+        String basePath = ctx.getRealPath(survey_folder) + File.separator + lec.getHost();
         String basePath1 = ctx.getRealPath(surveyInfo_folder);
         String basePath2 = ctx.getRealPath(surveyResult_folder) + File.separator + lec.getHost() + File.separator + (String) session.getAttribute("lecture");
 
@@ -300,18 +312,27 @@ public class LectureController {
     public String AddStaff(@RequestParam String date, RedirectAttributes attrs) {
         int id = (int) session.getAttribute("lectureId");
         String userid = (String) session.getAttribute("host");
-        Lecture lec = new Lecture(dbConfig);
-        boolean result = lec.duplicate(userid, date, id);
-        if (result == true) {
-            lec.ApplyLecutre(userid, id, date, 0);
+        if (userid.equals("null")) {
+            attrs.addFlashAttribute("msg", "로그인 후 신청해주세요");
+        } else {
+            Lecture lec = new Lecture(dbConfig);
+            boolean result = lec.duplicate(userid, date, id);
+            if (result == true) {
+                if(agree.equals("선착순 모집")){
+                    lec.ApplyLecutre(userid, id, date, getState(),0);
+                }
+                else if(agree.equals("확인 후 모집")){
+                     lec.ApplyLecutre(userid, id, date, getState(),1);
+                }
+                
 
-            attrs.addFlashAttribute("msg", "강의 신청되었습니다.");
-        }
-        else{
-            attrs.addFlashAttribute("msg", "이미 신청한 강의입니다.");
+                attrs.addFlashAttribute("msg", "강의 신청되었습니다.");
+            } else {
+                attrs.addFlashAttribute("msg", "이미 신청한 강의입니다.");
+            }
         }
 
-        return "redirect:/lecture/select_lecture?lecture="+id;
+        return "redirect:/lecture/select_lecture?lecture=" + id;
     }
     
     @GetMapping("/lecture/lecture_check_mento")

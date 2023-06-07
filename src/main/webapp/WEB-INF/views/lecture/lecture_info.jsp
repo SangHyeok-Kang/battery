@@ -213,7 +213,7 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <c:forEach items="${lec_date}" var="date" varStatus="co">
-                                                        <label class="text-black">${date}</label>
+                                                        <label id="element" class="text-black">${date}</label>
                                                         <c:if test="${not co.end}">
                                                             <br>
                                                         </c:if>
@@ -311,7 +311,8 @@
             const selectBox = document.getElementById('selectBox');
             const cardContainer = document.getElementById('cardContainer');
             const selectOption = document.getElementById('selectOption');
-
+            var date = '${date}';
+            
             if (selectBox.options.length <= 2) { //option이 2개 이하면
                 cardContainer.style.display = 'block'; //보이게
 
@@ -350,6 +351,7 @@
             const cardContainer2 = document.getElementById('cardContainer2');
             const selectOption2 = document.getElementById('selectOption2');
             const submitButton2 = document.getElementById('submitButton2');
+            const dateinfo = '${lec_date[0]}';
 
             selectBox2.addEventListener('change', function () {
                 const selectedValue = selectBox2.value;
@@ -385,7 +387,7 @@
                     cardContainer2.style.display = 'block';
                     selectBox2.style.display = 'none';
                     submitButton2.addEventListener('click', function () {
-                        window.location.href = '#'; // 이동할 URL
+                        window.location.href = "${pageContext.request.contextPath}/lecture/insert_staff.do?date="+dateinfo; // 이동할 URL
                     });
                 } else {
                     cardContainer2.style.display = 'none';
