@@ -588,7 +588,7 @@ public class Lecture {
             Connection conn = ds.getConnection();
             Statement stmt = conn.createStatement();
             stmt = conn.createStatement();
-            String sql = "select * from staffe where userid = '" + userid + "' and date = '" + date + "' and lectureid = " + lectureid;
+            String sql = "select * from regiclass where userid = '" + userid + "' and date = '" + date + "' and lectureid = " + lectureid;
             log.info(sql);
             ResultSet rs = stmt.executeQuery(sql);
 
@@ -608,7 +608,7 @@ public class Lecture {
 
         try {
             Connection conn = ds.getConnection();
-            String sql = "INSERT INTO staffe VALUES(default,?,?,?,?,default)";
+            String sql = "INSERT INTO regiclass VALUES(default,?,?,?,?,default)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setInt(1, lectureid);
