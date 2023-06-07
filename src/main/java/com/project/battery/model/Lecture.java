@@ -582,7 +582,9 @@ public class Lecture {
         return lec;
     }
 
- //강의내역조회
+    //강의 목록 불러오기 - 마이페이지
+    // 데이터 불러오기 완료, 참여구분 신청상태 강의 신청에 따라 변경해야함
+    // 관련 컨트롤러 SystemController mypage()
     public ArrayList<LectureDto> Listlec(String userid) {
 
         ArrayList<LectureDto> lec_list = new ArrayList<LectureDto>();
@@ -591,23 +593,18 @@ public class Lecture {
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
             Statement stmt = conn.createStatement();
-            String sql = "select title, host, date, user_state, enroll_state from lecture l join staffe s on l.lectureid = s.lectureid where s.userid ='" + userid + "'";
-            log.info(sql);
+            String sql = "select l_title, host, date, user_state, enroll_state from lecture lec join regiclass re on lec.lectureid = re.lectureid where re.userid ='" + userid + "'";
             rs = stmt.executeQuery(sql);
+            log.info(sql);
 
             while (rs.next()) {
+                LectureDto lec = new LectureDto();
 
-                String title = rs.getString("l.l_title");
-                String host = rs.getString("l.host");
-                String date = rs.getString("l.l_date");
-                String u_state = rs.getString("s.user_state");
-                String e_state = rs.getString("s.enroll_state");
-                // lec.setLectureid(rs.getInt("l.l_title"));
-//                lec.setTitle(rs.getString("l.host"));
-//                lec.setDate(rs.getString("s.date"));
-//                lec.setUser_state(rs.getString("s.user_state"));
-//                lec.setEnroll_state(rs.getString("s.enroll_state"));
-                LectureDto lec = new LectureDto(title, host, date, u_state, e_state);
+                lec.setTitle(rs.getString("l_title")); // 과목명
+                lec.setHost(rs.getString("host")); // 개설자
+                lec.setDate(rs.getString("date")); // 수강 기간
+                lec.setUser_state(rs.getString("user_state")); // 참여 구분 
+                lec.setEnroll_state(rs.getString("enroll_state")); // 신청 상태
                 lec_list.add(lec);
             }
             rs.close();

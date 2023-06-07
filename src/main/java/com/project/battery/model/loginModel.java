@@ -60,7 +60,7 @@ public class loginModel {
             stmt = conn.createStatement();
             if (chkstate.equals("user")) {
                 sql = "SELECT * FROM userinfo u join address a on u.userid = a.id WHERE userid= '" + userid + "' and password = '" + password + "' and state = 0";
-
+                log.info(sql);
                 ResultSet rs = stmt.executeQuery(sql);
 
                 if (rs.next()) {
