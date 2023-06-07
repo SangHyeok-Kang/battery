@@ -604,10 +604,10 @@ public class Lecture {
         }
     }
     
-    public List<RegiClassDto> getRegiList(HikariConfiguration dbConfig, int lecid){
+    public List<RegiClassDto> getRegiList(int lecid){
         List<RegiClassDto> list= new ArrayList<>();
         String sql = "select regiclassid, username, phone ,birth ,date , user_state, enroll_state from regiclass r join userinfo u on r.userid = u.userid where lectureid=?";
-        ds = dbConfig.dataSource();
+        
         int co=1;
         try {
             ds = dbConfig.dataSource();
@@ -618,13 +618,19 @@ public class Lecture {
             
             while(rs.next()){
                 String regiResult = null;
-                if(rs.getInt("enroll_state")==0){
-                    regiResult = "대기";
-                }else if(rs.getInt("enroll_state")==1){
-                    regiResult = "수락";
-                }else if(rs.getInt("enroll_state")==2){
-                    regiResult = "거절";
-                } 
+                switch (rs.getInt("enroll_state")) {
+                    case 0:
+                        regiResult = "대기";
+                        break;
+                    case 1:
+                        regiResult = "수락";
+                        break; 
+                    case 2:
+                        regiResult = "거절";
+                        break;
+                    default:
+                        break;
+                }
                 list.add(new RegiClassDto(rs.getString("regiclassid"), rs.getString("username"),
                         rs.getString("phone"),rs.getString("birth"), rs.getString("date"),
                         rs.getInt("user_state"),regiResult));
@@ -642,7 +648,7 @@ public class Lecture {
     } 
     
     //강의 신청에 대해 수락, 거절
-    public boolean accept(HikariConfiguration dbConfig,String agree, String id){
+    public boolean accept(String agree, String id){
         boolean succes = false;
         String sql = "update regiclass set enroll_state=? where regiclassid=?";
         

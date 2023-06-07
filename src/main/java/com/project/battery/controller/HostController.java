@@ -124,15 +124,7 @@ public class HostController {
 
 
         /*신청자 정보 불러오기*/
-        List<RegiClassDto> regilist = new Lecture().getRegiList(dbConfig, Integer.parseInt(lecid));
-        
-        model.addAttribute("regiList",regilist);
-
-
-
-
-        /*신청자 정보 불러오기*/
-        List<RegiClassDto> regilist = new Lecture().getRegiList(dbConfig, Integer.parseInt(lecid));
+        List<RegiClassDto> regilist = lec.getRegiList(Integer.parseInt(lecid));
         
        
         /*그래프 불러오기*/
