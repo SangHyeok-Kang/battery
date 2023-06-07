@@ -122,12 +122,19 @@ public class HostController {
         String[] surveyList = survey.surveyList(basePath);
         
 
+
+        /*신청자 정보 불러오기*/
+        List<RegiClassDto> regilist = new Lecture().getRegiList(dbConfig, Integer.parseInt(lecid));
+        
+        model.addAttribute("regiList",regilist);
+
+
+
+
         /*신청자 정보 불러오기*/
         List<RegiClassDto> regilist = new Lecture().getRegiList(dbConfig, Integer.parseInt(lecid));
         
        
-
-         
         /*그래프 불러오기*/
         // 날짜별 신청 인원 
         ChartModel chart = new ChartModel();
@@ -160,7 +167,9 @@ public class HostController {
             rowcounts.add("'" + rowcount + "'");
         }
         
+
        model.addAttribute("regiList",regilist);
+
         model.addAttribute("reviewList",reviewList);
         model.addAttribute("juso",juso);
         model.addAttribute("surveyList", surveyList);

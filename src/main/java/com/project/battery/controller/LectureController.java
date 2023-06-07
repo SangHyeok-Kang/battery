@@ -319,4 +319,5 @@ public class LectureController {
         
         return "lecture/lecture_check_mento";
     }
+    
 }
