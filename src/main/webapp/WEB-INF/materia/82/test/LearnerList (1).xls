@@ -1,0 +1,461 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+//top.location.href="/";
+</script>
+
+
+<style>
+    #loading {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      position: fixed;
+      display: block;
+      opacity: 0.7;
+      background-color: #fff;
+      z-index: 99;
+      text-align: center;
+    }
+
+
+
+    #loading-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 100;
+    }
+</style>
+
+<script type="text/javascript">
+	var loadingYn = "Y";
+</script>
+ 
+<script type="text/javascript">
+	var commonResultMessage = "null";
+	if(commonResultMessage=="" || commonResultMessage=="null") {
+		commonResultMessage = "null";
+	}
+	var localeKey = "ko";
+</script>
+
+<html xml:lang="ko-kr" lang="ko-kr" xmlns="http://www.w3.org/1999/xhtml">
+
+<body>
+
+<form name="learnerForm" method="post" action="/Learner.do">
+		<div id="listBox">
+			<div>
+				<!-- element 부분 -->
+				<dl >
+					<dt>
+						
+							<h4>
+								대학본부 
+								C20203128
+								이수진
+							</h4>
+					</dt>
+					<dd>
+						<table  border="1" summary="수강생학습현황 관련 학생정보입니다.">
+						<caption>학생정보 리스트</caption>
+						<thead>
+							<tr>
+								<th>과 정</th>
+								<th>학 과</th>
+								<th>학 번</th>
+								<th>이 름</th>
+								<th>아이디</th>
+								<!-- <th>이메일</th>
+								<th>전화번호</th> -->
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>정규과정</td> 
+								<td>대학본부</td>
+								<td>C20203128&nbsp;</td>
+								<td>이수진 </td>
+								<td>C20203128</td>
+								<!-- <td>ejqw12@naver.com</td>
+								<td>010-7388-3445</td> -->
+							</tr>
+						</tbody>
+						</table>
+					</dd>
+				</dl>
+				<!-- //element 부분 -->
+				<dl >
+					<dt><h5>공지사항 조회 현황</h5></dt>
+					<dd>
+						<table border="1" class="boardListBasic"  summary="공지사항 조회현황 리스트입니다.">
+						<caption>공지사항 조회현황 리스트</caption>
+							<thead>
+								<tr>
+									<th class="num">번 호</th>
+									<th>게시판명</th>
+									<th>게시글 명</th>
+									<th>조회수</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+									
+									
+									
+									
+									
+									<tr>
+										<td>14</td>
+										<td>공지사항</td>
+										<td class="textLeft">1-6주차 수업 공지</td>
+										<td>2</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>13</td>
+										<td>공지사항</td>
+										<td class="textLeft">5월 29일(월)부터 6월 3(토)일까지 기말고사 기간입니다.</td>
+										<td>0</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>12</td>
+										<td>공지사항</td>
+										<td class="textLeft">LMS 출석 관련 안내 확인 필수</td>
+										<td>0</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>11</td>
+										<td>공지사항</td>
+										<td class="textLeft">5월 29일(월)부터 6월 3일(토)까지 기말고사 기간입니다.</td>
+										<td>0</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>10</td>
+										<td>공지사항</td>
+										<td class="textLeft">5월 29일(월)부터 6월 3(토)일까지 기말고사 기간입니다.</td>
+										<td>0</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>9</td>
+										<td>공지사항</td>
+										<td class="textLeft">5월 29일(월)부터 6월 3(토)일까지 기말고사 기간입니다.</td>
+										<td>0</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>8</td>
+										<td>공지사항</td>
+										<td class="textLeft">5월 29일(월)부터 6월 3(토)일까지 기말고사 기간입니다.</td>
+										<td>0</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>7</td>
+										<td>공지사항</td>
+										<td class="textLeft">4월 10일(월)부터 4월 15(토)일까지 중간고사 기간입니다.</td>
+										<td>0</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>6</td>
+										<td>공지사항</td>
+										<td class="textLeft">4월 10일(월)부터 4월 15(토)일까지 중간고사 기간입니다.</td>
+										<td>0</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>5</td>
+										<td>공지사항</td>
+										<td class="textLeft">4월 10일(월)부터 4월 15(토)일까지 중간고사 기간입니다.</td>
+										<td>0</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>4</td>
+										<td>공지사항</td>
+										<td class="textLeft">4월 10일(월)부터 4월 15(토)일까지 중간고사 기간입니다.</td>
+										<td>0</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>3</td>
+										<td>공지사항</td>
+										<td class="textLeft">5월 29일(월)부터 6월 3(토)일까지 기말고사 기간입니다.</td>
+										<td>0</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>2</td>
+										<td>공지사항</td>
+										<td class="textLeft">5월 29일(월)부터 6월 3(토)일까지 기말고사 기간입니다.</td>
+										<td>0</td>
+									</tr>
+									
+									
+									
+									<tr>
+										<td>1</td>
+										<td>공지사항</td>
+										<td class="textLeft">4월 10일(월)부터 4월 15(토)일까지 중간고사 기간입니다.</td>
+										<td>0</td>
+									</tr>
+									
+								
+								
+								
+							</tbody>
+						</table>
+					</dd>
+					<dt><h5>과제 현황</h5></dt>
+					<dd>
+						<table border="1"  summary="과제현황 리스트입니다.">
+						<caption>과제현황 리스트</caption>
+							<thead>
+								<tr>
+									<th >번 호</th>
+									<th>과제명</th>
+									<th>제출기간</th>
+									<th>제출 여부</th>
+									<th>점 수</th>
+									<th>성적공개</th>
+									<th>성적반영</th>
+									<th>성적공개일자</th>
+								</tr>
+							</thead>
+							<tbody>
+							
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								<tr>
+									<td>2</td>
+									<td class="textLeft">기말고사</td>
+									<td>2023-05-29 (00:00) ~ 2023-06-03 (23:50)</td>
+									
+									
+									
+									<td class="fcBlue">제출</td>
+									
+									
+									
+									
+									<td>
+											
+										-
+									</td>
+									
+									
+									
+									<td class="fcBlue">공 개</td>
+									
+									
+									
+									<td class="fcBlue">공 개</td>
+									
+									
+									<td>2023-06-10 (09:00)</td>
+								</tr>
+							
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								<tr>
+									<td>1</td>
+									<td class="textLeft">중간고사</td>
+									<td>2023-04-10 (00:00) ~ 2023-04-15 (23:50)</td>
+									
+									
+									
+									<td class="fcBlue">제출</td>
+									
+									
+									
+									
+									<td>
+											
+										-
+									</td>
+									
+									
+									
+									<td class="fcBlue">공 개</td>
+									
+									
+									
+									<td class="fcBlue">공 개</td>
+									
+									
+									<td>2023-06-10 (09:00)</td>
+								</tr>
+							
+							
+							</tbody>
+						</table>
+					</dd>
+					<dt><h5>토론 현황</h5></dt>
+					<dd>
+						<table border="1" summary="토론현황 리스트입니다.">
+						<caption>토론현황 리스트</caption>
+							<thead>
+								<tr>
+									<th class="num">번 호</th>
+									<th>토론 주제</th>
+									<th>작성글</th>
+									<th>토론 기간</th>
+									<th>점 수</th>
+									<th>성적공개</th>
+									<th>성적반영</th>
+									<th>성적반영</th>
+									<th>기간 후 조회허용</th>
+									
+								</tr>
+							</thead>
+							<tbody>
+							
+							</tbody>
+						</table>
+					</dd>
+					<dt><h5>시험 현황</h5></dt>
+					<dd>
+						<table border="1"  summary="시험현황 리스트입니다.">
+						<caption>시험현황 리스트</caption>
+							<thead>
+								<tr>
+									<th class="num">번 호</th>
+									<th>시험명</th>
+									<th>시험기간 </th>
+									<th>응시 여부</th>
+									<th>점 수</th>
+									<th>성적공개</th>
+									<th>성적공개일자</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+							</tbody>
+						</table>
+					</dd>
+					<dt><h5>팀 활동 현황</h5></dt>
+					<dd>
+						<table border="1"  summary="팀 활동현황 리스트입니다.">
+						<caption>팀 활동현황 리스트</caption>
+							<thead>
+								<tr>
+									<th class="num">번 호</th>
+
+									<th>소속 팀</th>
+									<th>팀 활동 명</th>
+									<th>활동기간</th>
+									<th>점 수</th>
+									<th>성적공개</th>
+									<th>성적공개일자</th>
+								</tr>
+							</thead>
+							<tbody>
+								 
+								
+								
+								
+							</tbody>
+						</table>
+					</dd>
+					<dt><h5>기타 활동 현황</h5></dt>
+					<dd>
+						<table border="1" summary="기타활동현황 리스트입니다.">
+						<caption>기타활동현황 리스트</caption>
+							<thead>
+								<tr>
+									<th class="num">번 호</th>
+									<th>게시판 명</th>
+									<th>제 목</th>
+									<th>파 일</th>
+									<th>작성일</th>
+									<th>댓 글</th>
+									<th>조회수</th>
+								</tr>
+							</thead>
+							<tbody>
+							
+							
+							
+							<tr>
+								<td colspan="7">검색된 게시글이 없습니다.</td>
+							</tr>
+							
+							</tbody>
+						</table>
+					</dd>
+				</dl>
+			</div>
+		</div>
+</form>
+</body>
+
+</html>

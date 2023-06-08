@@ -9,65 +9,29 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
-<c:if test="${sessionScope.state == 1}">
-    <button class="btn btn-outline-info center" data-toggle="modal" data-target="#insertNotice">공지사항 등록</button>
-    <a href="create_notice">공지사항 등록</a>
-</c:if>
-<div style="overflow-x: auto;">
-    <table class="table text-dark">
-        <thead>
-            <tr>
-                <th scope="col">번호</th>
-                <th scope="col">제목</th>
-                <th scope="col">작성자</th>
-                <th scope="col">날짜</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:forEach items="${notice_list}" var="list" >
-                <tr>
-                    <td>${list.getCo()}</td>
-                    <td><a href="show_notice?id=${list.getCo()}">${list.getTitle()}</a></td>
-                    <td>${list.getDate()}</td>
-                    <td>${list.getWriter()}</td>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-</div>
-
-<!--공지사항 등록 모달-->
-<div class="modal fade" id="insertNotice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">공지사항 등록</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="table-responsive">
-                <form action="insert_notice.do" method="POST" enctype="multipart/form-data">
-                    <div class="modal-body m-2">
-
-                        <h3>제목</h3>
-                        <input type="text" name="title" maxlength="5" required>
-                        <hr/>
-                        <h3>본문</h3>
-                        <textarea name="text" cols="50" rows="10" wrap="hard" style="resize: none;" required></textarea><br>
-                        <input type="file" name="file" style="border: solid 1px gray"/>
-                        <hr/>
-                  
-
-                    </div>
-                    <div class="modal-footer m-2">
-                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                        <button class="btn btn-primary" type="submit">등록하기</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
+<table class="table">
+    <thead>
+    <colgroup>
+        <col style="width: 10%;">
+        <col style="width: 60%;">
+        <col style="width: 10%;">
+        <col style="width: 20%;">
+    </colgroup>
+    <tr>
+        <th class="text-center">번호</th>
+        <th class="text-center">제목</th>
+        <th class="text-center">작성자</th>
+        <th class="text-center">날짜</th>
+    </tr>
+</thead>
+<tbody>
+    <c:forEach items="${notice_list}" var="list" >
+        <tr>
+            <td class="text-center">${list.getCo()}</td>
+            <td><a href="show_notice?id=${list.getCo()}">${list.getTitle()}</a></td>
+            <td class="text-center">${list.getWriter()}</td>
+            <td class="text-center">${list.getDate()}</td>
+        </tr>
+    </c:forEach>
+</tbody>
+</table>

@@ -27717,15 +27717,3 @@ pre[class*="language-"] {
   background-color: var(--bs-gray-600);
   transform: translateX(50%);
 }
-
-#kakao{
-  border: 0;
-  background-color: none;
-  padding: 0;
-  box-shadow: 0 3px 3px 0 rgba(236, 225, 14, 0.15), 0 3px 1px -2px rgba(236, 225, 14, 0.2), 0 1px 5px 0 rgba(236, 225, 14, 0.15);
-  transition: box-shadow 0.2s ease-in-out;
-}
-
-#kakao:hover{
-  box-shadow: 0 14px 26px -12px rgba(236, 225, 14, 0.4), 0 4px 23px 0 rgba(236, 225, 14, 0.15), 0 8px 10px -5px rgba(236, 225, 14, 0.2);
-}

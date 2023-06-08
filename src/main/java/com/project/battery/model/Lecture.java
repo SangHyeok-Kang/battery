@@ -312,7 +312,7 @@ public class Lecture {
             String[] strAry = str.split("%");
 
             buffer.append("<div class=\"swiper-slide\">"
-                    + "<div class =\"card_thumbnail\">"
+                    + "<div class =\"card thumbnail\">"
                     + " <a href=\"lecture/select_lecture?lecture=" + list.get(i).getLectureid() + "\">"
                     + " <img src=\"resource/thumbnail/" + list.get(i).getThumbnail() + "\"></a>"
                     + "</div>"
@@ -643,7 +643,7 @@ public class Lecture {
     
     public List<RegiClassDto> getRegiList(int lecid){
         List<RegiClassDto> list= new ArrayList<>();
-        String sql = "select regiclassid, username, phone ,birth ,date , user_state, enroll_state from regiclass r join userinfo u on r.userid = u.userid where lectureid=?";
+        String sql = "select regiclassid,u.userid as id, username, phone ,birth ,date , user_state, enroll_state from regiclass r join userinfo u on r.userid = u.userid where lectureid=?";
         
         try {
             ds = dbConfig.dataSource();
@@ -669,7 +669,7 @@ public class Lecture {
                 }
                 list.add(new RegiClassDto(rs.getString("regiclassid"), rs.getString("username"),
                         rs.getString("phone"),rs.getString("birth"), rs.getString("date"),
-                        rs.getInt("user_state"),regiResult));
+                        rs.getInt("user_state"),regiResult, rs.getString("id")));
             }
             Collections.reverse(list);
             if (conn != null) {conn.close();}

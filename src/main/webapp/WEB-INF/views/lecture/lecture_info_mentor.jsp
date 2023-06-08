@@ -22,7 +22,7 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c5385b2bd1d614d808c86f0bb4257bc4&libraries=services"></script>
         <!-- favicon ?????? -->
         <link rel="apple-touch-icon" sizes="76x76" href="assets/img/ssac.png">
         <link rel="icon" type="image/png" href="assets/img/ssac.png">
@@ -147,7 +147,7 @@
                     </div>
                 </div>
             </div>
-                                <div class="row">
+            <div class="row">
                 <!--nav & tab-->
                 <div class="col-md-11 col-lg-8 mt-4">
                     <!-- 탭 목록-->
@@ -160,307 +160,306 @@
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="location-tab" data-bs-toggle="tab"
-                                    data-bs-target="#location-tab-pane" type="button" role="tab"
-                                    aria-controls="location-tab" aria-selected="false">
-                                위치
+                            <button class="nav-link" id="location-tab" onclick="location.href='#map'">
+                                위치                              
                             </button>
                         </li>
                     </ul>
-            <!--탭 목록 속 내용-->
-            <div class="tab-content mb-10" id="myTabContent">
-                <!--강의 설명 속 내용-->
-                <div class="tab-pane fade show active mt-3" id="home-tab-pane" role="tabpanel"
-                     aria-labelledby="home-tab" tabindex="0">
-                    <!--<div class="table-responsive">-->
-                    <table class="table col-md-11 col-lg-8 mt-4" width="100%" cellspacing="0">
-                        <colgroup>
-                            <col style="width: 20%;">
-                            <col style="width: 80%;">
-                        </colgroup>
-                        <tbody>
-                            <tr>
-                                <th scope="row">
-                                    <label class="text-black">모집기간</label>
-                                </th>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="text-black">${rec_date}</label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label class="text-black">모집유형</label>
-                                </th>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="text-black">${result.getAgree()}</label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label class="text-black">강의기간</label>
-                                </th>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <c:forEach items="${lec_date}" var="date" varStatus="co">
-                                                <label class="text-black">${date}</label>
-                                                <c:if test="${not co.end}">
-                                                    <br>
-                                                </c:if>
-                                            </c:forEach>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label class="text-black">강의대상</label>
-                                </th>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="text-black">${result.getRec_target()}</label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label class="text-black">Keyword</label>
-                                </th>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="text-black">${result.getKeyword()}</label>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <label class="text-black">강의 내용</label>
-                                </th>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label class="text-black">${result.getText()}</label>
-                                        </div>
+                    <!--탭 목록 속 내용-->
+                    <div class="tab-content mb-10" id="myTabContent">
+                        <!--강의 설명 속 내용-->
+                        <div class="tab-pane fade show active mt-3" id="home-tab-pane" role="tabpanel"
+                             aria-labelledby="home-tab" tabindex="0">
+                            <!--<div class="table-responsive">-->
+                            <table class="table col-md-11 col-lg-8 mt-4" width="100%" cellspacing="0">
+                                <colgroup>
+                                    <col style="width: 20%;">
+                                    <col style="width: 80%;">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            <label class="text-black">모집기간</label>
+                                        </th>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="text-black">${rec_date}</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <label class="text-black">모집유형</label>
+                                        </th>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="text-black">${result.getAgree()}</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <label class="text-black">강의기간</label>
+                                        </th>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <c:forEach items="${lec_date}" var="date" varStatus="co">
+                                                        <label class="text-black">${date}</label>
+                                                        <c:if test="${not co.end}">
+                                                            <br>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <label class="text-black">강의대상</label>
+                                        </th>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="text-black">${result.getRec_target()}</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <label class="text-black">Keyword</label>
+                                        </th>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="text-black">${result.getKeyword()}</label>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <label class="text-black">강의 내용</label>
+                                        </th>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label class="text-black">${result.getText()}</label>
+                                                </div>
 
-                                    </div>
-                                </td>
+                                            </div>
+                                        </td>
 
-                            </tr>
-                            <tr></tr>
-                        </tbody>
-                    </table>
-                    <!--</div>-->
-                    <c:if test="${not result.getText_image() eq null}">
-                        <img class="w-100" src = "../resource/text_image/${result.getText_image()}"/>
-                    </c:if>
-                </div>
+                                    </tr>
+                                    <tr></tr>
+                                </tbody>
+                            </table>
+                            <!--</div>-->
+                            <c:if test="${not result.getText_image() eq null}">
+                                <img class="w-100" src = "../resource/text_image/${result.getText_image()}"/>
+                            </c:if>
+                            <table class="table col-md-11 col-lg-8 mt-4" width="100%" cellspacing="0">
+                                <colgroup>
+                                    <col style="width: 20%;">
+                                    <col style="width: 80%;">
+                                </colgroup>
+                                <tr>
+                                    <th scope="row">
+                                        <label class="text-black">주소</label>
+                                    </th>
+                                    <td>
+                                        <label class="text-black" for="address">${juso[0]} ${juso[2]}</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">
+                                        <label class="text-black">상세주소</label>
+                                    </th>
+                                    <td>
+                                        <label class="text-black" for="addressdetail">${juso[1]}</label>
+                                    </td>
+                                </tr>
+                                <tr></tr>
+                            </table>
+                            <div class="w-100 height-500">
+                                <div id="map" class="w-100 h-100 z-index-1" ></div>
+                            </div>
+                        </div>
 
-                <!--위치 속 내용-->
-                <div class="tab-pane fade mt-3 w-100 h-100" id="location-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
-                     tabindex="0">
-                    <table class="table col-md-11 col-lg-8 mt-4" width="100%" cellspacing="0">
-                        <colgroup>
-                            <col style="width: 20%;">
-                            <col style="width: 80%;">
-                        </colgroup>
-                        <tr>
-                            <th scope="row">
-                                <label class="text-black">주소</label>
-                            </th>
-                            <td>
-                                <label class="text-black" for="address">${juso[0]} ${juso[2]}</label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <label class="text-black">상세주소</label>
-                            </th>
-                            <td>
-                                <label class="text-black" for="addressdetail">${juso[1]}</label>
-                            </td>
-                        </tr>
-                        <tr></tr>
-                    </table>
-                    <div class="w-100 height-500">
-                        <div id="map" class="w-100 h-100 z-index-1" ></div>
+                        <!--위치 속 내용-->
+                        <!-- <div class="tab-pane fade mt-3 w-100 h-100" id="location-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                              tabindex="0">
+ 
+                         </div>-->
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Modal -->
-        <!-- 소스 코드 위치 바뀌면 안됨. 다른 div에 안묶이게 해야 함-->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-             data-bs-backdrop="static">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">이력서 제출</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="file" name="resume"/>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">닫기</button>
-                        <button type="button" onclick="doAction()" class="btn btn-info">제출하기</button>
-                        <script>
-                            function doAction(){
-                                const dateinfo = '${lec_date[0]}';
-                                location.href = "${pageContext.request.contextPath}/lecture/insert_staff.do?date="+dateinfo;
-                            }
-                        </script>
+                <!-- Modal -->
+                <!-- 소스 코드 위치 바뀌면 안됨. 다른 div에 안묶이게 해야 함-->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                     data-bs-backdrop="static">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">이력서 제출</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="file" name="resume"/>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">닫기</button>
+                                <button type="button" onclick="doAction()" class="btn btn-info">제출하기</button>
+                                <script>
+                                    function doAction() {
+                                        const dateinfo = '${lec_date[0]}';
+                                        location.href = "${pageContext.request.contextPath}/lecture/insert_staff.do?date=" + dateinfo;
+                                    }
+                                </script>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-    </body>
-    <script>
-        //창 작을때
-        var selectBox = document.getElementById("selectBox");
-        var cardContainer = document.getElementById("cardContainer");
-        var applyButton = document.getElementById("applyButton");
-        const selectOption = document.getElementById('selectOption');
+                </body>
+                <script>
+                    //창 작을때
+                    var selectBox = document.getElementById("selectBox");
+                    var cardContainer = document.getElementById("cardContainer");
+                    var applyButton = document.getElementById("applyButton");
+                    const selectOption = document.getElementById('selectOption');
 
-        selectBox.addEventListener("change", function () {
-            if (selectBox.value !== "none") {
-                cardContainer.style.display = "block";
-                applyButton.disabled = false;
-            } else {
-                cardContainer.style.display = "none";
-                applyButton.disabled = true;
-            }
-        });
-
-        if (selectBox.length <= 2) {
-            cardContainer.style.display = "block";
-            selectBox.style.display = "none";
-            applyButton.disabled = false;
-
-        }
-
-        selectBox.addEventListener("change", function () {
-            if (selectBox.value !== "none") {
-                cardContainer.style.display = "block";
-                applyButton.disabled = false;
-            } else {
-                cardContainer.style.display = "none";
-                applyButton.disabled = true;
-            }
-        });
-
-        if (selectBox.length <= 2) {
-            cardContainer.style.display = "block";
-        }
-
-        selectBox.addEventListener("change", function () {
-            if (selectBox.value !== "none") {
-                cardContainer.style.display = "block";
-                applyButton.disabled = false;
-            } else {
-                cardContainer.style.display = "none";
-                applyButton.disabled = true;
-            }
-        });
-
-        if (selectBox.length <= 2) {
-            cardContainer.style.display = "block";
-        }
-
-        //창 클때
-        var selectBox2 = document.getElementById("selectBox2");
-        var cardContainer2 = document.getElementById("cardContainer2");
-        var applyButton2 = document.getElementById("applyButton2");
-        const selectOption2 = document.getElementById('selectOption2');
-        const submitButton2 = document.getElementById('submitButton2');
-
-        selectBox2.addEventListener("change", function () {
-            if (selectBox2.value !== "none") {
-                cardContainer2.style.display = "block";
-                applyButton2.disabled = false;
-                selectOption2.innerHTML = selectBox2.value;
-            } else {
-                cardContainer2.style.display = "none";
-                applyButton2.disabled = true;
-            }
-        });
-
-        if (selectBox2.length <= 2) {
-            selectBox2.style.display = "none";
-        }
-
-        selectBox2.addEventListener("change", function () {
-            if (selectBox2.value !== "none") {
-                cardContainer2.style.display = "block";
-                applyButton2.disabled = false;
-            } else {
-                cardContainer2.style.display = "none";
-                applyButton2.disabled = true;
-            }
-        });
-
-        if (selectBox2.length <= 2) {
-            cardContainer2.style.display = "block";
-            applyButton2.disabled = false;
-        }
-        //const myModal = new bootstrap.Modal(document.getElementById('myModal'), options)
-
-        //주소 받기
-        var address = `${juso[0]} ${juso[1]}${juso[2]}`;
-       
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-                mapOption = {
-                    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-                    level: 3 // 지도의 확대 레벨
-                };
-
-            // 지도를 생성합니다    
-            var map = new kakao.maps.Map(mapContainer, mapOption);
-
-            // 주소-좌표 변환 객체를 생성합니다
-            var geocoder = new kakao.maps.services.Geocoder();
-
-            // 주소로 좌표를 검색합니다
-            geocoder.addressSearch(
-                    address,
-                    function (result, status) {
-
-                        // 정상적으로 검색이 완료됐으면 
-                        if (status === kakao.maps.services.Status.OK) {
-
-                            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-                            // 결과값으로 받은 위치를 마커로 표시합니다
-                            var marker = new kakao.maps.Marker({
-                                map: map,
-                                position: coords
-                            });
-
-                            // 인포윈도우로 장소에 대한 설명을 표시합니다
-                            var infowindow = new kakao.maps.InfoWindow();
-                            infowindow.open(map);
-
-                            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                            map.setCenter(coords);
+                    selectBox.addEventListener("change", function () {
+                        if (selectBox.value !== "none") {
+                            cardContainer.style.display = "block";
+                            applyButton.disabled = false;
+                        } else {
+                            cardContainer.style.display = "none";
+                            applyButton.disabled = true;
                         }
-                    }
-            );
-    </script>
-    <!--bootstrap-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
+                    });
 
-</html>
+                    if (selectBox.length <= 2) {
+                        cardContainer.style.display = "block";
+                        selectBox.style.display = "none";
+                        applyButton.disabled = false;
+
+                    }
+
+                    selectBox.addEventListener("change", function () {
+                        if (selectBox.value !== "none") {
+                            cardContainer.style.display = "block";
+                            applyButton.disabled = false;
+                        } else {
+                            cardContainer.style.display = "none";
+                            applyButton.disabled = true;
+                        }
+                    });
+
+                    if (selectBox.length <= 2) {
+                        cardContainer.style.display = "block";
+                    }
+
+                    selectBox.addEventListener("change", function () {
+                        if (selectBox.value !== "none") {
+                            cardContainer.style.display = "block";
+                            applyButton.disabled = false;
+                        } else {
+                            cardContainer.style.display = "none";
+                            applyButton.disabled = true;
+                        }
+                    });
+
+                    if (selectBox.length <= 2) {
+                        cardContainer.style.display = "block";
+                    }
+
+                    //창 클때
+                    var selectBox2 = document.getElementById("selectBox2");
+                    var cardContainer2 = document.getElementById("cardContainer2");
+                    var applyButton2 = document.getElementById("applyButton2");
+                    const selectOption2 = document.getElementById('selectOption2');
+                    const submitButton2 = document.getElementById('submitButton2');
+
+                    selectBox2.addEventListener("change", function () {
+                        if (selectBox2.value !== "none") {
+                            cardContainer2.style.display = "block";
+                            applyButton2.disabled = false;
+                            selectOption2.innerHTML = selectBox2.value;
+                        } else {
+                            cardContainer2.style.display = "none";
+                            applyButton2.disabled = true;
+                        }
+                    });
+
+                    if (selectBox2.length <= 2) {
+                        selectBox2.style.display = "none";
+                    }
+
+                    selectBox2.addEventListener("change", function () {
+                        if (selectBox2.value !== "none") {
+                            cardContainer2.style.display = "block";
+                            applyButton2.disabled = false;
+                        } else {
+                            cardContainer2.style.display = "none";
+                            applyButton2.disabled = true;
+                        }
+                    });
+
+                    if (selectBox2.length <= 2) {
+                        cardContainer2.style.display = "block";
+                        applyButton2.disabled = false;
+                    }
+                    //const myModal = new bootstrap.Modal(document.getElementById('myModal'), options)
+
+                    //주소 받기
+                    var address = `${juso[0]} ${juso[1]}${juso[2]}`;
+
+                        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                                mapOption = {
+                                    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                                    level: 3 // 지도의 확대 레벨
+                                };
+
+                        // 지도를 생성합니다    
+                        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+                        // 주소-좌표 변환 객체를 생성합니다
+                        var geocoder = new kakao.maps.services.Geocoder();
+
+                        // 주소로 좌표를 검색합니다
+                        geocoder.addressSearch(
+                                address,
+                                function (result, status) {
+
+                                    // 정상적으로 검색이 완료됐으면 
+                                    if (status === kakao.maps.services.Status.OK) {
+
+                                        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                                        // 결과값으로 받은 위치를 마커로 표시합니다
+                                        var marker = new kakao.maps.Marker({
+                                            map: map,
+                                            position: coords
+                                        });
+
+                                        // 인포윈도우로 장소에 대한 설명을 표시합니다
+                                        var infowindow = new kakao.maps.InfoWindow();
+                                        infowindow.open(map);
+
+                                        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                                        map.setCenter(coords);
+                                    }
+                                }
+                        );
+                </script>
+                <!--bootstrap-->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+                </body>
+
+                </html>

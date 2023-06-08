@@ -27,7 +27,7 @@
         <!-- Custom styles for this template-->
         <link href="${pageContext.request.contextPath}/assets/css/sb-admin-2.css" rel="stylesheet">
         <script src="${pageContext.request.contextPath}/js/lecture.js" ></script>
-        <title>JSP Page</title>
+        <title>설문 하기</title>
     </head>
     <body>
         <%@include file="../header.jspf" %>
