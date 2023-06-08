@@ -213,7 +213,7 @@ public class loginModel {
         try {
             Connection conn = ds.getConnection();
             if (state == 0) {
-                String sql = "UPDATE userinfo SET state = 1 WHERE userid = '?'";
+                String sql = "UPDATE userinfo SET state = 1 WHERE userid = ?";
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, userid);
                 log.info(sql);
@@ -222,7 +222,7 @@ public class loginModel {
                 pstmt.close();
                 conn.close();
                 
-            }else{
+            }else if(state == 1){
                 String sql = "UPDATE business_info SET state = 1 WHERE business_id = ?";
                 PreparedStatement pstmt = conn.prepareStatement(sql);
                 pstmt.setString(1, userid);

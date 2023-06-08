@@ -40,6 +40,40 @@
     <%@include file="header.jspf" %>
     <body>
         <div class="container m-5 mx-auto">
+            <script>
+          
+            function validate() {
+                var re = /^[a-zA-Z0-9]{4,12}$/
+                var re2 = /^[0-9]{4,4}$/;               
+                var re4 = /^[A-Za-z0-9]{8,16}$/;
+
+               
+                var pw2 = document.getElementById("newpassword");
+                var ph1 = document.getElementById("phone2");
+                var ph2 = document.getElementById("phone3");               
+
+                
+                 if (!check(re4, pw2, "비밀번호는 8~16자의 영문 대소문자와 숫자로만 입력")) {
+                    return false;
+                }
+                if (!check(re2, ph1, "전화번호는 숫자로만 입력할 수 있으며 4자리를 입력")) {
+                    return false;
+                }
+                if (!check(re2, ph2, "전화번호는 숫자로만 입력할 수 있으며 4자리를 입력")) {
+                    return false;
+                }
+                document.getElementById('keyword').value = document.getElementById('selectedSubcategories').innerText;
+                sessionStorage.removeItem("user");
+                function check(re, what, message) {
+                    if (re.test(what.value)) {
+                        return true;
+                    }
+                    alert(message);
+                    what.value = "";
+                    what.focus();
+                }
+            }
+        </script>
             <h5>마이페이지</h5>
 
 
@@ -183,14 +217,14 @@
                                             <!--전화번호 중간 4자리-->
                                             <div class="input-group input-group-outline">
                                                 <input type="text" id="phone2" name="phone2" class="form-control" maxlength="4" onKeydown="this.value = this.value.replace(/[^0-9]/g, '');"
-                                                       required>
+                                                      value =${phone2} required>
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-12 pb-2">
                                             <!--전화번호 끝 4자리-->
                                             <div class="input-group input-group-outline">
                                                 <input type="text" id="phone3" name="phone3" class="form-control" maxlength="4" onKeydown="this.value = this.value.replace(/[^0-9]/g, '');"
-                                                       required>
+                                                       value=${phone3} required>
                                             </div>
                                         </div>
                                     </div>
@@ -353,31 +387,15 @@
                                         <tbody class="table-group-divider">
                                             <tr onClick="location.href = '#'" style="cursor:pointer;"
                                                 onMouseover="this.style.color = '#1A73E8';" onMouseout="this.style.color = '#344767'";>
+                                                <c:forEach  var="lec" items="${lecList}" >
                                                 <th scope="row">1</th>
-                                                <td class="text-ellipsis">강의명 동적으로 불러오기</td>
-                                                <td class="text-ellipsis">개설자 동적으로 불러오기</td>
-                                                <td class="text-ellipsis">수강기간 동적으로 불러오기</td>
-                                                <td class="text-ellipsis">참여구분 동적으로 불러오기</td>
-                                                <td class="text-ellipsis">신청상태 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">${lec.title}</td>
+                                                <td class="text-ellipsis">${lec.host}</td>
+                                                <td class="text-ellipsis">${lec.date}</td>
+                                                <td class="text-ellipsis">${lec.user_state}</td>
+                                                <td class="text-ellipsis">${lec.enroll_state}</td>
                                             </tr>
-                                            <tr onClick="location.href = '#'" style="cursor:pointer;"
-                                                onMouseover="this.style.color = '#1A73E8';" onMouseout="this.style.color = '#344767'";>
-                                                <th scope="row">2</th>
-                                                <td class="text-ellipsis">강의명 동적으로 불러오기</td>
-                                                <td class="text-ellipsis">개설자 동적으로 불러오기</td>
-                                                <td class="text-ellipsis">수강기간 동적으로 불러오기</td>
-                                                <td class="text-ellipsis">참여구분 동적으로 불러오기</td>
-                                                <td class="text-ellipsis">신청상태 동적으로 불러오기</td>
-                                            </tr>
-                                            <tr onClick="location.href = '#'" style="cursor:pointer;"
-                                                onMouseover="this.style.color = '#1A73E8';" onMouseout="this.style.color = '#344767'";>
-                                                <th scope="row">3</th>
-                                                <td class="text-ellipsis">강의명 동적으로 불러오기</td>
-                                                <td class="text-ellipsis">개설자 동적으로 불러오기</td>
-                                                <td class="text-ellipsis">수강기간 동적으로 불러오기</td>
-                                                <td class="text-ellipsis">참여구분 동적으로 불러오기</td>
-                                                <td class="text-ellipsis">신청상태 동적으로 불러오기</td>
-                                            </tr><tr></tr>
+                                            </c:forEach><tr></tr>
                                         </tbody>
                                     </table>
                                 </div>
