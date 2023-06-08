@@ -69,7 +69,7 @@
   --bs-border-radius-2xl: 1rem;
   --bs-border-radius-pill: 50rem;
   --bs-heading-color: #000000;
-  --bs-link-color: #e91e63;
+  --bs-link-color: #1A73E8;
   --bs-link-hover-color: #1A73E8;
   --bs-code-color: #d63384;
   --bs-highlight-bg: #fcf8e3;
@@ -2454,7 +2454,7 @@ progress {
 }
 
 .table {
-  --bs-table-color: #7b809a;
+  --bs-table-color: var(--bs-dark);
   --bs-table-bg: transparent;
   --bs-table-border-color: #f0f2f5;
   --bs-table-accent-bg: transparent;
@@ -4526,6 +4526,10 @@ fieldset:disabled .btn {
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
 }
 
+.nav-link.active{
+    color:var(--bs-info);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .nav-link {
     transition: none;
@@ -5120,7 +5124,7 @@ fieldset:disabled .btn {
 
 .navbar-dark {
   --bs-navbar-color: rgba(255, 255, 255, 0.85);
-  --bs-navbar-hover-color: rgba(255, 255, 255, 0.75);
+  --bs-navbar-hover-color: var(--bs-info);
   --bs-navbar-disabled-color: rgba(255, 255, 255, 0.25);
   --bs-navbar-active-color: #fff;
   --bs-navbar-brand-color: #fff;
