@@ -311,13 +311,13 @@
             const selectBox = document.getElementById('selectBox');
             const cardContainer = document.getElementById('cardContainer');
             const selectOption = document.getElementById('selectOption');
-            var date = '${date}';
+            const dateinfo = '${lec_date[0]}';
             
             if (selectBox.options.length <= 2) { //option이 2개 이하면
                 cardContainer.style.display = 'block'; //보이게
 
                 showSelectButton.addEventListener('click', function () {
-                    window.location.href = '#'; //이동할 페이지 링크 걸면 됨
+                    window.location.href = "${pageContext.request.contextPath}/lecture/insert_staff.do?date="+dateinfo //이동할 페이지 링크 걸면 됨
                 });
             } else { //option이 3개 이상인 경우
                 showSelectButton.addEventListener('click', function () {
@@ -351,7 +351,7 @@
             const cardContainer2 = document.getElementById('cardContainer2');
             const selectOption2 = document.getElementById('selectOption2');
             const submitButton2 = document.getElementById('submitButton2');
-            const dateinfo = '${lec_date[0]}';
+            
 
             selectBox2.addEventListener('change', function () {
                 const selectedValue = selectBox2.value;
