@@ -40,42 +40,6 @@
     <%@include file="header.jspf" %>
     <body>
         <div class="container m-5 mx-auto">
-            <script>
-          
-            function validate() {
-                var re = /^[a-zA-Z0-9]{4,12}$/
-                var re2 = /^[0-9]{4,4}$/;               
-                var re4 = /^[A-Za-z0-9]{8,16}$/;
-
-                var pw = document.getElementById("currentPassword");
-                var pw2 = document.getElementById("newpassword");
-                var ph1 = document.getElementById("phone2");
-                var ph2 = document.getElementById("phone3");               
-
-                if (!check(re4, pw, "비밀번호는 8~16자의 영문 대소문자와 숫자로만 입력")) {
-                    return false;
-                }
-                 if (!check(re4, pw2, "비밀번호는 8~16자의 영문 대소문자와 숫자로만 입력")) {
-                    return false;
-                }
-                if (!check(re2, ph1, "전화번호는 숫자로만 입력할 수 있으며 4자리를 입력")) {
-                    return false;
-                }
-                if (!check(re2, ph2, "전화번호는 숫자로만 입력할 수 있으며 4자리를 입력")) {
-                    return false;
-                }
-                document.getElementById('keyword').value = document.getElementById('selectedSubcategories').innerText;
-                sessionStorage.removeItem("user");
-                function check(re, what, message) {
-                    if (re.test(what.value)) {
-                        return true;
-                    }
-                    alert(message);
-                    what.value = "";
-                    what.focus();
-                }
-            }
-        </script>
             <h5>마이페이지</h5>
 
 
@@ -90,16 +54,16 @@
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="location-tab" data-bs-toggle="tab"
-                            data-bs-target="#location-tab-pane" type="button" role="tab"
-                            aria-controls="location-tab" aria-selected="false">
+                    <button class="nav-link" id="list-tab" data-bs-toggle="tab"
+                            data-bs-target="#list-tab-pane" type="button" role="tab"
+                            aria-controls="list-tab-pane" aria-selected="false">
                         강의 목록
                     </button>
                 </li>
             </ul>
 
             <!--탭 목록 속 내용-->
-            <div class="tab-content mb-10" id="myTabContent2">
+            <div class="tab-content" id="myTabContent2">
                 <!--회원정보 수정 속 내용-->
                 <div class="tab-pane fade show active mt-3" id="home-tab-pane" role="tabpanel"
                      aria-labelledby="home-tab" tabindex="0">
@@ -123,7 +87,7 @@
                                     </div>
                                 </td>
                             </tr>
-                        <form method="POST" onsubmit="return validate();" role="form" action="changeInfo.do">
+                        <form method="POST" role="form" action="changeInfo.do">
                             <tr>
                                 <th scope="row">
                                     <label for="password" class="text-black">현재 비밀번호</label>
@@ -244,7 +208,7 @@
                                             </div>
                                         </div>
                                         <div class="col-auto pb-2">
-                                            <button type="button" class="btn btn-outline-info"
+                                            <button type="button" class="btn btn-outline-info btn-sm mt-1"
                                                     onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
                                         </div>
                                         <div class="col-md-7 pb-2">
@@ -269,71 +233,93 @@
                                 </td>
                             </tr>
                             <tr>
-                    </table>
-                    <div class="d-flex justify-content-center">
-                    <input type="submit" class="btn btn-sm btn-outline-info me-2" value = "수정하기">                       
-                    </form>
-                    <button type="button" class="btn btn-sm btn-outline-danger me-2" onclick="doAction(0)">탈퇴하기</button>
-                    <button type="button" class="btn btn-sm btn-outline-none" onclick="doAction(1)">뒤로가기</button>
-                </div>
+                                </table>
+                            <div class="d-flex justify-content-center">
+                                <input type="submit" class="btn btn-outline-info me-2" value = "수정하기">
+                                </form>
+                                <button type="button" class="btn btn-outline-danger me-2" onclick="doAction(0)">탈퇴하기</button>
+                                <button type="button" class="btn btn-outline-none" onclick="doAction(1)">뒤로가기</button>
+                            </div>
+                            </div>
+                            </div>
 
-                </div>
 
-                <!--강의 목록 속 내용-->
-                <div class="tab-pane fade mt-3 w-100 h-100" id="location-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
-                     tabindex="0">
-                    sdaf
-                    <br><br>
-             <h4> 강의내역조회 </h4>
-                <table border="1">
-                    <th>과목명</th>
-                    <th>개설자</th>                                         
-                    <th>수강 기간</th>
-                    <th>참여 구분</th>
-                    <th>신청 상태</th>
-                        <c:forEach  var="lec" items="${lecList}" >
-                        <tr align="center">
-                            <td>${lec.title}</td>
-                            <td>${lec.host}</td>
-                            <td>${lec.date}</td>                           
-                            <td>${lec.user_state}</td> 
-                            <td>${lec.enroll_state}</td>                                                                                     
-                        </tr>
-                    </c:forEach>
-                    <%--
-                        
-                    --%>
-                </table>
-                </div>
-            </div>
-        </div>
-    </body>
-    <script>
-        function checkReg(event) {
-            const regExp = /[^0-9]/g; // 숫자만 허용
-            //   const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
-            const del = event.target;
-            if (regExp.test(del.value)) {
-                del.value = del.value.replace(regExp, '');
-            }
-        }
-        ;
-    </script>
-    <script>
-        function doAction(event) {
-            if (event == 1) {
-                const link = '${pageContext.request.contextPath}';
-                location.href = link;
-            } else {
-                const link = '${pageContext.request.contextPath}/delUser.do';
-                location.href = link;
-            }
-        }
-    </script>
-    <script src="./assets/material-kit.min.js?v=3.0.4" type="text/javascript"></script> <!--이거 있어야 입력 폼 애니메이션 들어감-->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/info.js" ></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
-    crossorigin="anonymous"></script>
-</html>
+
+
+                            <!--강의 목록 속 내용-->
+                            <div class="tab-pane fade show active mt-3" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab"
+                                 tabindex="0">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">강의명</th>
+                                            <th scope="col">개설자</th>
+                                            <th scope="col">수강기간</th>
+                                            <th scope="col">참여구분</th>
+                                            <th scope="col">신청상태</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                        <!--강의실 링크 걸기-->
+                                        <tr onClick="location.href='#'" style="cursor:pointer;"
+                                            onMouseover="this.style.color='#1A73E8';" onMouseout="this.style.color='#344767'";>
+                                            <th scope="row">1</th>
+                                            <td>강의명 동적으로 불러오기</td>
+                                            <td>개설자 동적으로 불러오기</td>
+                                            <td>수강기간 동적으로 불러오기</td>
+                                            <td>참여구분 동적으로 불러오기</td>
+                                            <td>신청상태 동적으로 불러오기</td>
+                                        </tr>
+                                        <tr onClick="location.href='#'" style="cursor:pointer;"
+                                            onMouseover="this.style.color='#1A73E8';" onMouseout="this.style.color='#344767'";>
+                                            <th scope="row">2</th>
+                                            <td>강의명 동적으로 불러오기</td>
+                                            <td>개설자 동적으로 불러오기</td>
+                                            <td>수강기간 동적으로 불러오기</td>
+                                            <td>참여구분 동적으로 불러오기</td>
+                                            <td>신청상태 동적으로 불러오기</td>
+                                        </tr>
+                                        <tr onClick="location.href='#'" style="cursor:pointer;"
+                                            onMouseover="this.style.color='#1A73E8';" onMouseout="this.style.color='#344767'";>
+                                            <th scope="row">3</th>
+                                            <td>강의명 동적으로 불러오기</td>
+                                            <td>개설자 동적으로 불러오기</td>
+                                            <td>수강기간 동적으로 불러오기</td>
+                                            <td>참여구분 동적으로 불러오기</td>
+                                            <td>신청상태 동적으로 불러오기</td>
+                                        </tr><tr></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                            </body>
+                            <script>
+                                function checkReg(event) {
+                                    const regExp = /[^0-9]/g; // 숫자만 허용
+                                    //   const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
+                                    const del = event.target;
+                                    if (regExp.test(del.value)) {
+                                        del.value = del.value.replace(regExp, '');
+                                    }
+                                }
+                                ;
+                            </script>
+                            <script>
+                                function doAction(event) {
+                                    if (event == 1) {
+                                        const link = '${pageContext.request.contextPath}';
+                                        location.href = link;
+                                    } else {
+                                        const link = '${pageContext.request.contextPath}/delUser.do?userid =' + ${host};
+                                        location.href = link;
+                                    }
+                                }
+                            </script>
+                            <script src="./assets/material-kit.min.js?v=3.0.4" type="text/javascript"></script> <!--이거 있어야 입력 폼 애니메이션 들어감-->
+                            <script type="text/javascript" src="${pageContext.request.contextPath}/js/info.js" ></script>
+                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+                                    integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+                            crossorigin="anonymous"></script>
+                            </html>
 
