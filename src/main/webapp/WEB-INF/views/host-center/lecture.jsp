@@ -703,6 +703,7 @@
                     if (item.state == stateselectedValue && item.date == dateselectedValue) {
                         str += `<tr scope="row">
                                 <th class="text-center"><input type="checkbox" id="check-`+item.id+`"></th>
+                                <th id="co-`+co+`"></th>
                                 <th class="text-center">`+item.name+`</th>
                                 <th class="text-center">`+item.phone+`</th>
                                 <th class="text-center">`+item.birth+`</th>

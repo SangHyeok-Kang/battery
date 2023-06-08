@@ -87,7 +87,7 @@
                 <h5>🔥지금 HOT한 강의🔥</h5>
             </div>
             <div class="col-auto ms-auto">
-                <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                <a class="icon-link icon-link-hover" style="font-size: 13px;" href="lecture/lecture_list?key=hot">
                     전체보기
                     <i class="bi bi-arrow-right mb-1"></i>
                 </a>
@@ -109,7 +109,7 @@
                 <h5>🔥무료 강의🔥</h5>
             </div>
             <div class="col-auto ms-auto">
-                <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                <a class="icon-link icon-link-hover" style="font-size: 13px;" href="lecture/lecture_list?key=free">
                     전체보기
                     <i class="bi bi-arrow-right mb-1"></i>
                 </a>
@@ -131,7 +131,7 @@
                 <h5>🔥유료 강의🔥</h5>
             </div>
             <div class="col-auto ms-auto">
-                <a class="icon-link icon-link-hover" style="font-size: 13px;" href="#">
+                <a class="icon-link icon-link-hover" style="font-size: 13px;" href="lecture/lecture_list?key=money">
                     전체보기
                     <i class="bi bi-arrow-right mb-1"></i>
                 </a>

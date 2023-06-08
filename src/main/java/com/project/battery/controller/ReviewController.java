@@ -4,6 +4,7 @@
  */
 package com.project.battery.controller;
 
+import com.project.battery.dto.RegiClassDto;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -11,10 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.project.battery.model.HikariConfiguration;
+import com.project.battery.model.Lecture;
 import com.project.battery.model.ReviewModel;
 import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -32,10 +36,10 @@ public class ReviewController {
     private HttpSession session;
     
     @GetMapping("lecture/lecture_review")
-    public String review() {
+    public String review(@RequestParam("lecture") int lecid, Model model) {
 
-        log.debug("review called...");
-
+        List<RegiClassDto> list = new Lecture(dbConfig).getRegiList(lecid);
+        model.addAttribute("regilist",list);
         return "lecture/lecture_review";
     }
     
