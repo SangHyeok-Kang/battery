@@ -312,7 +312,7 @@ public class Lecture {
             String[] strAry = str.split("%");
 
             buffer.append("<div class=\"swiper-slide\">"
-                    + "<div class =\"card_thumbnail\">"
+                    + "<div class =\"card thumbnail\">"
                     + " <a href=\"lecture/select_lecture?lecture=" + list.get(i).getLectureid() + "\">"
                     + " <img src=\"resource/thumbnail/" + list.get(i).getThumbnail() + "\"></a>"
                     + "</div>"
