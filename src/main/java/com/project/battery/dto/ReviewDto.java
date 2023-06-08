@@ -14,10 +14,27 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@AllArgsConstructor
 public class ReviewDto {
     private int no;
+    private String id;
     private String review;
     private String date;
     private int grade;
+
+    public ReviewDto(String id, int grade,String review) {
+        this.id = id;
+        this.review = review;
+        this.grade = grade;
+    }
+
+    
+
+    public ReviewDto(int no, String review, String date, int grade) {
+        this.no = no;
+        this.review = review;
+        this.date = date;
+        this.grade = grade;
+    }
+    
+    
 }

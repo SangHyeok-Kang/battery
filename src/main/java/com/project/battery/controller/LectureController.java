@@ -138,6 +138,7 @@ public class LectureController {
         model.addAttribute("list",list);
         return "lecture/lecture_list";
     }
+    
     @GetMapping("lecture/select_lecture")
     public String ShowLecInfo(@RequestParam("lecture") int id, Model model) {
         if (session.getAttribute("mento_state") != null) {
@@ -360,33 +361,6 @@ public class LectureController {
         }
 
         return "redirect:/lecture/select_lecture?lecture=" + id;
-    }
-    
-    @GetMapping("lecture/lecture_check_mentor")
-    public String checkMento(@RequestParam("lecture") String lecid, Model model){
-        if (session.getAttribute("lectureinfo") == null) {
-            session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(lecid)));
-        }
- 
-        List<String> aryDT = new ArrayList<>();
-        LectureDto lec = (LectureDto)session.getAttribute("lectureinfo");
-        if(lec.getDate().contains("@")){
-            String[] strAryDT = lec.getDate().split("@");
-            for(String str : strAryDT){
-                String[] strSplit = str.split("%");
-                aryDT.add(String.format("%s~%s",strSplit[0],strSplit[1]));
-            }
-        }else{
-            String[] strAryDT = lec.getDate().split("%");
-            aryDT.add(String.format("%s~%s",strAryDT[0],strAryDT[1]));
-        }
-        
-        /*신청자 정보 불러오기*/
-        List<RegiClassDto> regilist = new Lecture(dbConfig).getRegiList(Integer.parseInt(lecid));
-        
-        model.addAttribute("dateList", aryDT);
-        model.addAttribute("regiList", regilist);
-        return "lecture/lecture_check_mentor";
     }
     
 }

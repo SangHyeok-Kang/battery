@@ -644,7 +644,6 @@ public class Lecture {
         List<RegiClassDto> list= new ArrayList<>();
         String sql = "select regiclassid, username, phone ,birth ,date , user_state, enroll_state from regiclass r join userinfo u on r.userid = u.userid where lectureid=?";
         
-        int co=1;
         try {
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
@@ -670,7 +669,6 @@ public class Lecture {
                 list.add(new RegiClassDto(rs.getString("regiclassid"), rs.getString("username"),
                         rs.getString("phone"),rs.getString("birth"), rs.getString("date"),
                         rs.getInt("user_state"),regiResult));
-                co++;
             }
             Collections.reverse(list);
             if (conn != null) {conn.close();}
