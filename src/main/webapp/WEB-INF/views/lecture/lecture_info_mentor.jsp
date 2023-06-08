@@ -39,7 +39,11 @@
         <link id="pagestyle" href="${pageContext.request.contextPath}/assets/css/material-kit.css" rel="stylesheet" />
         <!-- Link Swiper's CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
-
+        <script>
+            <c:if test="${!empty msg}">
+            alert("${msg}");
+            </c:if>
+        </script>
     </head>
 
     <!-- Navbar-->
@@ -311,7 +315,13 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">닫기</button>
-                        <button type="button" onclick="#" class="btn btn-info">제출하기</button>
+                        <button type="button" onclick="doAction()" class="btn btn-info">제출하기</button>
+                        <script>
+                            function doAction(){
+                                const dateinfo = '${lec_date[0]}';
+                                location.href = "${pageContext.request.contextPath}/lecture/insert_staff.do?date="+dateinfo;
+                            }
+                        </script>
                     </div>
                 </div>
             </div>

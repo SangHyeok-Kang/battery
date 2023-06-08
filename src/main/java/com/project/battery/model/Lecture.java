@@ -599,13 +599,13 @@ public class Lecture {
     }
 
     //중복 신청 조회 메소드
-    public boolean duplicate(String userid, String date, int lectureid) {
+    public boolean duplicate(String userid, String date, int lectureid, int state) {
         javax.sql.DataSource ds = dbConfig.dataSource();
         try {
             Connection conn = ds.getConnection();
             Statement stmt = conn.createStatement();
             stmt = conn.createStatement();
-            String sql = "select * from regiclass where userid = '" + userid + "' and date = '" + date + "' and lectureid = " + lectureid;
+            String sql = "select * from regiclass where userid = '" + userid + "' and date = '" + date + "' and lectureid = " + lectureid +" and user_state = "+state;
             log.info(sql);
             ResultSet rs = stmt.executeQuery(sql);
 

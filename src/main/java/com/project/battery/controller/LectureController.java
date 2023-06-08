@@ -318,7 +318,7 @@ public class LectureController {
         } else {
             String userid = (String) session.getAttribute("host");
             Lecture lec = new Lecture(dbConfig);
-            boolean result = lec.duplicate(userid, date, id);
+            boolean result = lec.duplicate(userid, date, id, getState());
             if (result == true) {
                 if(agree.equals("선착순 모집")){
                     lec.ApplyLecutre(userid, id, date, getState(),0);
