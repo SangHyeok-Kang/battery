@@ -148,25 +148,6 @@ function delNotice(id) {
     }
 }
 
-//강의실 학습자료 업로드
-clickcount = 0;
-function insertFile() {
-    var nodes = document.getElementById("uploadMateria");
-    clickcount++;
-    if (clickcount % 2 === 0) {
-        nodes.innerHTML = ``;
-    } else {
-        nodes.innerHTML = `<form action="uploadMateria.do" method="POST" enctype="multipart/form-data">
-                                        <input type="file" id="materia" name="materia">
-                                        <span onclick="delMateriaName()">x</span>
-                                        <input type="submit" value="업로드하기"/>
-                                        </form>`;
-    }
-}
-function delMateriaName() {
-    document.getElementById("materia").value = '';
-}
-
 //강의 자료 삭제
 function delMateria(filename, lecid, id){
     if (confirm(`${filename} 파일을 정말 삭제하시겠습니까?`) === true) {

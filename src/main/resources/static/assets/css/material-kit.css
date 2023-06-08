@@ -22051,7 +22051,7 @@ body.dark-version {
   border-left: 0;
   border-right: 1px solid #d2d6da;
 }
-/*검색창 밑줄 색상 지정*/
+/*寃��깋李� 諛묒쨪 �깋�긽 吏��젙*/
 .input-group.input-group-dynamic .form-control,
 .input-group.input-group-dynamic .form-control:focus,
 .input-group.input-group-static .form-control,
@@ -27716,16 +27716,4 @@ pre[class*="language-"] {
   width: 1px;
   background-color: var(--bs-gray-600);
   transform: translateX(50%);
-}
-
-#kakao{
-  border: 0;
-  background-color: none;
-  padding: 0;
-  box-shadow: 0 3px 3px 0 rgba(236, 225, 14, 0.15), 0 3px 1px -2px rgba(236, 225, 14, 0.2), 0 1px 5px 0 rgba(236, 225, 14, 0.15);
-  transition: box-shadow 0.2s ease-in-out;
-}
-
-#kakao:hover{
-  box-shadow: 0 14px 26px -12px rgba(236, 225, 14, 0.4), 0 4px 23px 0 rgba(236, 225, 14, 0.15), 0 8px 10px -5px rgba(236, 225, 14, 0.2);
 }

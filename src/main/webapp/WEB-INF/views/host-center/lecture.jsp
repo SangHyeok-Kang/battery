@@ -97,7 +97,7 @@
                             <div>
                                 <a href="lecture_start.do" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                                     강의 시작</a>
-                                <a href="../lecture/lecture_notice?lecture=${lecture.getLectureid()}&page=1" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                <a href="../lecture/lecture_room?lecture=${lecture.getLectureid()}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                                     강의실 입장</a>
                             </div>
                         </div>
@@ -200,7 +200,7 @@
                                                                 <td>
                                                                     <div class="row">
                                                                         <div class="col-md-6">
-                                                                            <c:forEach items="${lec_date}" var="date" varStatus="co">
+                                                                            <c:forEach items="${date}" var="date" varStatus="co">
                                                                                 <label class="text-black">${date}</label>
                                                                                 <c:if test="${not co.end}">
                                                                                     <br>

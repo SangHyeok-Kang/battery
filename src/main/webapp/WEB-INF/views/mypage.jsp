@@ -48,8 +48,8 @@
                 var re2 = /^[0-9]{4,4}$/;
                 var re4 = /^[A-Za-z0-9]{8,16}$/;
 
-
-                var pw2 = document.getElementById("newpassword");
+               
+                var pw2 = document.getElementById("newPassword");
                 var ph1 = document.getElementById("phone2");
                 var ph2 = document.getElementById("phone3");
 
@@ -102,7 +102,7 @@
                 <!--회원정보 수정 속 내용-->
                 <div class="tab-pane fade show active mt-3" id="home-tab-pane" role="tabpanel"
                      aria-labelledby="home-tab" tabindex="0">
-                    <form method="POST" role="form" action="changeInfo.do">
+                   
                         <table class="table">
                             <colgroup>
                                 <col style="width: 20%;">
@@ -124,7 +124,7 @@
                                         </div>
                                     </td>
                                 </tr>
-
+                                 <form method="POST" onsubmit ="return validate();" role="form" action="changeInfo.do">
                                 <tr>
                                     <th scope="row">
                                         <label for="password" class="text-black">현재 비밀번호</label>
@@ -321,12 +321,12 @@
                             </tr>
                         </thead>
                         <tbody class="table-group-divider">
-                            <tr onClick="location.href = '#'" style="cursor:pointer;"
+                            <tr  style="cursor:pointer;"
                                 onMouseover="this.style.color = '#1A73E8';" onMouseout="this.style.color = '#344767'";>
                                 <c:set var="i" value = "${i+1}"/>
                                 <c:forEach  var="lec" items="${lecList}" varStatus="co">                                                    
                                     <th scope="row" class="text-center">${fn:length(lecList)-co.index}</th>
-                                    <td class="text-ellipsis">${lec.title}</td>
+                                    <td class="text-ellipsis" onClick="location.href = 'lecture/lecture_room?lecture=${lec.lectureid}'">${lec.title}</td>
                                     <td class="text-ellipsis">${lec.host}</td>
                                     <td class="text-ellipsis">${lec.date}</td>
                                     <td class="text-ellipsis">${lec.user_state}</td>

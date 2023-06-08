@@ -32,10 +32,14 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-
+        <link href="${pageContext.request.contextPath}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+        <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
         <!-- favicon ?????? -->
-        <link rel="apple-touch-icon" sizes="76x76" href="assets/img/ssac.png">
-        <link rel="icon" type="image/png" href="assets/img/ssac.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="${pageContext.request.contextPath}assets/img/ssac.png">
+        <link rel="icon" type="image/png" href="${pageContext.request.contextPath}assets/img/ssac.png">
 
         <title>
             WeUs
