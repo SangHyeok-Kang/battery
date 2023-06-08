@@ -87,7 +87,7 @@ public class HostController {
         if (session.getAttribute("lectureinfo") == null ) {
             session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(lecid)));
         }
-        LectureDto lecDto = (LectureDto)session.getAttribute("lectureinfo");
+        LectureDto lecDto = new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(lecid));
         if(lecDto.getLectureid()!=Integer.parseInt(lecid)){
             session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(lecid)));
         }

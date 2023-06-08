@@ -113,6 +113,31 @@ public class LectureController {
         return "lecture/lecture_info";
     }
      */
+    @GetMapping("lecture/lecture_list")
+    public String lectureList(@RequestParam("key") String key, Model model){
+        
+        Lecture lec = new Lecture(dbConfig);
+        
+        List<LectureDto> list = new ArrayList<>();
+        switch (key) {
+            case "hot":
+                list = lec.getViewCountList();
+                break;
+            case "money":
+                list = lec.getPriceList();
+                break;
+            case "free":
+                list = lec.getNoPriceList();
+                break;
+            default:
+                break;
+        }
+        for(LectureDto a : list){
+            System.out.println(a.getTitle());
+        }
+        model.addAttribute("list",list);
+        return "lecture/lecture_list";
+    }
     @GetMapping("lecture/select_lecture")
     public String ShowLecInfo(@RequestParam("lecture") int id, Model model) {
         if (session.getAttribute("mento_state") != null) {
