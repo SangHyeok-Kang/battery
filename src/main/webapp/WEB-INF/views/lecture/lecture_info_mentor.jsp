@@ -44,6 +44,7 @@
             alert("${msg}");
             </c:if>
         </script>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=220e025322c82daadf8ce0775edcc598&libraries=services"></script>
     </head>
 
     <!-- Navbar-->
