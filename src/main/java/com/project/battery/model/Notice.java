@@ -153,7 +153,8 @@ public class Notice {
 
             if(pstmt.executeUpdate()==1){
                 success=true;
-            }
+            }     
+            conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(Notice.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -64,8 +64,6 @@
                         </div>
                         <div class="text-center">
                             <input type="submit" value="Sign in" class="btn bg-gradient-info my-4 mb-3" style="width: 300px;">
-                            <!--❗이게 카카오 로그인 버튼❗-->
-                            <button type="button" id="kakao" class="mb-2" onclick="kakao_login()"><img src="assets/img/kakao_login_medium_wide.png"><a href="#service"/></button>
                         </div>
                     </form>
 
