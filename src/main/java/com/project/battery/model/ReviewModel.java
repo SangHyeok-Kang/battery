@@ -4,6 +4,9 @@
  */
 package com.project.battery.model;
 
+import aj.org.objectweb.asm.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.battery.dto.LectureDto;
 import com.project.battery.dto.ReviewDto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -39,27 +43,53 @@ public class ReviewModel {
 
     // 리뷰 등록 (별점 또는 리뷰 하나라도 작성되면 리뷰 추가 (별점 선택 안된 경우 -1 값으로 데이터베이스 저장)
     // 강의 아이디 : 세션값 /  강사 아이디 : staffe테이블에서 user_state가 0인 userid / 스탭 아이디 : staff테이블에서 user_state가 1인 userid / 기업 아이디 : lecture테이블에서 host
-    public boolean insertReview(HikariConfiguration dbConfig, int lectureId, String userId, int lectureGrade, String lectureReview, int instructorGrade, String instructorReview, int staffGrade, String staffReview, int businessGrade, String businessReview) throws SQLException {
+    public boolean insertReview(HikariConfiguration dbConfig, LectureDto lec, String userId, int lectureGrade, String lectureReview, int instructorGrade, String instructorReview, List<ReviewDto> review) throws SQLException {
         boolean status = false;
 
+        /*
         String searchSql = "SELECT userid, user_state FROM staffe where lectureid = ?";  // 해당 강의의 강사, 스탭 아이디 찾는 sql문 
         String searchHostSql = "SELECT host FROM lecture WHERE lectureid = ?";  // 해당 강의의 기업 아이디 찾는 sql문 
-
-        String sql = "INSERT INTO review(id, writer, userstate, review, grade) values (?,?,?,?,?)";  // 리뷰 insert문 
 
         List<String> instructorIdList = new ArrayList<>();
         List<String> staffIdList = new ArrayList<>();
         String businessId = null;
-
+         */
+        String sql = "INSERT INTO review(id, writer, userstate, review, grade) values (?,?,?,?,?)";  // 리뷰 insert문 
         try {
 
             ds = dbConfig.dataSource();
             conn = ds.getConnection();
+            pstmt = conn.prepareStatement(sql);
 
-            pstmt = conn.prepareStatement(searchSql);
-            pstmt.setInt(1, lectureId);
-            rs = pstmt.executeQuery();
+            //강의에 대한 평점
+            pstmt.setString(1, Integer.toString(lec.getLectureid()));
+            pstmt.setString(2, userId);
+            pstmt.setInt(3, 1);
+            pstmt.setString(4, lectureReview);
+            pstmt.setInt(5, lectureGrade);
+            pstmt.addBatch();
 
+            //기업에 대한 평점
+            pstmt.setString(1, lec.getHost());
+            pstmt.setString(2, userId);
+            pstmt.setInt(3, 0);
+            pstmt.setString(4, instructorReview);
+            pstmt.setInt(5, instructorGrade);
+            pstmt.addBatch();
+
+            //강사, 스탭, 학생의 대한 평점
+            for (ReviewDto r : review) {
+                pstmt.setString(1, r.getId());
+                pstmt.setString(2, userId);
+                pstmt.setInt(3, 0);
+                pstmt.setString(4, r.getReview());
+                pstmt.setInt(5, r.getGrade());
+                pstmt.addBatch();
+            }
+            System.out.println("asd");
+            pstmt.executeBatch();
+
+            /*
             while (rs.next()) {
                 String userid = rs.getString("userid");
                 int user_state = rs.getInt("user_state");
@@ -133,11 +163,11 @@ public class ReviewModel {
             }
 
             pstmt.executeBatch();   // Batch 실행
-
+             */
             status = true;
 
         } catch (Exception ex) {
-            log.error("오류가 발생했습니다. (발생 오류 : {})", ex.getMessage());
+            log.error("오류가 발생했습니다. (발생 오류 : {})", ex.getStackTrace());
         } finally {
             if (pstmt != null) {
                 pstmt.close();
@@ -149,10 +179,10 @@ public class ReviewModel {
 
         return status;
     }
-    
+
     //강의, 사용자 아이디에 할당된 리뷰를 가져오는 함수
-    public List<ReviewDto> getReviewList(HikariConfiguration dbConfig, String id){
-        List<ReviewDto> list = new ArrayList<>(); 
+    public List<ReviewDto> getReviewList(HikariConfiguration dbConfig, String id) {
+        List<ReviewDto> list = new ArrayList<>();
         String sql = "select review, grade, date from review where id=? and userstate=1 order by date asc";
         int co = 1;
         try {
@@ -161,16 +191,22 @@ public class ReviewModel {
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
-            
-            while(rs.next()){
-                list.add(new ReviewDto(co, rs.getString("review"),rs.getString("date").split(" ")[0],rs.getInt("grade")));
+
+            while (rs.next()) {
+                list.add(new ReviewDto(co, rs.getString("review"), rs.getString("date").split(" ")[0], rs.getInt("grade")));
                 co++;
             }
-            
+
             Collections.reverse(list);
-            if (conn != null) {conn.close();}
-            if (pstmt != null) {pstmt.close();}
-            if (rs != null) {rs.close();}
+            if (conn != null) {
+                conn.close();
+            }
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ReviewModel.class.getName()).log(Level.SEVERE, null, ex);
         }
