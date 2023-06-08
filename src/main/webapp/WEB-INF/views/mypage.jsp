@@ -54,16 +54,16 @@
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="location-tab" data-bs-toggle="tab"
-                            data-bs-target="#location-tab-pane" type="button" role="tab"
-                            aria-controls="location-tab" aria-selected="false">
+                    <button class="nav-link" id="list-tab" data-bs-toggle="tab"
+                            data-bs-target="#list-tab-pane" type="button" role="tab"
+                            aria-controls="list-tab-pane" aria-selected="false">
                         강의 목록
                     </button>
                 </li>
             </ul>
 
             <!--탭 목록 속 내용-->
-            <div class="tab-content mb-10" id="myTabContent2">
+            <div class="tab-content" id="myTabContent2">
                 <!--회원정보 수정 속 내용-->
                 <form method="POST" role="form" action="changeInfo.do">
                 <div class="tab-pane fade show active mt-3" id="home-tab-pane" role="tabpanel"
@@ -210,7 +210,7 @@
                                             </div>
                                         </div>
                                         <div class="col-auto pb-2">
-                                            <button type="button" class="btn btn-outline-info"
+                                            <button type="button" class="btn btn-outline-info btn-sm mt-1"
                                                     onclick="sample6_execDaumPostcode()">우편번호 찾기</button>
                                         </div>
                                         <div class="col-md-7 pb-2">
@@ -234,15 +234,18 @@
                                     </div>
                                 </td>
                             </tr>
-                            </tbody>
+                             <tr>
                                 </table>
                             <div class="d-flex justify-content-center">
-                                <input type="submit" class="btn btn-sm btn-outline-info me-2" value = "수정하기">
+                                <input type="submit" class="btn btn-info me-2" value = "수정하기">
                                 </form>
-
-                                <button type="button" class="btn btn-sm btn-outline-danger me-2" onclick="doAction(0)">탈퇴하기</button>
-                                <button type="button" class="btn btn-sm btn-outline-none" onclick="doAction(1)">뒤로가기</button>
+                                <button type="button" class="btn btn-danger me-2" onclick="doAction(0)">탈퇴하기</button>
+                                <button type="button" class="btn btn-outline-none" onclick="doAction(1)">뒤로가기</button>
                             </div>
+                            </div>
+                            </div>
+                            </tbody>
+                                </table>
                             </div>
 
                             <!--강의 목록 속 내용-->
@@ -301,5 +304,112 @@
                             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
                                     integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
                             crossorigin="anonymous"></script>
-                            </html>
+
+                           
+
+
+
+
+                            <!--강의 목록 속 내용-->
+                            <div class="tab-pane fade mt-3" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab"
+                                 tabindex="0">
+                                <div class="row">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <!-- 상태 선택 -->
+                                        <div class="col-lg-2 col-md-2 col-sm-4 my-3 px-2 text-sm">
+                                            <select class="form-select rounded-2 ps-2" style="height: 45px; border-color:#d1d1d1;">
+                                                <option value="none">선택</option>
+                                                <option value="value1">시작 전</option>
+                                                <option value="value2">진행 중</option>
+                                                <option value="value3">종료</option>
+                                            </select>
+                                        </div>
+                                        <!-- 검색 -->
+                                        <div class="col-lg-3 col-md-4 col-sm-12 d-flex mt-3 justify-contment-end">
+                                            <form class="d-flex" method="GET" role="form">
+                                                <div class="input-group input-group-outline">
+                                                    <input type="text" placeholder="강의명을 입력하세요" class="form-control" style="height:45px;">
+                                                </div>
+                                                <button class="btn btn-outline-info col-auto ms-2" style="height:45px;">검색</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div style="overflow-x: auto;">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">강의명</th>
+                                                <th scope="col">개설자</th>
+                                                <th scope="col">수강기간</th>
+                                                <th scope="col">참여구분</th>
+                                                <th scope="col">신청상태</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-group-divider">
+                                            <tr onClick="location.href = '#'" style="cursor:pointer;"
+                                                onMouseover="this.style.color = '#1A73E8';" onMouseout="this.style.color = '#344767'";>
+                                                <th scope="row">1</th>
+                                                <td class="text-ellipsis">강의명 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">개설자 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">수강기간 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">참여구분 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">신청상태 동적으로 불러오기</td>
+                                            </tr>
+                                            <tr onClick="location.href = '#'" style="cursor:pointer;"
+                                                onMouseover="this.style.color = '#1A73E8';" onMouseout="this.style.color = '#344767'";>
+                                                <th scope="row">2</th>
+                                                <td class="text-ellipsis">강의명 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">개설자 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">수강기간 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">참여구분 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">신청상태 동적으로 불러오기</td>
+                                            </tr>
+                                            <tr onClick="location.href = '#'" style="cursor:pointer;"
+                                                onMouseover="this.style.color = '#1A73E8';" onMouseout="this.style.color = '#344767'";>
+                                                <th scope="row">3</th>
+                                                <td class="text-ellipsis">강의명 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">개설자 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">수강기간 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">참여구분 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">신청상태 동적으로 불러오기</td>
+                                            </tr><tr></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                        </div>
+                                        </div>
+                                        </body>
+                                        <script>
+                                            function checkReg(event) {
+                                                const regExp = /[^0-9]/g; // 숫자만 허용
+                                                //   const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
+                                                const del = event.target;
+                                                if (regExp.test(del.value)) {
+                                                    del.value = del.value.replace(regExp, '');
+                                                }
+                                            }
+                                            ;
+                                        </script>
+                                        <script>
+                                            function doAction(event) {
+                                                if (event == 1) {
+                                                    const link = '${pageContext.request.contextPath}';
+                                                    location.href = link;
+                                                } else {
+                                                    const link = '${pageContext.request.contextPath}/delUser.do';
+                                                    location.href = link;
+                                                }
+                                            }
+                                        </script>
+                                        <script src="./assets/material-kit.min.js?v=3.0.4" type="text/javascript"></script> <!--이거 있어야 입력 폼 애니메이션 들어감-->
+                                        <script type="text/javascript" src="${pageContext.request.contextPath}/js/info.js" ></script>
+                                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+                                                integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+                                        crossorigin="anonymous"></script>
+                                        </html>
 

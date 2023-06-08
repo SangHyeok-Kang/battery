@@ -554,11 +554,39 @@ public class Lecture {
             while (rs.next()) {
                 LectureDto lec = new LectureDto();
 
+                 String state = null;
+                switch (rs.getInt("user_state")) {
+                    case 0:
+                        state = "강사";
+                        break;
+                    case 1:
+                        state = "멘토";
+                        break; 
+                    case 2:
+                        state = "멘티";
+                        break;
+                    default:
+                        break;
+                }
+                String result = null;
+                switch (rs.getInt("enroll_state")) {
+                    case 0:
+                        result = "대기";
+                        break;
+                    case 1:
+                        result = "수락";
+                        break; 
+                    case 2:
+                        result = "거절";
+                        break;
+                    default:
+                        break;
+                }                             
                 lec.setTitle(rs.getString("l_title")); // 과목명
                 lec.setHost(rs.getString("host")); // 개설자
                 lec.setDate(rs.getString("date")); // 수강 기간
-                lec.setUser_state(rs.getString("user_state")); // 참여 구분 
-                lec.setEnroll_state(rs.getString("enroll_state")); // 신청 상태
+                lec.setUser_state(state); // 참여 구분 
+                lec.setEnroll_state(result); // 신청 상태
                 lec_list.add(lec);
             }
             rs.close();
@@ -592,19 +620,19 @@ public class Lecture {
     }
 
     //강의 신청 메소드
-    public void ApplyLecutre(String userid, int lectureid, String date, int user_state) {
+    public void ApplyLecutre(String userid, int lectureid, String date, int user_state, int enroll_state) {
         javax.sql.DataSource ds = dbConfig.dataSource();
 
         try {
             Connection conn = ds.getConnection();
-            String sql = "INSERT INTO regiclass VALUES(default,?,?,?,?,default)";
+            String sql = "INSERT INTO regiclass VALUES(default,?,?,?,?,?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setInt(1, lectureid);
             pstmt.setString(2, userid);
-            //pstmt.setInt(2,class_round);
             pstmt.setString(3, date);
             pstmt.setInt(4, user_state);
+            pstmt.setInt(5, enroll_state);
             pstmt.executeUpdate();
 
         } catch (Exception ex) {
@@ -734,6 +762,8 @@ public class Lecture {
         for(String dt : aryDT){
             // 시트 생성
             XSSFSheet sheet = workbook.createSheet(dt);
+              // 행 생성
+                XSSFRow row = sheet.createRow(0);
             //날짜 값 생성
             List<String> dayList = new ArrayList<>();
             
@@ -745,9 +775,7 @@ public class Lecture {
             }
             int co = 1;
             for(String day : dayList){
-                 // 행 생성
-                XSSFRow row = sheet.createRow(0);
-
+              
                 // 셀 생성
                 XSSFCell cell = row.createCell(co);
 

@@ -65,10 +65,12 @@ public class HostController {
     @GetMapping("host-center")
     public String hostCentter(Model model){
         Lecture lec = new Lecture(dbConfig);
-        List<LectureDto> leclist = lec.getCreateLectureList((String) session.getAttribute("host"),"start");
-        
-
-        model.addAttribute("startList",leclist);
+        List<LectureDto> startlist = lec.getCreateLectureList((String) session.getAttribute("host"),"start");
+        List<LectureDto> endlist = lec.getCreateLectureList((String) session.getAttribute("host"),"end");
+        List<LectureDto> progresslist = lec.getCreateLectureList((String) session.getAttribute("host"),"Progress");
+        model.addAttribute("startList",startlist);
+        model.addAttribute("endList",endlist);
+        model.addAttribute("progressList",progresslist);
         return "host-center/index";
     }
     
@@ -82,7 +84,11 @@ public class HostController {
         if(!lecid.equals((String)session.getAttribute("lecture")) || session.getAttribute("lecture") == null ){
             session.setAttribute("lecture", lecid);
         }
-        if (session.getAttribute("lectureinfo") == null) {
+        if (session.getAttribute("lectureinfo") == null ) {
+            session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(lecid)));
+        }
+        LectureDto lecDto = (LectureDto)session.getAttribute("lectureinfo");
+        if(lecDto.getLectureid()!=Integer.parseInt(lecid)){
             session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(lecid)));
         }
         
@@ -91,7 +97,7 @@ public class HostController {
         List<ReviewDto> reviewList = review.getReviewList(dbConfig,lecid);
         
         /*강의 정보 불러오기*/
-        LectureDto lecDto = (LectureDto)session.getAttribute("lectureinfo");
+        
         String[] aryREC = lecDto.getRec_dt().split("%");
         String[] strAryDT;
         List<String> aryDT = new ArrayList<>();

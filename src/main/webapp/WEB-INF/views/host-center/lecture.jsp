@@ -651,7 +651,6 @@
                 <c:forEach items="${regiList}" var="data" varStatus="co">
                   list.push({
                     id : "${data.getId()}",
-                    no : "${fn:length(regiList)-co.index}",
                     name : "${data.getName()}",
                     phone : "${data.getPhone()}",
                     birth : "${data.getBirth()}",
@@ -704,7 +703,6 @@
                     if (item.state == stateselectedValue && item.date == dateselectedValue) {
                         str += `<tr scope="row">
                                 <th class="text-center"><input type="checkbox" id="check-`+item.id+`"></th>
-                                <th class="text-center" id="co-`+ co +`"></th>
                                 <th class="text-center">`+item.name+`</th>
                                 <th class="text-center">`+item.phone+`</th>
                                 <th class="text-center">`+item.birth+`</th>

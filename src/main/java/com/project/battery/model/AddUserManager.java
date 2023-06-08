@@ -77,7 +77,7 @@ public class AddUserManager {
 
         try {
             Connection conn = ds.getConnection();
-            String sql = "INSERT INTO userinfo VALUES(?,?,?,?,?,?,?,?, DEFAULT)";
+            String sql = "INSERT INTO userinfo VALUES(?,?,?,?,?,?,?,?,DEFAULT,DEFAULT)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, userid);
