@@ -8,7 +8,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-    <h1>해당 강의의 설문 목록</h1>
     <% 
         String[] searchSurvey = (String[]) request.getAttribute("searchSurvey");
         boolean[] isExpired = (boolean[]) request.getAttribute("isExpired");
@@ -16,7 +15,7 @@
     %>
     <p>참여할 설문이 없습니다.</p>
     <% } else { %>
-    <table>
+    <table class="table text-dark">
         <thead>
             <tr>
                 <th>설문 제목</th>
@@ -42,10 +41,13 @@
                     <% if (currentExpired) { %>
                     <button disabled>참여하기</button>
                     <% } else { %>
+                    <div class="justify-content-center">
+                        
+                    </div>
                     <form action="surveyForm" method="POST">
                         <input type="hidden" name="surveyTitle" value="<%= surveyTitle %>">
                         <input type="hidden" name="surveyContent" value="<%= surveyContent %>">
-                        <button type="submit">참여하기</button>
+                        <button class="btn btn-outline-info center" data-toggle="modal" data-target="#surveyForm">참여하기</button>
                     </form>
                     <% } %>
                 </td>
