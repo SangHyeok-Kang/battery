@@ -1,0 +1,254 @@
+<%-- 
+    Document   : review
+    Created on : 2023. 6. 3., 오후 12:34:56
+    Author     : parkchaebin
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+
+<div class="table-responsive col-11">
+    <form id="contact-form" method="post" action="insertReview" autocomplete="off"  onsubmit="input()">
+        <div id="clssTable">
+            <label class=" h5 tex-black">강의 리뷰</label>
+            <table class="table" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="text-center">이름</th>
+                        <th class="text-center">평점</th>
+                        <th class="text-center">평가 리뷰</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                    <tr>
+                        <th class="text-center">
+                            ${lec.getTitle()}
+                        </th>
+                        <th class="text-center">
+                            <select class="text-sm rounded-2 mb-2" name="lectureGrade" >
+                                <option value="-1">선택</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </th>
+                        <th class="text-center">
+                            <div class="input-group input-group-outline" >
+                                <input class="form-control" type="text" name="lectureReview"/>
+                            </div>
+
+                        </th>
+                    </tr>
+                    <tr>
+                        <td class="text-center">
+                            ${lec.getHost()}
+                        </td>
+                        <td class="text-center">
+                            <select class="text-sm rounded-2 mb-2" name="hostGrade" >
+                                <option value="-1">선택</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <div class="input-group input-group-outline" >
+                                <input class="form-control" type="text" name="hostReview"/>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr></tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="menteeTable">
+            <label class=" h7 tex-black">수강자 리뷰</label>
+            <table class="table"  width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="text-center">이름</th>
+                        <th class="text-center">평점</th>
+                        <th class="text-center">평가 리뷰</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                    <c:forEach items="${list}" var="list">
+                        <c:if test="${list.getState() == 2 }">
+                            <tr>
+                                <td class="text-center">
+                                    ${list.getName()}
+                                </td>
+                                <td class="text-center">
+                                    <select class="text-sm rounded-2 mb-2" name="menteeGrade-${list.getId()}" >
+                                        <option value="-1">선택</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <div class="input-group input-group-outline" >
+                                        <input class="form-control" type="text" name="menteeReview-${list.getId()}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                    <tr></tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="teacharTable">
+            <label class=" h7 tex-black">강사 리뷰</label>
+            <table class="table"  width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="text-center">이름</th>
+                        <th class="text-center">평점</th>
+                        <th class="text-center">평가 리뷰</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                    <c:forEach items="${list}" var="list">
+                        <c:if test="${list.getState() == 0 }">
+                            <tr>
+                                <td class="text-center">
+                                    ${list.getName()}
+                                </td>
+                                <td class="text-center">
+                                    <select class="text-sm rounded-2 mb-2" name="teacherGrade-${list.getId()}" >
+                                        <option value="-1">선택</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <div class="input-group input-group-outline" >
+                                        <input class="form-control" type="text" name="teacherReview-${list.getId()}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                    <tr></tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="staffTable">
+            <label class=" h7 tex-black">스태프 리뷰</label>
+            <table class="table"  width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="text-center">이름</th>
+                        <th class="text-center">평점</th>
+                        <th class="text-center">평가 리뷰</th>
+                    </tr>
+                </thead> 
+                <tbody>
+                    <c:forEach items="${list}" var="list">
+                        <c:if test="${list.getState() == 1 }">
+                            <tr>
+                                <td class="text-center">
+                                    ${list.getName()}
+                                </td >
+                                <td class="text-center">
+                                    <select class="text-sm rounded-2 mb-2" name="staffGrade-${list.getId()}" >
+                                        <option value="-1">선택</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <div class="input-group input-group-outline" >
+                                        <input class="form-control" type="text" name="staffReview-${list.getId()}"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                    <tr></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-right">
+            <input type="hidden" id="data" name="data" value=""/>
+            <button type="submit" class="btn btn-primary">저장</button>
+        </div>
+    </form>
+</div>
+                        <script>                
+                         var list = [];
+    var sGrade = null;
+    var sReview = null;
+    var idList = [];
+    var hoststate = null;
+window.onload = function(){
+    <c:forEach items="${list}" var="regi">
+    if (${regi.state} == 0) { //강사
+        sGrade = `teacherGrade-${regi.getId()}`;
+        sReview = `teacherReview-${regi.getId()}`;
+    } else if (${regi.state} == 1) { //스탭
+        sGrade = `staffGrade-${regi.getId()}`;
+        sReview = `staffReview-${regi.getId()}`;
+    } else if (${regi.state} == 2) { //학생
+        sGrade = `menteeGrade-${regi.getId()}`;
+        sReview = `menteeReview-${regi.getId()}`;
+    }
+    if (${regi.getUserid()}==${sessionScope.host}) {
+        hoststate = ${regi.state};
+        console.log(hostsate);
+    }
+    idList.push({
+        reviewid: sReview,
+        gradeid: sGrade
+    });
+    </c:forEach>
+    const classReview = document.getElementById("clssTable");
+    const teReview = document.getElementById("teacharTable");
+    const staffReview = document.getElementById("staffTable");
+    const meReview = document.getElementById("menteeTable");
+
+    if (hoststate == 0) {
+        teReview.style.display = "none";
+    } else if (hoststate == 1) {
+        staffReview.style.display = "none";
+    } else if (hoststate == 2) {
+        meReview.style.display = "none";
+    } else {
+        classReview.style.display = "none";
+    }
+};
+
+    var jsonString;
+    function input() {
+        list = [];
+        idList.forEach(function (item) {
+            list.push({
+                id: item.gradeid.substring(item.gradeid.indexOf('-') + 1),
+                grade: document.getElementsByName(item.gradeid)[0].value,
+                review: document.getElementsByName(item.reviewid)[0].value
+            });
+        });
+        jsonString = JSON.stringify(list);
+        document.getElementById('data').value = jsonString;
+    }
+</script>
+
+
+
+
