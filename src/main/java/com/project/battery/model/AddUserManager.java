@@ -90,7 +90,7 @@ public class AddUserManager {
             pstmt.setString(8, gender);
 
             pstmt.executeUpdate();
-
+            
             sql = "INSERT INTO address VALUES(default,?,?,?,?,?,0)";
             pstmt = conn.prepareStatement(sql);
 

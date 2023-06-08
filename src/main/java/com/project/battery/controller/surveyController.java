@@ -322,7 +322,7 @@ public class surveyController {
             attrs.addFlashAttribute("msg", "설문 참여 실패하였습니다.");
         }
 
-        return String.format("redirect:/lecture/lecture_survey?lecture=%s&page=1",lec.getLectureid());
+        return String.format("redirect:/lecture/lecture_room?lecture=%s",lec.getLectureid());
     }
 
 }
