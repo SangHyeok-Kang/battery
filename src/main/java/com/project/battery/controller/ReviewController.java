@@ -93,7 +93,7 @@ public class ReviewController {
             attrs.addFlashAttribute("msg", "리뷰 등록 실패하였습니다.");
         }
     
-        return String.format( "redirect:/lecture/lecture_review?lecture=%s",(String) session.getAttribute("lecture"));
+        return String.format( "redirect:/lecture/lecture_room?lecture=%s",(String) session.getAttribute("lecture"));
     }
 }
 
