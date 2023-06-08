@@ -59,6 +59,8 @@ public class HostController {
     private String surveyInfo_folder;
     @Value("${file.surveyResult_folder}")
     private String surveyResult_folder;
+     @Value("${file.atten_folder}")
+    private String atten_folder;
     
     @GetMapping("host-center")
     public String hostCentter(Model model){
@@ -80,14 +82,16 @@ public class HostController {
         if(!lecid.equals((String)session.getAttribute("lecture")) || session.getAttribute("lecture") == null ){
             session.setAttribute("lecture", lecid);
         }
+        if (session.getAttribute("lectureinfo") == null) {
+            session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(lecid)));
+        }
         
         /*리뷰 정보 불러오기*/
         ReviewModel review = new ReviewModel();
         List<ReviewDto> reviewList = review.getReviewList(dbConfig,lecid);
         
         /*강의 정보 불러오기*/
-        Lecture lec = new Lecture(dbConfig);
-        LectureDto lecDto = lec.SearchlecInfo(Integer.parseInt(lecid));
+        LectureDto lecDto = (LectureDto)session.getAttribute("lectureinfo");
         String[] aryREC = lecDto.getRec_dt().split("%");
         String[] strAryDT;
         List<String> aryDT = new ArrayList<>();
@@ -124,7 +128,7 @@ public class HostController {
 
 
         /*신청자 정보 불러오기*/
-        List<RegiClassDto> regilist = lec.getRegiList(Integer.parseInt(lecid));
+        List<RegiClassDto> regilist = new Lecture(dbConfig).getRegiList(Integer.parseInt(lecid));
         
        
         /*그래프 불러오기*/
@@ -234,6 +238,25 @@ public class HostController {
         }else{
             attrs.addFlashAttribute("msg","강의 신청 확인에 실패하였습니다.");
         }
+        return String.format("redirect:/host-center/lecture?lecture=%s", (String)session.getAttribute("lecture")) ;
+    }
+    
+    @GetMapping("host-center/lecture_start.do")
+    public String startLec(RedirectAttributes attrs){
+        Lecture lec = new Lecture(dbConfig);
+        
+        //강의 업데이트
+        if(lec.chageLec((String)session.getAttribute("lecture"), "Progress")){
+            //출석부
+            if(lec.createAttendanceBook(ctx.getRealPath(this.atten_folder),(String)session.getAttribute("lecture"), (LectureDto)session.getAttribute("lectureinfo"))){
+                attrs.addFlashAttribute("msg", "강의를 진행해주세요.");
+            }else{
+                attrs.addFlashAttribute("msg", "출석부 생성에 실패했습니다.");
+            }
+        }else{
+            attrs.addFlashAttribute("msg", "강의 진행에 실패했습니다.");
+        }
+                
         return String.format("redirect:/host-center/lecture?lecture=%s", (String)session.getAttribute("lecture")) ;
     }
 }

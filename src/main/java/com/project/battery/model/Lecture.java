@@ -8,11 +8,17 @@ import com.project.battery.dto.LectureDto;
 import com.project.battery.dto.MateriaDto;
 import com.project.battery.dto.RegiClassDto;
 import com.project.battery.service.FileService;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +27,11 @@ import java.util.logging.Logger;
 import javax.sql.DataSource;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -672,6 +683,90 @@ public class Lecture {
         }
             
         
+        return succes;
+    }
+    
+    //강의 진행으로 변경
+    public boolean chageLec(String lecid, String state){
+         boolean succes = false;
+            String sql = "update lecture set l_state=? where lectureid=?";
+        
+        try {
+            ds = dbConfig.dataSource();
+            conn = ds.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, state);
+            pstmt.setString(2,lecid);
+            if(pstmt.executeUpdate()==1){
+                succes=true;
+            }
+            if (conn != null) {conn.close();}
+            if (pstmt != null) { pstmt.close();}
+        } catch (SQLException ex) {
+            Logger.getLogger(Lecture.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return succes;
+    }
+    
+    //강의 출석부 생성
+    public boolean createAttendanceBook(String path,String lecid, LectureDto lec){
+        
+        //강의 일정 슬라이싱
+        List<String> aryDT = new ArrayList<>();
+
+        if(lec.getDate().contains("@")){
+            String[] strAryDT = lec.getDate().split("@");
+            //시트 생성용
+            for(String str : strAryDT){
+                String[] strSplit = str.split("%");
+                aryDT.add(String.format("%s~%s",strSplit[0],strSplit[1]));
+            }
+        }else{
+            String[] strAryDT = lec.getDate().split("%");
+            aryDT.add(String.format("%s~%s",strAryDT[0],strAryDT[1]));
+        }
+        
+        //강의 진행 날짜
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // 엑셀 파일 생성
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        for(String dt : aryDT){
+            // 시트 생성
+            XSSFSheet sheet = workbook.createSheet(dt);
+            //날짜 값 생성
+            List<String> dayList = new ArrayList<>();
+            
+            LocalDate start = LocalDate.parse(dt.split("~")[0], formatter);
+            LocalDate end = LocalDate.parse(dt.split("~")[1], formatter);
+            while (start.isBefore(end) || start.isEqual(end)) {
+                dayList.add(start.format(formatter));
+                start = start.plusDays(1);
+            }
+            int co = 1;
+            for(String day : dayList){
+                 // 행 생성
+                XSSFRow row = sheet.createRow(0);
+
+                // 셀 생성
+                XSSFCell cell = row.createCell(co);
+
+                // 셀에 값 설정
+                cell.setCellValue(day);
+                System.out.println(day);
+                co++;
+            }
+        }
+        boolean succes = false;
+        String filename = String.format("%s.xlsx", lecid);
+        File f = new File(path + File.separator + filename);
+        try (FileOutputStream outputStream = new FileOutputStream(f)) {
+            workbook.write(outputStream);
+            succes = true;
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
         return succes;
     }
 

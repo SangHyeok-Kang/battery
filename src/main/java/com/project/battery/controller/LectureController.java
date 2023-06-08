@@ -6,6 +6,7 @@ package com.project.battery.controller;
 
 import com.project.battery.dto.LectureDto;
 import com.project.battery.dto.MateriaDto;
+import com.project.battery.dto.RegiClassDto;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
 import com.project.battery.model.Notice;
@@ -14,10 +15,9 @@ import com.project.battery.model.surveyModel;
 import com.project.battery.service.FileService;
 import com.project.battery.service.PagingService;
 import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -314,10 +314,31 @@ public class LectureController {
         return "redirect:/lecture/select_lecture?lecture="+id;
     }
     
-    @GetMapping("/lecture/lecture_check_mento")
-    public String checkMento(){
+    @GetMapping("lecture/lecture_check_mentor")
+    public String checkMento(@RequestParam("lecture") String lecid, Model model){
+        if (session.getAttribute("lectureinfo") == null) {
+            session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(lecid)));
+        }
+ 
+        List<String> aryDT = new ArrayList<>();
+        LectureDto lec = (LectureDto)session.getAttribute("lectureinfo");
+        if(lec.getDate().contains("@")){
+            String[] strAryDT = lec.getDate().split("@");
+            for(String str : strAryDT){
+                String[] strSplit = str.split("%");
+                aryDT.add(String.format("%s~%s",strSplit[0],strSplit[1]));
+            }
+        }else{
+            String[] strAryDT = lec.getDate().split("%");
+            aryDT.add(String.format("%s~%s",strAryDT[0],strAryDT[1]));
+        }
         
-        return "lecture/lecture_check_mento";
+        /*신청자 정보 불러오기*/
+        List<RegiClassDto> regilist = new Lecture(dbConfig).getRegiList(Integer.parseInt(lecid));
+        
+        model.addAttribute("dateList", aryDT);
+        model.addAttribute("regiList", regilist);
+        return "lecture/lecture_check_mentor";
     }
     
 }

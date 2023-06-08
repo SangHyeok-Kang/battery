@@ -94,8 +94,12 @@
                         <!-- Page Heading -->
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800">${lecture.getTitle()}</h1>
-                            <a href="../lecture/lecture_notice?lecture=${lecture.getLectureid()}&page=1" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                강의실 입장</a>
+                            <div>
+                                <a href="lecture_start.do" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                    강의 시작</a>
+                                <a href="../lecture/lecture_notice?lecture=${lecture.getLectureid()}&page=1" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                    강의실 입장</a>
+                            </div>
                         </div>
 
                         <div class="card shadow mb-4">
