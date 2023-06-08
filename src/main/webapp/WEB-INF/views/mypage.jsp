@@ -99,6 +99,7 @@
             <!--탭 목록 속 내용-->
             <div class="tab-content" id="myTabContent2">
                 <!--회원정보 수정 속 내용-->
+                <form method="POST" role="form" action="changeInfo.do">
                 <div class="tab-pane fade show active mt-3" id="home-tab-pane" role="tabpanel"
                      aria-labelledby="home-tab" tabindex="0">
                     <table class="table">
@@ -107,6 +108,7 @@
                             <col style="width: 80%;">
                         </colgroup>
                         <tbody style="border-top:none;">
+                        
                             <tr>
                                 <th scope="row">
                                     <label for="id" class="text-black">아이디</label>
@@ -115,13 +117,13 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-group input-group-outline mb-2">
-                                                <input class="form-control"type="text" id="userid" name="userid" value="${host}" required readonly>
+                                                <input class="form-control" type="text" id="userid" name="userid" value="${host}" required readonly>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
-                        <form method="POST" onsubmit="return validate();" role="form" action="changeInfo.do">
+
                             <tr>
                                 <th scope="row">
                                     <label for="password" class="text-black">현재 비밀번호</label>
@@ -168,10 +170,10 @@
                                             <div class="input-group input-group-outline">
                                                 <c:choose>
                                                     <c:when test="${sessionScope.state eq 1}">
-                                                        <input type="text" class="form-control mb-2" id="newPassword" value="${com_name}" id="name" name="name" readonly">
+                                                        <input type="text" class="form-control mb-2" id="newPassword" value="${com_name}" id="name" name="name" readonly>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <input type="text" class="form-control mb-2" id="newPassword" value="${name}" id="name" name="name" readonly">
+                                                        <input type="text" class="form-control mb-2" id="newPassword" value="${name}" id="name" name="name" readonly>
                                                     </c:otherwise>
                                                 </c:choose>
                                             </div>
@@ -266,7 +268,7 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
+                             <tr>
                                 </table>
                             <div class="d-flex justify-content-center">
                                 <input type="submit" class="btn btn-info me-2" value = "수정하기">
@@ -276,6 +278,68 @@
                             </div>
                             </div>
                             </div>
+                            </tbody>
+                                </table>
+                            </div>
+
+                            <!--강의 목록 속 내용-->
+                            <div class="tab-pane fade mt-3 w-100 h-100" id="location-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                                 tabindex="0">
+                                sdaf
+                                <br><br>
+                                <h4> 강의내역조회 </h4>
+                                <table border="1">
+                                    <th>과목명</th>
+                                    <th>개설자</th>                                         
+                                    <th>수강 기간</th>
+                                    <th>참여 구분</th>
+                                    <th>신청 상태</th>
+                                        <c:forEach  var="lec" items="${lecList}" >
+                                        <tr align="center">
+                                            <td>${lec.title}</td>
+                                            <td>${lec.host}</td>
+                                            <td>${lec.date}</td>                           
+                                            <td>${lec.user_state}</td> 
+                                            <td>${lec.enroll_state}</td>                                                                                     
+                                        </tr>
+                                    </c:forEach>
+                                    <%--
+                                        
+                                    --%>
+                                </table>
+                            </div>
+                            </div>
+                            </div>
+                            </body>
+                            <script>
+                                function checkReg(event) {
+                                    const regExp = /[^0-9]/g; // 숫자만 허용
+                                    //   const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
+                                    const del = event.target;
+                                    if (regExp.test(del.value)) {
+                                        del.value = del.value.replace(regExp, '');
+                                    }
+                                }
+                                ;
+                            </script>
+                            <script>
+                                function doAction(event) {
+                                    if (event == 1) {
+                                        const link = '${pageContext.request.contextPath}';
+                                        location.href = link;
+                                    } else {
+                                        const link = '${pageContext.request.contextPath}/delUser.do?userid =' + ${host};
+                                        location.href = link;
+                                    }
+                                }
+                            </script>
+                            <script src="./assets/material-kit.min.js?v=3.0.4" type="text/javascript"></script> <!--이거 있어야 입력 폼 애니메이션 들어감-->
+                            <script type="text/javascript" src="${pageContext.request.contextPath}/js/info.js" ></script>
+                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+                                    integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+                            crossorigin="anonymous"></script>
+
+                           
 
 
 

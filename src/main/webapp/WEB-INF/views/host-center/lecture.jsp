@@ -94,8 +94,12 @@
                         <!-- Page Heading -->
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800">${lecture.getTitle()}</h1>
-                            <a href="../lecture/lecture_notice?lecture=${lecture.getLectureid()}&page=1" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                강의실 입장</a>
+                            <div>
+                                <a href="lecture_start.do" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                    강의 시작</a>
+                                <a href="../lecture/lecture_notice?lecture=${lecture.getLectureid()}&page=1" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                                    강의실 입장</a>
+                            </div>
                         </div>
 
                         <div class="card shadow mb-4">
@@ -647,7 +651,6 @@
                 <c:forEach items="${regiList}" var="data" varStatus="co">
                   list.push({
                     id : "${data.getId()}",
-                    no : "${fn:length(regiList)-co.index}",
                     name : "${data.getName()}",
                     phone : "${data.getPhone()}",
                     birth : "${data.getBirth()}",
@@ -700,7 +703,6 @@
                     if (item.state == stateselectedValue && item.date == dateselectedValue) {
                         str += `<tr scope="row">
                                 <th class="text-center"><input type="checkbox" id="check-`+item.id+`"></th>
-                                <th class="text-center" id="co-`+ co +`"></th>
                                 <th class="text-center">`+item.name+`</th>
                                 <th class="text-center">`+item.phone+`</th>
                                 <th class="text-center">`+item.birth+`</th>

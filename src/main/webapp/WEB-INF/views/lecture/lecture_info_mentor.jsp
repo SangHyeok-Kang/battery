@@ -36,7 +36,7 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
         <!--css file-->
-        <link id="pagestyle" href="assets/css/material-kit.css" rel="stylesheet" />
+        <link id="pagestyle" href="${pageContext.request.contextPath}/assets/css/material-kit.css" rel="stylesheet" />
         <!-- Link Swiper's CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
@@ -143,7 +143,26 @@
                     </div>
                 </div>
             </div>
-
+                                <div class="row">
+                <!--nav & tab-->
+                <div class="col-md-11 col-lg-8 mt-4">
+                    <!-- 탭 목록-->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                    data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                                    aria-selected="true">
+                                강의 설명
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="location-tab" data-bs-toggle="tab"
+                                    data-bs-target="#location-tab-pane" type="button" role="tab"
+                                    aria-controls="location-tab" aria-selected="false">
+                                위치
+                            </button>
+                        </li>
+                    </ul>
             <!--탭 목록 속 내용-->
             <div class="tab-content mb-10" id="myTabContent">
                 <!--강의 설명 속 내용-->
@@ -288,11 +307,11 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        파일 가져오기 넣으면 됨(이력서)
+                        <input type="file" name="resume"/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-info">제출하기</button>
+                        <button type="button" onclick="#" class="btn btn-info">제출하기</button>
                     </div>
                 </div>
             </div>
@@ -389,6 +408,46 @@
         }
         //const myModal = new bootstrap.Modal(document.getElementById('myModal'), options)
 
+        //주소 받기
+        var address = `${juso[0]} ${juso[1]}${juso[2]}`;
+       
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                mapOption = {
+                    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };
+
+            // 지도를 생성합니다    
+            var map = new kakao.maps.Map(mapContainer, mapOption);
+
+            // 주소-좌표 변환 객체를 생성합니다
+            var geocoder = new kakao.maps.services.Geocoder();
+
+            // 주소로 좌표를 검색합니다
+            geocoder.addressSearch(
+                    address,
+                    function (result, status) {
+
+                        // 정상적으로 검색이 완료됐으면 
+                        if (status === kakao.maps.services.Status.OK) {
+
+                            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                            // 결과값으로 받은 위치를 마커로 표시합니다
+                            var marker = new kakao.maps.Marker({
+                                map: map,
+                                position: coords
+                            });
+
+                            // 인포윈도우로 장소에 대한 설명을 표시합니다
+                            var infowindow = new kakao.maps.InfoWindow();
+                            infowindow.open(map);
+
+                            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                            map.setCenter(coords);
+                        }
+                    }
+            );
     </script>
     <!--bootstrap-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>

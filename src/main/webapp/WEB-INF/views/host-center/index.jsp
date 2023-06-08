@@ -155,9 +155,28 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div>
-                                        진행중인 강의 슬라이드
-                                    </div>
+                                    <!-- Swiper -->
+                                    <div class="swiper mySwiper">
+                                        <div class="swiper-wrapper">
+                                            <c:forEach items="${progressList}" var="list">
+                                                <div class="swiper-slide col-lg-3 col-md-6 ">
+                                                    <div class ="card thumbnail">
+                                                        <a href='lecture?lecture=${list.getLectureid()}'>
+                                                            <img src='${pageContext.request.contextPath}/resource/thumbnail/${list.getThumbnail()}' alt="${list.getThumbnail()}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="me-2 pt-2 row">
+                                                        <a href="lecture?lecture=${list.getLectureid()}" class="thumnail-date">
+                                                            ${list.getTitle()}
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
+                                        <div class="swiper-button-next"></div>
+                                        <div class="swiper-button-prev"></div>
+                                        <div class="swiper-pagination"></div>
+                                    </div> 
                                 </div>
                                 <hr class="sidebar-divider">
                                 <%-- 강의 목록 끝 --%>
@@ -186,17 +205,6 @@
                                                     <div class="me-2 pt-2 row">
                                                         <a href="lecture?lecture=${list.getLectureid()}" class="thumnail-date">
                                                             ${list.getTitle()}
-                                                            <%--
-                                                            <div class="thumnail-explain pt-2">
-                                                                <div class="row justify-content-between pt-3 ps-3">
-                                                                    <div class="thumbnail-pirce col-auto">
-                                                                        list.get(i).getPrice()+"\\</div>
-                                                                    <div class="thumbnail-view col-auto">
-                                                                        "조회수 "+list.get(i).getSel_count()
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            --%>
                                                         </a>
                                                     </div>
                                                 </div>
@@ -220,6 +228,28 @@
                                             </a>
                                         </div>
                                     </div>
+                                    <!-- Swiper -->
+                                    <div class="swiper mySwiper">
+                                        <div class="swiper-wrapper">
+                                            <c:forEach items="${endList}" var="list">
+                                                <div class="swiper-slide col-lg-3 col-md-6 ">
+                                                    <div class ="card thumbnail">
+                                                        <a href='lecture?lecture=${list.getLectureid()}'>
+                                                            <img src='${pageContext.request.contextPath}/resource/thumbnail/${list.getThumbnail()}' alt="${list.getThumbnail()}">
+                                                        </a>
+                                                    </div>
+                                                    <div class="me-2 pt-2 row">
+                                                        <a href="lecture?lecture=${list.getLectureid()}" class="thumnail-date">
+                                                            ${list.getTitle()}
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
+                                        <div class="swiper-button-next"></div>
+                                        <div class="swiper-button-prev"></div>
+                                        <div class="swiper-pagination"></div>
+                                    </div> 
                                 </div>
                             </div>
                         </div>
@@ -235,28 +265,28 @@
         <!-- End of Footer -->
 
 
-        
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="${pageContext.request.contextPath}/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
+        <script src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="${pageContext.request.contextPath}/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="${pageContext.request.contextPath}/vendor/chart.js/Chart.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="${pageContext.request.contextPath}/js/sb-admin-2.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="${pageContext.request.contextPath}/js/demo/chart-area-demo.js"></script>
-    <script src="${pageContext.request.contextPath}/js/demo/chart-pie-demo.js"></script>
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    <!-- Initialize Swiper -->
-    <script>
+        <!-- Page level plugins -->
+        <script src="${pageContext.request.contextPath}/vendor/chart.js/Chart.min.js"></script>
+
+        <!-- Page level custom scripts -->
+        <script src="${pageContext.request.contextPath}/js/demo/chart-area-demo.js"></script>
+        <script src="${pageContext.request.contextPath}/js/demo/chart-pie-demo.js"></script>
+        <!-- Swiper JS -->
+        <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+        <!-- Initialize Swiper -->
+        <script>
             var swiper = new Swiper(".mySwiper", {
                 slidesPerView: 2, //�ʱ�?? ??????. ���???���� ��???
                 spaceBetween: 10, //����
@@ -284,7 +314,7 @@
                     dynamicBullets: true,
                 },
             });
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>
