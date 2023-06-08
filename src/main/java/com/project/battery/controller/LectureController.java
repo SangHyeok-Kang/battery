@@ -6,6 +6,7 @@ package com.project.battery.controller;
 
 import com.project.battery.dto.LectureDto;
 import com.project.battery.dto.MateriaDto;
+import com.project.battery.dto.RegiClassDto;
 import com.project.battery.model.HikariConfiguration;
 import com.project.battery.model.Lecture;
 import com.project.battery.model.Notice;
@@ -79,7 +80,7 @@ public class LectureController {
         }
         
         //강의실에 해당하는 공지사항 목록가져온다
-        List<Notice> list = new Notice().getNoticeList(lecid, dbConfig);
+        List<Notice> nlist = new Notice().getNoticeList(lecid, dbConfig);
         
         String[] aryREC = lec.getRec_dt().split("%");
         String[] strAryDT;
@@ -115,6 +116,20 @@ public class LectureController {
         boolean[] isStart = survey.checkIfStart(searchSurvey);
         
         
+        //학습자료 불러오기
+        List<MateriaDto> materia = new Lecture().getMateriaList(dbConfig, Integer.parseInt(lecid));
+        
+        Lecture lecture = new Lecture(dbConfig);
+        
+        List<RegiClassDto> list = new ArrayList<>();
+        
+        list = lecture.getRegiList(Integer.parseInt(lecid));
+        
+        LectureDto lectured = lecture.SearchlecInfo(Integer.parseInt(lecid));
+     
+        model.addAttribute("list",list);
+        model.addAttribute("lec",lectured);
+        model.addAttribute("filelist", materia);
         model.addAttribute("isStart", isStart);
         model.addAttribute("surveyList", surveyList);
         model.addAttribute("searchSurvey", searchSurvey);
@@ -123,7 +138,7 @@ public class LectureController {
         model.addAttribute("rec", rec);
         model.addAttribute("date", aryDT);
         model.addAttribute("lec",lec);
-        model.addAttribute("notice_list", list);
+        model.addAttribute("notice_list", nlist);
         return "lecture/lecture_room"; 
     }
     
@@ -199,47 +214,6 @@ public class LectureController {
         return url;
     }
 
-    @GetMapping("lecture/lecture_notice")
-    public String lecture(@RequestParam("lecture") String id, @RequestParam("page") int page, Model model) {
-        
-
-        
-         
-
-        
-        return "lecture/lecture_notice";
-    }
-
-    @GetMapping("lecture/create_notice")
-    public String createLectureNotice() {
-        return "lecture/create_notice";
-
-    }
-
-    @GetMapping("lecture/lecture_survey")
-    public String lectureSurvey(Model model, @RequestParam("lecture") String id) {
-        if (session.getAttribute("lectureinfo") == null) {
-            session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(id)));
-        }
-        LectureDto lec = (LectureDto) session.getAttribute("lectureinfo");
-
-        String basePath = ctx.getRealPath(survey_folder) + File.separator + lec.getHost();
-        String basePath1 = ctx.getRealPath(surveyInfo_folder);
-        String basePath2 = ctx.getRealPath(surveyResult_folder) + File.separator + lec.getHost() + File.separator + (String) session.getAttribute("lecture");
-
-        surveyModel survey = new surveyModel();
-        String[] searchSurvey = survey.searchSurvey(lec.getHost(), basePath1, Integer.parseInt((String) session.getAttribute("lecture")) );
-
-        boolean[] isExpired = survey.checkIfExpired(searchSurvey, basePath2, (String) session.getAttribute("host"));
-//        for (int i = 0; i < isExpired.length; i++) {
-//            System.out.println("isExpired =" + isExpired[i]);
-//        }
-        model.addAttribute("searchSurvey", searchSurvey);
-        model.addAttribute("isExpired", isExpired);
-
-        return "lecture/lecture_survey";
-
-    }
 
     @PostMapping("lecture/insert_notice.do")
     public String insertNotice(HttpServletRequest request, @RequestParam(name = "file") MultipartFile notice_file, RedirectAttributes attrs) {
@@ -254,7 +228,7 @@ public class LectureController {
         } else {
             attrs.addFlashAttribute("msg", "공지사항 등록에 실패하였습니다.");
         }
-        return String.format("redirect:/lecture/lecture_notice?lecture=%s&page=1", (String) session.getAttribute("lecture"));
+        return String.format("redirect:/lecture/lecture_room?lecture=%s", (String) session.getAttribute("lecture"));
     }
 
     @GetMapping("lecture/show_notice")
@@ -272,7 +246,7 @@ public class LectureController {
         } else {
             attrs.addFlashAttribute("msg", "공지사항 삭제에 실패하였습니다.");
         }
-        return String.format("redirect:/lecture/lecture_notice?lecture=%s&page=1", (String) session.getAttribute("lecture"));
+        return String.format("redirect:/lecture/lecture_room?lecture=%s", (String) session.getAttribute("lecture"));
     }
 
     @GetMapping("/lecture/noticedownload.do")
@@ -282,18 +256,7 @@ public class LectureController {
         return FileService.downloadFile(url, filename, new HttpHeaders());
     }
 
-    @GetMapping("/lecture/lecture_materia")
-    public String lecturemateria(Model model, @RequestParam("page") int page, @RequestParam("lecture") String lecid) {
-        if (session.getAttribute("lectureinfo") == null) {
-            session.setAttribute("lectureinfo", new Lecture(dbConfig).SearchlecInfo(Integer.parseInt(lecid)));
-        }
-        List<MateriaDto> materia = new Lecture().getMateriaList(dbConfig, Integer.parseInt(lecid));
-        
-        model.addAttribute("filelist", materia);
-
-   
-        return "lecture/lecture_materia";
-    }
+    
 
     @PostMapping("/lecture/uploadMateria.do")
     public String uploadMateria(@RequestParam(name = "materia", required = false) MultipartFile materia, RedirectAttributes attrs) {
@@ -304,7 +267,7 @@ public class LectureController {
         } else {
             attrs.addFlashAttribute("msg", "파일 업로드에 실패하였습니다.");
         }
-        return String.format("redirect:/lecture/lecture_materia?lecture=%s&page=1", (String) session.getAttribute("lecture"));
+        return String.format("redirect:/lecture/lecture_room?lecture=%s", (String) session.getAttribute("lecture"));
     }
 
     @GetMapping("/lecture/materiadownload.do")
@@ -326,7 +289,7 @@ public class LectureController {
         } else {
             attrs.addFlashAttribute("msg", "파일 삭제에 실패하였습니다.");
         }
-        return String.format("redirect:/lecture/lecture_materia?lecture=%s&page=1", (String) session.getAttribute("lecture"));
+        return String.format("redirect:/lecture/lecture_room?lecture=%s", (String) session.getAttribute("lecture"));
     }
     
     @GetMapping("/lecture/insert_staff.do")

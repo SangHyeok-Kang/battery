@@ -57,6 +57,11 @@
         <!-- Link Swiper's CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <script>
+            <c:if test="${!empty msg}">
+            alert("${msg}");
+            </c:if>
+        </script>
     </head>
 
     <!-- Navbar-->
@@ -125,6 +130,9 @@
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="survey-tab" data-bs-toggle="tab" data-bs-target="#survey" type="button" role="tab" aria-controls="survey" aria-selected="false">설문조사</button>
                                 </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab" aria-controls="review" aria-selected="false">리뷰작성</button>
+                                </li>
                             </ul>
                         </div>
                         <div class="card-body">
@@ -132,11 +140,26 @@
                             <!--공지사항-->
                             <div class="tab-content" id="myTabContent3">
                                 <div class="tab-pane fade show active" id="notice" role="tabpanel" aria-labelledby="notice-tab">
+                                    <c:if test="${sessionScope.state == 1}">
+                                        <div class="text-right">
+                                            <button class="btn btn-primary center" data-toggle="modal" data-target="#insertNotice">공지사항 등록</button>
+                                        </div>
+                                    </c:if>
                                     <%@include file="lecture_notice.jspf"%>
                                 </div>
-                                <div class="tab-pane fade" id="file" role="tabpanel" aria-labelledby="file-tab">asdf</div>
+                                <div class="tab-pane fade" id="file" role="tabpanel" aria-labelledby="file-tab">
+                                    <c:if test="${sessionScope.state == 1}">
+                                        <div class="text-right">
+                                            <button class="btn btn-primary center" data-toggle="modal" data-target="#insertMateria">학습자료 등록</button>
+                                        </div>
+                                    </c:if>
+                                    <%@include file="lecture_materia.jspf"%>
+                                </div>
                                 <div class="tab-pane fade" id="survey" role="tabpanel" aria-labelledby="survey-tab">
                                     <%@include file="showDoList.jspf"%> 
+                                </div>
+                                <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+                                    <%@include file="lecture_review.jspf"%> 
                                 </div>
                             </div>
                         </div>
@@ -145,8 +168,99 @@
             </div>
         </div>
     </div>
-</body>
+    <!--공지사항 등록 모달-->
+    <div class="modal fade" id="insertNotice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">공지사항 등록</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="table-responsive">
+                        <form action="insert_notice.do" method="POST" enctype="multipart/form-data">
+                            <div class="modal-body m-2">
+                                <table class="table" id="dataTable" width="100%" cellspacing="0">
 
+                                    <colgroup>
+                                        <col style="width: 20%;">
+                                        <col style="width: 80%;">
+                                    </colgroup>
+                                    <tr>
+                                        <th class="row">
+                                            <label class="text-black">제목</label>
+                                        </th>
+                                        <td>
+                                            <div class="col-md-6">
+                                                <div class="input-group input-group-outline">
+                                                    <input type="text" class="form-control" name="title" maxlength="256" required>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <label class="text-black">본문</label>
+                                        </th>
+                                        <td>
+                                            <div class="input-group input-group-outline">
+                                                <textarea name="text" class="form-control" cols="50" rows="10" wrap="hard" style="resize: none;" required></textarea>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <label class="text-black">첨부파일</label>
+                                        </th>
+                                        <td>
+                                            <div class="input-group input-group-outline">
+                                                <input type="file" name="file" class="form-control" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="modal-footer m-2">
+                                <button class="btn btn-ouotline-secondary" type="button" data-dismiss="modal">Cancel</button>
+                                <button class="btn  btn-ouotline-secondary" type="submit">등록하기</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--학습자료 등록 모달-->
+    <div class="modal fade" id="insertMateria" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">학습자료 등록</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="uploadMateria.do" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body m-2">
+                        <div class="card">
+                            <input type="file" id="materia" name="materia">
+                        </div>
+                    </div>
+                    <div class="modal-footer m-2">
+                        <button class="btn btn-ouotline-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn  btn-ouotline-secondary" type="submit">업로드하기</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+   
 <!--bootstrap-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>

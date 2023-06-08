@@ -22,5 +22,6 @@ public class RegiClassDto {
    private String birth;
    private String date;
    private int state;
-   private String enState;           
+   private String enState;
+   private String userid;
 }
