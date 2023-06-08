@@ -410,10 +410,6 @@
                                                             설문별 참여 인원 <br> <br>
                                                             <canvas id="surveyChart" width="500" height="500"></canvas>
                                                         </div>
-                                                        <div>
-                                                            날짜별 출석 인원 <br> <br>
-                                                            <canvas id="checkChart" width="500" height="500"></canvas>
-                                                        </div>
                                                     </div>
                                                     <script>
                                                         // 도넛차트 (날짜별 신청 인원) 
@@ -534,62 +530,6 @@
                                                         });
                                                     </script>
 
-                                                    <script>
-                                                        // 도넛차트 (날짜별 출석 인원) 
-                                                        var chartArea3 = document.getElementById('checkChart').getContext('2d');
-                                                        // 차트를 생성한다.
-                                                        var checkChart = new Chart(chartArea3, {
-                                                            // ①차트의 종류(String)
-                                                            type: 'doughnut',
-                                                            // ②차트의 데이터(Object)
-                                                            data: {
-                                                                // ③x축에 들어갈 이름들(Array)
-                                                                labels: dates,
-                                                                // ④실제 차트에 표시할 데이터들(Array), dataset객체들을 담고 있다.
-                                                                datasets: [{
-                                                                        // ⑤dataset의 이름(String)
-                                                                        label: '# 출석인원',
-                                                                        // ⑥dataset값(Array)
-                                                                        data: [20, 60],
-                                                                        // ⑦dataset의 배경색(rgba값을 String으로 표현)
-                                                                        backgroundColor: [
-                                                                            'rgba(255, 99, 132, 0.2)',
-                                                                            'rgba(54, 162, 235, 0.2)',
-                                                                            'rgba(255, 206, 86, 0.2)',
-                                                                            'rgba(75, 192, 192, 0.2)',
-                                                                            'rgba(153, 102, 255, 0.2)',
-                                                                            'rgba(255, 159, 64, 0.2)'
-                                                                        ],
-                                                                        // ⑧dataset의 선 색(rgba값을 String으로 표현)
-                                                                        borderColor: [
-                                                                            'rgba(255, 99, 132, 1)',
-                                                                            'rgba(54, 162, 235, 1)',
-                                                                            'rgba(255, 206, 86, 1)',
-                                                                            'rgba(75, 192, 192, 1)',
-                                                                            'rgba(153, 102, 255, 1)',
-                                                                            'rgba(255, 159, 64, 1)'
-                                                                        ],
-                                                                        // ⑨dataset의 선 두께(Number)
-                                                                        borderWidth: 1
-                                                                    }]
-                                                            },
-                                                            // ⑩차트의 설정(Object)
-                                                            options: {
-                                                                // ⑪축에 관한 설정(Object)
-                                                                responsive: false,
-                                                                scales: {
-                                                                    // ⑫y축에 대한 설정(Object)
-                                                                    y: {
-                                                                        // ⑬시작을 0부터 하게끔 설정(최소값이 0보다 크더라도)(boolean)
-                                                                        beginAtZero: true,
-                                                                        ticks: {
-                                                                            stepSize: 1
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        });
-                                                    </script>
                                                 </div>
                                             </div>
                                             
