@@ -249,48 +249,74 @@
                             <!--강의 목록 속 내용-->
                             <div class="tab-pane fade show active mt-3" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab"
                                  tabindex="0">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col"></th>
-                                            <th scope="col">강의명</th>
-                                            <th scope="col">개설자</th>
-                                            <th scope="col">수강기간</th>
-                                            <th scope="col">참여구분</th>
-                                            <th scope="col">신청상태</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-group-divider">
-                                        <!--강의실 링크 걸기-->
-                                        <tr onClick="location.href='#'" style="cursor:pointer;"
-                                            onMouseover="this.style.color='#1A73E8';" onMouseout="this.style.color='#344767'";>
-                                            <th scope="row">1</th>
-                                            <td>강의명 동적으로 불러오기</td>
-                                            <td>개설자 동적으로 불러오기</td>
-                                            <td>수강기간 동적으로 불러오기</td>
-                                            <td>참여구분 동적으로 불러오기</td>
-                                            <td>신청상태 동적으로 불러오기</td>
-                                        </tr>
-                                        <tr onClick="location.href='#'" style="cursor:pointer;"
-                                            onMouseover="this.style.color='#1A73E8';" onMouseout="this.style.color='#344767'";>
-                                            <th scope="row">2</th>
-                                            <td>강의명 동적으로 불러오기</td>
-                                            <td>개설자 동적으로 불러오기</td>
-                                            <td>수강기간 동적으로 불러오기</td>
-                                            <td>참여구분 동적으로 불러오기</td>
-                                            <td>신청상태 동적으로 불러오기</td>
-                                        </tr>
-                                        <tr onClick="location.href='#'" style="cursor:pointer;"
-                                            onMouseover="this.style.color='#1A73E8';" onMouseout="this.style.color='#344767'";>
-                                            <th scope="row">3</th>
-                                            <td>강의명 동적으로 불러오기</td>
-                                            <td>개설자 동적으로 불러오기</td>
-                                            <td>수강기간 동적으로 불러오기</td>
-                                            <td>참여구분 동적으로 불러오기</td>
-                                            <td>신청상태 동적으로 불러오기</td>
-                                        </tr><tr></tr>
-                                    </tbody>
-                                </table>
+                                <div class="row">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <!-- 상태 선택 -->
+                                        <div class="col-lg-2 col-md-2 col-sm-4 my-3 px-2 text-sm">
+                                            <select class="form-select rounded-2 ps-2" style="height: 45px; border-color:#d1d1d1;">
+                                                <option value="none">선택</option>
+                                                <option value="value1">시작 전</option>
+                                                <option value="value2">진행 중</option>
+                                                <option value="value3">종료</option>
+                                            </select>
+                                        </div>
+                                        <!-- 검색 -->
+                                        <div class="col-lg-3 col-md-4 col-sm-12 d-flex mt-3 justify-contment-end">
+                                            <form class="d-flex" method="GET" role="form">
+                                                <div class="input-group input-group-outline">
+                                                    <input type="text" placeholder="강의명을 입력하세요" class="form-control" style="height:45px;">
+                                                </div>
+                                                <button class="btn btn-outline-info col-auto ms-2" style="height:45px;">검색</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div style="overflow-x: auto;">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col"></th>
+                                                <th scope="col">강의명</th>
+                                                <th scope="col">개설자</th>
+                                                <th scope="col">수강기간</th>
+                                                <th scope="col">참여구분</th>
+                                                <th scope="col">신청상태</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-group-divider">
+                                            <tr onClick="location.href = '#'" style="cursor:pointer;"
+                                                onMouseover="this.style.color = '#1A73E8';" onMouseout="this.style.color = '#344767'";>
+                                                <th scope="row">1</th>
+                                                <td class="text-ellipsis">강의명 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">개설자 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">수강기간 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">참여구분 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">신청상태 동적으로 불러오기</td>
+                                            </tr>
+                                            <tr onClick="location.href = '#'" style="cursor:pointer;"
+                                                onMouseover="this.style.color = '#1A73E8';" onMouseout="this.style.color = '#344767'";>
+                                                <th scope="row">2</th>
+                                                <td class="text-ellipsis">강의명 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">개설자 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">수강기간 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">참여구분 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">신청상태 동적으로 불러오기</td>
+                                            </tr>
+                                            <tr onClick="location.href = '#'" style="cursor:pointer;"
+                                                onMouseover="this.style.color = '#1A73E8';" onMouseout="this.style.color = '#344767'";>
+                                                <th scope="row">3</th>
+                                                <td class="text-ellipsis">강의명 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">개설자 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">수강기간 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">참여구분 동적으로 불러오기</td>
+                                                <td class="text-ellipsis">신청상태 동적으로 불러오기</td>
+                                            </tr><tr></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             </div>
                             </body>
