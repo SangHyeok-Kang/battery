@@ -235,9 +235,9 @@
                             <tr>
                                 </table>
                             <div class="d-flex justify-content-center">
-                                <input type="submit" class="btn btn-outline-info me-2" value = "수정하기">
+                                <input type="submit" class="btn btn-info me-2" value = "수정하기">
                                 </form>
-                                <button type="button" class="btn btn-outline-danger me-2" onclick="doAction(0)">탈퇴하기</button>
+                                <button type="button" class="btn btn-danger me-2" onclick="doAction(0)">탈퇴하기</button>
                                 <button type="button" class="btn btn-outline-none" onclick="doAction(1)">뒤로가기</button>
                             </div>
                             </div>
@@ -247,7 +247,7 @@
 
 
                             <!--강의 목록 속 내용-->
-                            <div class="tab-pane fade show active mt-3" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab"
+                            <div class="tab-pane fade mt-3" id="list-tab-pane" role="tabpanel" aria-labelledby="list-tab"
                                  tabindex="0">
                                 <div class="row">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -317,35 +317,35 @@
                                         </tbody>
                                     </table>
                                 </div>
-                            </div>
-                            </div>
-                            </body>
-                            <script>
-                                function checkReg(event) {
-                                    const regExp = /[^0-9]/g; // 숫자만 허용
-                                    //   const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
-                                    const del = event.target;
-                                    if (regExp.test(del.value)) {
-                                        del.value = del.value.replace(regExp, '');
-                                    }
-                                }
-                                ;
-                            </script>
-                            <script>
-                                function doAction(event) {
-                                    if (event == 1) {
-                                        const link = '${pageContext.request.contextPath}';
-                                        location.href = link;
-                                    } else {
-                                        const link = '${pageContext.request.contextPath}/delUser.do?userid =' + ${host};
-                                        location.href = link;
-                                    }
-                                }
-                            </script>
-                            <script src="./assets/material-kit.min.js?v=3.0.4" type="text/javascript"></script> <!--이거 있어야 입력 폼 애니메이션 들어감-->
-                            <script type="text/javascript" src="${pageContext.request.contextPath}/js/info.js" ></script>
-                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
-                                    integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
-                            crossorigin="anonymous"></script>
-                            </html>
+                                        </div>
+                                        </div>
+                                        </body>
+                                        <script>
+                                            function checkReg(event) {
+                                                const regExp = /[^0-9]/g; // 숫자만 허용
+                                                //   const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
+                                                const del = event.target;
+                                                if (regExp.test(del.value)) {
+                                                    del.value = del.value.replace(regExp, '');
+                                                }
+                                            }
+                                            ;
+                                        </script>
+                                        <script>
+                                            function doAction(event) {
+                                                if (event == 1) {
+                                                    const link = '${pageContext.request.contextPath}';
+                                                    location.href = link;
+                                                } else {
+                                                    const link = '${pageContext.request.contextPath}/delUser.do?userid =' + ${host};
+                                                    location.href = link;
+                                                }
+                                            }
+                                        </script>
+                                        <script src="./assets/material-kit.min.js?v=3.0.4" type="text/javascript"></script> <!--이거 있어야 입력 폼 애니메이션 들어감-->
+                                        <script type="text/javascript" src="${pageContext.request.contextPath}/js/info.js" ></script>
+                                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+                                                integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+                                        crossorigin="anonymous"></script>
+                                        </html>
 
