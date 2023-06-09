@@ -290,7 +290,7 @@
                                 <tr></tr>
                             </table>
                             <div class="w-100 height-500">
-                                <div id="map" class="w-100 h-100 z-index-1" ></div>
+                                <div id="map" class="w-100 h-100 z-index-0" ></div>
                             </div>
                         </div>
 
