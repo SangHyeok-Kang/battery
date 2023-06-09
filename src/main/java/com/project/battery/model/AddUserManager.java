@@ -116,7 +116,7 @@ public class AddUserManager {
 
         try {
             Connection conn = ds.getConnection();
-            String sql = "INSERT INTO business_info VALUES(?,?,?,?,?,?,1,default)";
+            String sql = "INSERT INTO business_info VALUES(?,?,?,?,?,?,0,default)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, userid);
